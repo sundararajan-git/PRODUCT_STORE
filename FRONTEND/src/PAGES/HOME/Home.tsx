@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { PackagePlus, Pencil, Trash } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../COMPONETS/Loader";
 import BtnLoader from "../../COMPONETS/BtnLoader";
+import { PackagePlus, Pencil, Trash } from "react-feather";
 
 const Home = () => {
   // NAVIGATION HOOK
@@ -128,7 +128,7 @@ const Home = () => {
               className="bg-sky-500 dark:bg-white dark:text-sky-500 text-white p-3 rounded-lg"
               onClick={() => navigation("/create")}
             >
-              <PackagePlus />
+              <PackagePlus size={20} />
             </button>
           </div>
         </>
