@@ -1,31 +1,34 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Loader from "../../COMPONETS/Loader";
-import BtnLoader from "../../COMPONETS/BtnLoader";
-import { PackagePlus, Pencil, Trash } from "react-feather";
+import Loader from "../../COMPONENTS/Loader";
+import BtnLoader from "../../COMPONENTS/BtnLoader";
+import { LuPackagePlus } from "react-icons/lu";
+import { BiPencil, BiTrash } from "react-icons/bi";
+import { homeArr } from "../../TEST/Data";
 
 const Home = () => {
   // NAVIGATION HOOK
   const navigation = useNavigate();
+
   // PAGE LOADER STATE
   const [pageLaoder, setPageLaoder] = useState(true);
+
   // AVILABLE PRODUCTS
   const [prod, setProd] = useState([]);
+
   // DELETE BUTTON LOADER
   const [delBtn, setDelBtn] = useState(false);
 
   // GET ININITAL PRODUCTS
   useEffect(() => {
     getAvilableProducts();
-    return () => {
-      setProd([]);
-    };
   }, []);
 
   // GET THE AVAILBLE PRODUCTS
   const getAvilableProducts = async () => {
     try {
       const productRes = await fetch(`${import.meta.env.VITE_EXPRESS_API}`);
+
       if (!productRes.ok) {
         throw new Error(`HTTP error! status: ${productRes.status}`);
       }
@@ -33,18 +36,23 @@ const Home = () => {
 
       if (productJson.success) {
         setProd(productJson.data);
-        setTimeout(() => {
-          setPageLaoder(false);
-        }, 1000);
+        // setTimeout(() => {
+        //   setPageLaoder(false);
+        // }, 1000);
       } else {
         throw new Error(productJson.error);
       }
     } catch (err) {
-      console.error(err.message);
+      setProd(homeArr);
+      setTimeout(() => {
+        // setPageLaoder(false);
+      }, 1000);
+      const error = err as Error;
+      console.error(error?.message);
     }
   };
 
-  const deleteHandler = async (id) => {
+  const deleteHandler = async (id: any) => {
     try {
       setDelBtn(true);
       const deleteRes = await fetch(
@@ -56,7 +64,6 @@ const Home = () => {
           },
         }
       );
-
       if (!deleteRes.ok) {
         throw new Error(`HTTP Error ! status: ${deleteRes.status}`);
       }
@@ -75,14 +82,14 @@ const Home = () => {
         <>
           <section className="w-5/6 mx-auto h-full p-4 sm:p-0">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 h-full">
-              {prod.map((i, index) => {
+              {prod.map((i: any, index: number) => {
                 return (
                   <div
                     key={index}
                     className="flex flex-col rounded-lg bg-gray-50 dark:bg-gray-950 shadow-lg cursor-pointer overflow-hidden h-[300px]"
                   >
                     <img
-                      src={`${i.imgurl}`}
+                      src={`${i?.imgurl}`}
                       className="hover:scale-105 z-30 object-cover h-[200px] w-full"
                     />
                     <div className="flex items-center justify-between px-3 py-4 text-xs sm:text-sm">
@@ -101,7 +108,7 @@ const Home = () => {
                           className="bg-green-100 dark:bg-transparent hover:dark:bg-gray-50 p-2 rounded w-fit text-green-600 shadow hover:scale-110"
                           onClick={() => navigation("/update")}
                         >
-                          <Pencil size={14} />
+                          <BiPencil size={14} />
                         </button>
                         <button
                           type="button"
@@ -111,7 +118,7 @@ const Home = () => {
                           {delBtn ? (
                             <BtnLoader />
                           ) : (
-                            <Trash size={14} strokeWidth={2.5} />
+                            <BiTrash size={14} strokeWidth={2.5} />
                           )}
                         </button>
                       </div>
@@ -128,7 +135,7 @@ const Home = () => {
               className="bg-sky-500 dark:bg-white dark:text-sky-500 text-white p-3 rounded-lg"
               onClick={() => navigation("/create")}
             >
-              <PackagePlus size={20} />
+              <LuPackagePlus size={20} />
             </button>
           </div>
         </>

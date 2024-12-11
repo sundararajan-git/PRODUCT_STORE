@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { ArrowBigLeft } from "lucide-react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
-import BtnLoader from "../../COMPONETS/BtnLoader";
+import toast from "react-hot-toast";
+import BtnLoader from "../../COMPONENTS/BtnLoader";
+import { LuArrowBigLeft } from "react-icons/lu";
 
 const Create = () => {
   // NAGIVAGATION HOOK
@@ -11,19 +11,29 @@ const Create = () => {
   const [btnLoader, setBtnLoader] = useState(false);
 
   //  SUBMIT BUTTON HANDLER
-  const submitHandler = async (e) => {
+  const submitHandler = async (e: any) => {
     try {
-      e.preventDefault();
-      const createForm = document.forms["createProduct"];
+      const event = e as Event;
+      event.preventDefault();
+
+      // const createForm = document.forms["createProduct"];
+      const createForm = document.getElementById(
+        "createProduct"
+      ) as HTMLFormElement;
+
       const isValid = validateForm(createForm);
+
       console.log(isValid);
       if (!isValid) {
         toast.error("Please check input");
         return null;
       }
       setBtnLoader(true);
+
       const createData = new FormData(createForm);
+
       const createJson = Object.fromEntries(createData);
+
       console.log(createJson);
 
       const creatRes = await fetch(`${import.meta.env.VITE_EXPRESS_API}`, {
@@ -38,13 +48,18 @@ const Create = () => {
         throw new Error(`HTTP error! status: ${creatRes.status}`);
       }
       toast.success("Created !");
+
       const jsonData = await creatRes.json();
+
+      console.log(jsonData);
+
       setTimeout(() => {
         navigation(-1);
       }, 500);
     } catch (err) {
-      console.error(err);
-      toast.error(err.message);
+      const error = err as Error;
+      console.error(error);
+      toast.error(error?.message);
     }
   };
 
@@ -57,7 +72,7 @@ const Create = () => {
         className="text-xs sm:text-sm font-medium flex items-center gap-3 cursor-pointer"
         onClick={() => navigation(-1)}
       >
-        <ArrowBigLeft className="text-red-600" />
+        <LuArrowBigLeft className="text-red-600" />
         <span className="font-medium dark:text-white">BACK</span>
       </button>
 
@@ -66,9 +81,10 @@ const Create = () => {
       </h2>
 
       <form
-        onSubmit={submitHandler}
-        name="createProduct"
         className="w-5/6 sm:w-1/2 mx-auto mt-6 flex flex-col gap-2"
+        name="createProduct"
+        id="createProduct"
+        onSubmit={submitHandler}
       >
         <div>
           <div className="relative">
@@ -152,28 +168,30 @@ const Create = () => {
           </button>
         </div>
       </form>
-      <Toaster />
     </section>
   );
 };
 
 export default Create;
 
-export const validateForm = (form) => {
+export const validateForm = (form: any) => {
   try {
     let isValid = true;
 
-    Array.from(form.elements).forEach((ele) => {
+    Array.from(form.elements).forEach((ele: any) => {
       if (!ele.value && ele.name) {
         const invalidEle = document.getElementsByName(ele.name);
         invalidEle[0].classList.add("border-red-600");
-        const paraEle = document.getElementById(`${ele.id}Help`);
+
+        const paraEle: any = document.getElementById(`${ele.id}Help`);
         paraEle.classList.remove("invisible");
+
         isValid = false;
       } else if (ele.name) {
         const validEle = document.getElementsByName(ele.name);
         validEle[0].classList.remove("border-red-600");
-        const paraEle = document.getElementById(`${ele.id}Help`);
+
+        const paraEle: any = document.getElementById(`${ele.id}Help`);
         paraEle.classList.add("invisible");
       }
     });

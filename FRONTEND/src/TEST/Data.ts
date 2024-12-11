@@ -1,5 +1,5 @@
 
-export const homeArr = [
+export const homeArr: any = [
     {
         name: "Coffee Cup",
         price: 150,

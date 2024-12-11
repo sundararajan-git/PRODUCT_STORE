@@ -1,44 +1,60 @@
-import React, { useState } from "react";
-import { ArrowBigLeft } from "lucide-react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { validateForm } from "../CREATE/Create";
-import toast, { Toaster } from "react-hot-toast";
-import BtnLoader from "../../COMPONETS/BtnLoader";
+import toast from "react-hot-toast";
+import BtnLoader from "../../COMPONENTS/BtnLoader";
+import { LuArrowBigLeft } from "react-icons/lu";
 
 const Update = () => {
   // NAVIGATION HOOK
   const navigation = useNavigate();
+
   //   SUBMIT BTN LOADER
   const [btnLoader, setBtnLaoder] = useState(false);
 
   //   UPDATE BUTTON HANDLER
-  const updateHandler = async (e) => {
+  const updateHandler = async (e: any) => {
     try {
+      // PREVENT THE DEFAULT LAODING
       e.preventDefault();
-      const updateForm = document.forms["updateProduct"];
+
+      // GET FORM ELEMENT
+      const updateForm = document.getElementById(
+        "updateProduct"
+      ) as HTMLFormElement;
+
+      // const updateForm = document.forms["updateProduct"] as HTMLFormElement;
+
+      // CHECK IS VALID OR NOT
       const isValid = validateForm(updateForm);
+
       console.log(isValid);
+
       if (!isValid) {
         toast.error("Please check input");
         return null;
       }
+
+      //  TRIGGER THE BTN LOADER
       setBtnLaoder(true);
+
       const updateData = new FormData(updateForm);
       const updateJson = Object.fromEntries(updateData);
+
       console.log(updateJson);
 
       const updateRes = await fetch(
         `${import.meta.env.VITE_EXPRESS_API}/66f8c674d5b6fec562e785a5`,
         {
-          method: 'PATCH',
+          method: "PATCH",
           headers: {
-            "Content-Type": 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(updateJson),
         }
       );
 
-      console.log(updateRes)
+      console.log(updateRes);
 
       if (!updateRes.ok) {
         throw new Error(`HTTP error! status: ${updateRes.status}`);
@@ -46,36 +62,37 @@ const Update = () => {
 
       const updateJsonData = await updateRes.json();
 
+      console.log(updateJsonData);
+
       setTimeout(() => {
         navigation(-1);
       }, 500);
     } catch (err) {
-      console.error(err);
-      toast.error(err.message);
+      const error = err as Error;
+      console.error(error);
+      toast.error(error.message);
     }
   };
 
   return (
     <section className="w-full sm:w-5/6 mx-auto h-full p-4 sm:p-0">
       <br />
-
       <button
         type="button"
         className="text-xs sm:text-sm font-medium flex items-center gap-3 cursor-pointer"
         onClick={() => navigation(-1)}
       >
-        <ArrowBigLeft className="text-red-600" />
+        <LuArrowBigLeft className="text-red-600" />
         <span className="font-medium dark:text-white">BACK</span>
       </button>
-
       <h2 className="text-xs sm:text-sm font-semibold text-center text-sky-600">
         UPDATE PRODUCT
       </h2>
-
       <form
         className="w-5/6 sm:w-1/2 mx-auto mt-6 flex flex-col gap-2"
         onSubmit={updateHandler}
         name="updateProduct"
+        id="updateProduct"
       >
         <div>
           <div className="relative">
@@ -87,7 +104,6 @@ const Update = () => {
                         rounded-lg border border-gray-400 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-sky-600 peer"
               placeholder=""
             />
-
             <label
               htmlFor="productName"
               className="absolute text-sm text-gray-600 dark:text-gray-200 peer-focus:text-sky-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-dark px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 start-1 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
@@ -102,7 +118,6 @@ const Update = () => {
             Please Enter Product Name
           </p>
         </div>
-
         <div>
           <div className="relative">
             <input
@@ -113,7 +128,6 @@ const Update = () => {
                         rounded-lg border border-gray-400 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-sky-600 peer"
               placeholder=""
             />
-
             <label
               htmlFor="Price"
               className="absolute text-sm text-gray-600 dark:text-gray-200 peer-focus:text-sky-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-dark px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 start-1 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
@@ -125,7 +139,6 @@ const Update = () => {
             Please Enter Your Price
           </p>
         </div>
-
         <div>
           <div className="relative">
             <input
@@ -136,7 +149,6 @@ const Update = () => {
                         rounded-lg border border-gray-400 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-sky-600 peer"
               placeholder=""
             />
-
             <label
               htmlFor="imageurl"
               className="absolute text-sm text-gray-600 dark:text-gray-200 peer-focus:text-sky-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-dark px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 start-1 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
@@ -148,7 +160,6 @@ const Update = () => {
             Please Enter image url
           </p>
         </div>
-
         <div>
           <button
             type="submit"
@@ -159,7 +170,6 @@ const Update = () => {
           </button>
         </div>
       </form>
-      <Toaster />
     </section>
   );
 };
