@@ -1,4 +1,3 @@
-import ModelCloseBtn from "../../COMPONENTS/ModelCloseBtn";
 
 const Profile = (props: any) => {
   // PROPS
@@ -40,9 +39,7 @@ const Profile = (props: any) => {
             <p className="text-gray-700">shankari@gmail.com</p>
           </div>
 
-          <div>
-            
-          </div>
+          <div></div>
 
           <div className="w-full flex items-center justify-between">
             <p className="text-start">Forgot Password</p>

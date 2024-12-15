@@ -9,6 +9,7 @@ const Update = (props:any) => {
 
   // PROPS
   const {close} = props
+  
   // NAVIGATION HOOK
   const navigation = useNavigate();
 

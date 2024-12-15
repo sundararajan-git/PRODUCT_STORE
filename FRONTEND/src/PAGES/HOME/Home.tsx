@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Loader from "../../COMPONENTS/Loader";
-import BtnLoader from "../../COMPONENTS/BtnLoader";
 import { LuPackagePlus } from "react-icons/lu";
-import { BiPencil, BiTrash } from "react-icons/bi";
 import { homeArr } from "../../TEST/Data";
 import Create from "../CREATE/Create";
 import Update from "../UPDATE/Update";
@@ -11,9 +8,6 @@ import Header from "../../COMPONENTS/Header";
 import Profile from "../PROFILE/Profile";
 
 const Home = () => {
-  // NAVIGATION HOOK
-  const navigation = useNavigate();
-
   // PAGE LOADER STATE
   const [pageLaoder, setPageLaoder] = useState(true);
 
@@ -26,9 +20,6 @@ const Home = () => {
 
   // AVILABLE PRODUCTS
   const [prod, setProd] = useState([]);
-
-  // DELETE BUTTON LOADER
-  const [delBtn, setDelBtn] = useState(false);
 
   // GET ININITAL PRODUCTS
   useEffect(() => {
@@ -60,26 +51,6 @@ const Home = () => {
       }, 1000);
       const error = err as Error;
       console.error(error?.message);
-    }
-  };
-
-  const deleteHandler = async (id: any) => {
-    try {
-      setDelBtn(true);
-      const deleteRes = await fetch(
-        `${import.meta.env.VITE_EXPRESS_API}/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (!deleteRes.ok) {
-        throw new Error(`HTTP Error ! status: ${deleteRes.status}`);
-      }
-    } catch (err) {
-      console.error(err);
     }
   };
 

@@ -38,7 +38,7 @@ const Login = () => {
         <div className="text-sm">
           <p className="text-gray-500 flex items-center gap-2">
             <FaCircleInfo />
-             You don't have account{" "}
+            You don't have account{" "}
             <NavLink
               to={"/signup"}
               className="font-medium text-black hover:underline cursor-pointer hover:text-blue-1100"

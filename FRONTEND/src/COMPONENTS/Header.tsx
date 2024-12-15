@@ -38,13 +38,7 @@ const Header = (props: any) => {
         </div>
 
         <div className="flex items-center gap-4">
-          <img
-            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D"
-            className="w-7 h-7 object-cover rounded-full cursor-pointer"
-            onClick={updateProfileHandler}
-          />
-
-          {/* {theme === "night" ? (
+          {theme === "night" ? (
             <button
               type="button"
               id="day"
@@ -62,7 +56,13 @@ const Header = (props: any) => {
             >
               <BiMoon id="night" size={18} />
             </button>
-          )} */}
+          )}
+
+          <img
+            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D"
+            className="w-7 h-7 object-cover rounded-full cursor-pointer"
+            onClick={updateProfileHandler}
+          />
         </div>
       </div>
     </header>
