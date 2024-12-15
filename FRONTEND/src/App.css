@@ -24,7 +24,7 @@ input[type="number"]::-webkit-outer-spin-button {
   width: 18px;
   height: 18px;
   border: 2px solid transparent;
-  border-bottom-color: #ff0000;
+  border-bottom-color: #fff;
   border-radius: 50%;
   display: inline-block;
   box-sizing: border-box;

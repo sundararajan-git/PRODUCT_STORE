@@ -1,6 +1,44 @@
+import { useState } from "react";
 import logo from "../../ASSETES/logo.svg";
+import BtnLoader from "../../COMPONENTS/BtnLoader";
+import { validateForm } from "../../COMMON/Helper";
+import toast from "react-hot-toast";
 
 const Verification = () => {
+  // CONTROL THE COMPONENT
+  const [contol, setControl] = useState({
+    btnloader: false,
+  });
+
+  // VERIFICATION BTN HANDLER
+  const vertificationHandler = () => {
+    try {
+      const verificationForm = document.getElementById(
+        "verificationForm"
+      ) as HTMLFormElement;
+
+      const isValidForm = validateForm(verificationForm);
+
+      if (!isValidForm) {
+        toast.error("Invalid Inputs");
+        return;
+      }
+
+      const data = new FormData(verificationForm);
+      const json = Object.fromEntries(data);
+
+      console.log(json);
+
+      setControl((prev: any) => {
+        const clone = { ...prev };
+        clone.btnloader = true;
+        return clone;
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <section className="flex items-center justify-center w-full h-full">
       <div className="w-full sm:w-5/6 md:w-2/3 lg:w-1/3 h-fit p-4 sm:p-2  flex flex-col gap-4 font-sm">
@@ -9,7 +47,7 @@ const Verification = () => {
           <h2 className="font-bold uppercase text-blue-1100 text-lg">Verify</h2>
         </div>
 
-        <div className="flex flex-col gap-2 w-full">
+        <form id="verificationForm" className="flex flex-col gap-2 w-full">
           <label htmlFor="Code">Code</label>
           <input
             type="text"
@@ -19,14 +57,16 @@ const Verification = () => {
             placeholder="Code"
             required
           />
-        </div>
+        </form>
 
         <div className="flex flex-col gap-2 w-full">
           <button
             type="button"
-            className="w-full h-full p-2 bg-blue-1100 rounded-lg text-white font-semibold"
+            className="w-full h-full p-2 bg-blue-1100 rounded-lg text-white font-semibold flex items-center gap-2 justify-center"
+            onClick={vertificationHandler}
           >
-            Submit
+            {contol?.btnloader ? <BtnLoader /> : null}
+            {contol?.btnloader ? "Loading..." : "Submit"}
           </button>
         </div>
       </div>

@@ -1,11 +1,57 @@
 import { NavLink } from "react-router-dom";
 import logo from "../../ASSETES/logo.svg";
 import { FaCircleInfo } from "react-icons/fa6";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { validateForm } from "../../COMMON/Helper";
 
 const SignUp = () => {
+  // CONTROL THE COMPONENT
+  const [control, setControl] = useState({
+    btnloader: false,
+  });
+
+  // SIGN UP BTN HANDLER
+  const signUpBtnHanlder = () => {
+    try {
+      // GET FORM ELEMENT
+      const signUpForm = document.getElementById("signup") as HTMLFormElement;
+
+      // CHECK IS VALID OR NOT
+      const isValid = validateForm(signUpForm);
+
+      console.log(isValid);
+      
+      if (!isValid) {
+        toast.error("Invalid inputs");
+        return null;
+      }
+
+      const  data = new FormData(signUpForm)
+
+      const json = Object.fromEntries(data)
+
+
+      console.log(json)
+
+      //  TRIGGER THE BTN LOADER
+
+      setControl((prev: any) => {
+        const clone = { ...prev };
+        clone.btnloader = true;
+        return prev;
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <section className="flex items-center justify-center w-full h-full">
-      <div className="w-full sm:w-5/6 md:w-2/3 lg:w-1/3 h-fit p-4 sm:p-2  flex flex-col gap-4 font-sm fade-up">
+      <form
+        className="w-full sm:w-5/6 md:w-2/3 lg:w-1/3 h-fit p-4 sm:p-2  flex flex-col gap-4 font-sm fade-up"
+        id="signup"
+      >
         <div className="flex items-center pb-2 gap-2">
           <img src={logo} />
           <h2 className="font-bold uppercase text-blue-1100 text-lg">
@@ -66,11 +112,12 @@ const SignUp = () => {
           <button
             type="button"
             className="w-full h-full p-2 bg-blue-1100 rounded-lg text-white font-semibold"
+            onClick={signUpBtnHanlder}
           >
             Sign Up
           </button>
         </div>
-      </div>
+      </form>
     </section>
   );
 };
