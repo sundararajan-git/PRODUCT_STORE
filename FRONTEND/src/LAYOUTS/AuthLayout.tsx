@@ -4,7 +4,7 @@ import { Toaster } from "react-hot-toast";
 const AuthLayout = () => {
   return (
     <div className="flex flex-col h-screen dark:bg-dark">
-      <Toaster />
+      <Toaster position="top-right" reverseOrder={false} />
       <Outlet />
     </div>
   );

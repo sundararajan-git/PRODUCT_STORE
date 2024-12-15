@@ -8,6 +8,7 @@ import { homeArr } from "../../TEST/Data";
 import Create from "../CREATE/Create";
 import Update from "../UPDATE/Update";
 import Header from "../../COMPONENTS/Header";
+import Profile from "../PROFILE/Profile";
 
 const Home = () => {
   // NAVIGATION HOOK
@@ -20,6 +21,7 @@ const Home = () => {
   const [control, setControl] = useState({
     addproduct: false,
     updateproduct: false,
+    profileupdate: false,
   });
 
   // AVILABLE PRODUCTS
@@ -106,6 +108,19 @@ const Home = () => {
       console.error(err);
     }
   };
+
+  // UPDATE PROFILE HANDLER
+  const updateProfileHandler = () => {
+    try {
+      setControl((prev: any) => {
+        const clone = { ...prev };
+        clone.profileupdate = true;
+        return clone;
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
   return (
     <>
       {pageLaoder ? (
@@ -114,7 +129,7 @@ const Home = () => {
         </div>
       ) : (
         <div>
-          <Header />
+          <Header updateProfileHandler={updateProfileHandler} />
           <section className="w-5/6 mx-auto h-full p-2 mt-16 sm:p-0">
             <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 gap-8 h-full">
               {prod.map((i: any, index: number) => {
@@ -126,11 +141,11 @@ const Home = () => {
                   >
                     <img
                       src={`${i?.imgurl}`}
-                      className="hover:scale-105 z-30 object-cover h-[200px] w-full"
+                      className="hover:scale-105 ease-out z-30 object-cover h-[200px] w-full"
                     />
                     <div className="flex flex-col items-center justify-between px-4 py-4 text-xs sm:text-sm gap-2">
-                      <div className="flex justify-between items-center w-full">
-                        <span className="font-semibold dark:text-sky-500">
+                      <div className="flex justify-between items-center w-full gap-4">
+                        <span className="font-medium dark:text-sky-500 truncate">
                           {i.name}
                         </span>
                         <span className="font-medium text-red-600">
@@ -138,7 +153,7 @@ const Home = () => {
                         </span>
                       </div>
 
-                      <p className="line-clamp-2">
+                      <p className="line-clamp-2 text-gray-600">
                         Lorem ipsum dolor sit amet, consectetur adipisicing
                         elit. Corporis laudantium eaque placeat adipisci natus
                         provident quidem, eveniet vero quas unde recusandae, id
@@ -170,6 +185,7 @@ const Home = () => {
 
       {control?.addproduct ? <Create close={setControl} /> : null}
       {control?.updateproduct ? <Update close={setControl} /> : null}
+      {control?.profileupdate ? <Profile close={setControl} /> : null}
     </>
   );
 };

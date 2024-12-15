@@ -6,6 +6,7 @@ import "./App.css";
 import SignUp from "./PAGES/SIGNUP/SignUp";
 import Login from "./PAGES/LOGIN/Login";
 import Verification from "./PAGES/VERIFICATION/Verification";
+import ResetPassword from "./PAGES/RESETPASSWORD/ResetPassword";
 
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route path="/verification" element={<Verification />} />
+        <Route path="/resetpassword/:id" element={<ResetPassword />} />
       </Route>
     </Routes>
   );
