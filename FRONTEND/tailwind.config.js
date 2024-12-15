@@ -7,11 +7,14 @@ export default {
     extend: {
       colors: {
         // FOR LIGHT THEME
-        blue: "0284c7",
+        blue: {
+          1100: "#0284c7",
+        },
+        white: "#ffffff",
 
         // FOR DARK THEMEN
-
-        dark: "#0f172a",
+        // dark: "#0f172a",
+        dark: "#030712",
       },
     },
   },
