@@ -1,55 +1,56 @@
-
-import { Schema, model } from "mongoose"
+import { Schema, model } from "mongoose";
 
 // USER SCHEMA
-const userSchema = new Schema({
+const userSchema = new Schema(
+  {
     name: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     email: {
-        type: String,
-        required: true,
-        unique: true,
+      type: String,
+      required: true,
+      unique: true,
     },
     password: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     profilePicture: {
-        type: String,
-        default: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+      type: String,
+      default:
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
     },
     isVerfied: {
-        type: Boolean,
-        default: false
+      type: Boolean,
+      default: false,
     },
     verificationToken: {
-        type: String,
+      type: String,
     },
     verifactionExpireAt: {
-        type: Date,
+      type: Date,
     },
     resetToken: {
-        type: String,
+      type: String,
     },
     resetTokenExpireAt: {
-        type: Date,
-    }
-    ,
+      type: Date,
+    },
     lastLogin: {
-        type: Date,
-        default: Date.now,
+      type: Date,
+      default: Date.now,
     },
     lastLogout: {
-        type: Date,
-        default: Date.now,
+      type: Date,
+      default: undefined,
     },
-},
-    {
-        timestamps: true,
-    })
+  },
+  {
+    timestamps: true,
+  }
+);
 
-const User = model("User", userSchema)
+const User = model("User", userSchema);
 
-export default User
+export default User;

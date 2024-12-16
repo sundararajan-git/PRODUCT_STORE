@@ -2,24 +2,22 @@ import express from "express";
 import cors from "cors";
 import { conectDB } from "./DB/ConectDB.js"
 import userRouter from "./ROUTES/Auth.Routes.js";
-// import productRouter from "./routes/products";
+import productRouter from "./ROUTES/Product.Routes.js"
 import dotenv from "dotenv";
 
 dotenv.config();
 
-
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 
 //MIDDELWARES
-
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "http://localhost:5173",
   optionsSuccessStatus: 200,
 };
 
 // ALLOWD ORIGINS
-app.use(cors());
+app.use(cors(corsOptions));
 
 // ACCESS THE DATA IN JSON FORMAT
 app.use(express.json());
@@ -27,8 +25,8 @@ app.use(express.json());
 // USER ROUTES
 app.use("/api/users", userRouter);
 
-// PRODUCT ROUTES
-// app.use("/api/products", productRouter)
+// PRODUCTS ROUTES
+app.use("/api/products", productRouter)
 
 app.listen(port, () => {
   conectDB()

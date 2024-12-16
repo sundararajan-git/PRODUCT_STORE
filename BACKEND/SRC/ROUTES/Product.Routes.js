@@ -1,21 +1,27 @@
 import express from "express";
+import {
+  getProducts,
+  getProduct,
+  addProduct,
+  updateProduct,
+  deleteProduct,
+} from "../CONTROLLERS/Product.Controller.js";
+
 const router = express.Router();
-import { getProducts, getProduct , addProduct , updateProduct, deleteProduct}  from "../controllers/productController";
 
 // GET ALL PRODUCTS
-router.get("/products", getProducts );
+router.get("/", getProducts);
 
 // GET SINGLE PRODUCT
-router.get("/products/:id", getProduct);
+router.get("/product", getProduct);
 
 // CREATE PRODUCT
-router.post("/products", addProduct)
+router.post("/createproduct", addProduct);
 
 // UPDATE PRODUCT
-router.put("/products/:id", updateProduct );
+router.put("/updateproduct", updateProduct);
 
 // DELETE PRODUCT
-router.delete("/products/:id", deleteProduct )
-
+router.delete("/deleteproduct", deleteProduct);
 
 export default router;

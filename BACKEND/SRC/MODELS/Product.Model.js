@@ -1,7 +1,6 @@
-import mongoose from "moongoose"
+import mongoose from "mongoose"
 
 // PRODUCT SCHEMA
-
 const productSchema = new mongoose.Schema(
     {
         name: {
