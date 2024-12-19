@@ -63,9 +63,9 @@ const SignUp = () => {
   };
 
   return (
-    <section className="flex items-center justify-center w-full h-full">
+    <section className="flex items-center justify-center w-full h-screen">
       <form
-        className="w-full sm:w-5/6 md:w-2/3 lg:w-1/3 h-fit p-4 sm:p-2  flex flex-col gap-4 font-sm fade-up"
+        className="w-full sm:w-1/2 lg:w-1/3 h-fit p-4 sm:p-2  flex flex-col gap-4 font-sm fade-up"
         id="signup"
       >
         <div className="flex items-center pb-2 gap-2">

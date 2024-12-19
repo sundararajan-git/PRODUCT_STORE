@@ -108,7 +108,7 @@ export const verifyEmail = async (req, res) => {
     const { code } = req.body;
 
     if (!code) {
-      res.status(400).json({ success: false, message: "Code is required" });
+      return res.status(400).json({ success: false, message: "Code is required" });
     }
 
     const user = await User.findOne({
@@ -117,7 +117,7 @@ export const verifyEmail = async (req, res) => {
     });
 
     if (!user) {
-      res.status(400).json({ success: false, message: "Invalid code" });
+      return res.status(400).json({ success: false, message: "Invalid code" });
     }
 
     user.isVerfied = true;
@@ -159,7 +159,7 @@ export const forgotPassword = async (req, res) => {
     const { email } = req.body;
 
     if (!email) {
-      res
+      return res
         .status(400)
         .json({ success: false, message: "All fields are required" });
     }
@@ -167,7 +167,7 @@ export const forgotPassword = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      res.status(400).json({ success: false, message: "User does not exist" });
+      return res.status(400).json({ success: false, message: "User does not exist" });
     }
 
     user.resetPasswordToken = crypto.randomBytes(20).toString("hex");
@@ -183,6 +183,8 @@ export const forgotPassword = async (req, res) => {
         password: undefined,
       },
     });
+
+
   } catch (err) {
     console.error(err);
     res.status(400).json({
@@ -195,11 +197,12 @@ export const forgotPassword = async (req, res) => {
 // USER RESET PASSWORD
 export const resetPassword = async (req, res) => {
   try {
+
     const { password } = req.body;
     const { token } = req.params;
 
     if (!token || !password) {
-      res
+      return res
         .status(400)
         .json({ success: false, message: "All fields are required" });
     }
@@ -210,7 +213,7 @@ export const resetPassword = async (req, res) => {
     });
 
     if (!user) {
-      res.status(400).json({ success: false, message: "Invalid token" });
+     return res.status(400).json({ success: false, message: "Invalid token" });
     }
 
     const hashedPassword = await bcryptjs.hash(password, 10);
@@ -241,7 +244,7 @@ export const updateProfile = async (req, res) => {
     const user = await User.findById(id);
 
     if (!user) {
-      res.status(400).json({ success: false, message: "User not Found !" });
+      return res.status(400).json({ success: false, message: "User not Found !" });
     }
     const hashedPassword = await bcryptjs.hash(password, 10);
 
@@ -269,7 +272,7 @@ export const isValidUser = async (req, res) => {
     const user = await User.findById(req.userId).select("-password");
 
     if (!user) {
-      res.status(400).json({
+      return res.status(400).json({
         success: false,
         messsage: "User not found",
       });

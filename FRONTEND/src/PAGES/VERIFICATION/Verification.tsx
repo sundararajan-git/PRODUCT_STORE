@@ -3,6 +3,9 @@ import logo from "../../ASSETES/logo.svg";
 import BtnLoader from "../../COMPONENTS/BtnLoader";
 import { validateForm } from "../../COMMON/Helper";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import axiosInstance from "../../LIB/axios";
+import { updateUser } from "../../LIB/REDUX/SLICES/useSlice";
 
 const Verification = () => {
   // CONTROL THE COMPONENT
@@ -10,8 +13,11 @@ const Verification = () => {
     btnloader: false,
   });
 
+  //  DISPATCH FROM THE  REDUX
+  const dispatch = useDispatch();
+
   // VERIFICATION BTN HANDLER
-  const vertificationHandler = () => {
+  const vertificationHandler = async () => {
     try {
       const verificationForm = document.getElementById(
         "verificationForm"
@@ -24,24 +30,32 @@ const Verification = () => {
         return;
       }
 
-      const data = new FormData(verificationForm);
-      const json = Object.fromEntries(data);
-
-      console.log(json);
-
       setControl((prev: any) => {
         const clone = { ...prev };
         clone.btnloader = true;
         return clone;
       });
+
+      const data = new FormData(verificationForm);
+      const json = Object.fromEntries(data);
+
+      console.log(json);
+
+      const response = await axiosInstance.post("/users/verify", json);
+
+      if (response?.data?.success) {
+        toast.success("Verification Successfull");
+        const { data } = response?.data;
+        dispatch(updateUser({ ...data }));
+      }
     } catch (err) {
       console.error(err);
     }
   };
 
   return (
-    <section className="flex items-center justify-center w-full h-full">
-      <div className="w-full sm:w-5/6 md:w-2/3 lg:w-1/3 h-fit p-4 sm:p-2  flex flex-col gap-4 font-sm">
+    <section className="flex items-center justify-center w-full h-screen">
+      <div className="w-full sm:w-1/2 lg:w-1/3 h-fit p-4 sm:p-2  flex flex-col gap-4 font-sm">
         <div className="flex items-center pb-2 gap-2">
           <img src={logo} />
           <h2 className="font-bold uppercase text-blue-1100 text-lg">Verify</h2>
@@ -52,7 +66,7 @@ const Verification = () => {
           <input
             type="text"
             className="border border-gray-300 outline-none rounded-lg p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100"
-            name="Code"
+            name="code"
             id="Code"
             placeholder="Code"
             required

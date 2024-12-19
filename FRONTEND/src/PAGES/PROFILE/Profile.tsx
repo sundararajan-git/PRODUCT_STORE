@@ -19,8 +19,23 @@ const Profile = (props: any) => {
   });
 
   // FORGOT PASSWORD HANDLER
-  const forgotPasswordHandler = () => {
+  const forgotPasswordHandler = async () => {
     try {
+      const json = { email: "12" };
+
+      const response = await toast.promise(
+        axiosInstance.post("/users/forgotpassword", json),
+        {
+          loading: "Sending email...",
+          success: <span>Email sent successfully!</span>,
+          error: <span>Failed to send email.</span>,
+        }
+      );
+
+      if (response?.data?.success) {
+        const { data } = response?.data;
+        dispatch(updateUser({ ...data }));
+      }
     } catch (err) {
       console.error(err);
     }
@@ -82,7 +97,7 @@ const Profile = (props: any) => {
 
           <div className="w-full flex items-center justify-between">
             <p
-              className="text-start cursor-pointer hover:text-red-600 dark:text-gray-300"
+              className="text-start cursor-pointer hover:text-red-600 dark:text-gray-300 dark:hover:text-red-600 hover:underline"
               onClick={forgotPasswordHandler}
             >
               Forgot Password
