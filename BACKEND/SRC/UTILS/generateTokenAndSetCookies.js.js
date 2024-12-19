@@ -1,26 +1,21 @@
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 
-export const generateToken = async (userId,res) => {
+export const generateTokenAndSetCookie = async (res, userId) => {
+  try {
+    const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
 
-    try{
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== "development",
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
 
-        const token = await jwt.sign({userId},process.env.JWT_SECRET,{expiresIn:'7d'})
-
-        res.cookie(
-            'token',
-            token,
-            {
-                httpOnly:true,
-                secure:process.env.NODE_ENV !== 'development',
-                sameSite:'strict',
-                maxAge:7*24*60*60*1000
-            }
-        )
-    
-        return token
-    }catch(err){
-        console.error(err.message)
-        res.status(400).send(err.message)
-    }
-    
-}
+    return token;
+  } catch (err) {
+    console.error(err.message);
+    res.status(400).send(err.message);
+  }
+};

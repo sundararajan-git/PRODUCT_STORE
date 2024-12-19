@@ -1,5 +1,7 @@
 import User from "../MODELS/User.Model.js";
 import bcryptjs from "bcryptjs";
+import crypto from "crypto";
+import { generateTokenAndSetCookie } from "../UTILS/generateTokenAndSetCookies.js.js";
 
 // USER SIGNUP
 export const signUp = async (req, res) => {
@@ -24,13 +26,21 @@ export const signUp = async (req, res) => {
 
     const hashedPassword = await bcryptjs.hash(password, 10);
 
+    const verificationToken = Math.floor(
+      100000 + Math.random() * 900000
+    ).toString();
+
     user = new User({
       name,
       email,
       password: hashedPassword,
+      verificationToken,
+      verifactionExpireAt: Date.now() + 24 * 60 * 60 * 1000,
     });
 
     await user.save();
+
+    generateTokenAndSetCookie(res, user._id);
 
     res.status(200).json({
       success: true,
@@ -77,6 +87,8 @@ export const login = async (req, res) => {
     user.lastLogin = new Date();
     await user.save();
 
+    generateTokenAndSetCookie(res, user._id);
+
     res.status(200).json({
       success: true,
       message: "User logged in successfully",
@@ -99,13 +111,16 @@ export const verifyEmail = async (req, res) => {
       res.status(400).json({ success: false, message: "Code is required" });
     }
 
-    const user = await User.findOne({ verificationToken: code });
+    const user = await User.findOne({
+      verificationToken: code,
+      verifactionExpireAt: { $gt: Date.now() },
+    });
 
     if (!user) {
       res.status(400).json({ success: false, message: "Invalid code" });
     }
 
-    user.isVerifed = true;
+    user.isVerfied = true;
     user.verificationToken = undefined;
     user.verifactionExpireAt = undefined;
     await user.save();
@@ -155,8 +170,8 @@ export const forgotPassword = async (req, res) => {
       res.status(400).json({ success: false, message: "User does not exist" });
     }
 
-    user.resetToken = 12312;
-    user.resetTokenExpireAt = Date.now();
+    user.resetPasswordToken = crypto.randomBytes(20).toString("hex");
+    user.resetPasswordTokenExpireAt = Date.now() + 1 * 60 * 60 * 10000;
 
     await user.save();
 
@@ -181,22 +196,18 @@ export const forgotPassword = async (req, res) => {
 export const resetPassword = async (req, res) => {
   try {
     const { password } = req.body;
+    const { token } = req.params;
 
-    const token = req.params.token;
-
-    if (!token) {
+    if (!token || !password) {
       res
         .status(400)
         .json({ success: false, message: "All fields are required" });
     }
 
-    if (!password) {
-      res
-        .status(400)
-        .json({ success: false, message: "All fields are required" });
-    }
-
-    const user = await User.findOne({ resetToken: token });
+    const user = await User.findOne({
+      resetPasswordToken: token,
+      resetPasswordTokenExpireAt: { $gt: Date.now() },
+    });
 
     if (!user) {
       res.status(400).json({ success: false, message: "Invalid token" });
@@ -205,8 +216,9 @@ export const resetPassword = async (req, res) => {
     const hashedPassword = await bcryptjs.hash(password, 10);
 
     user.password = hashedPassword;
-    user.resetToken = undefined;
-    user.resetTokenExpireAt = undefined;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordTokenExpireAt = undefined;
+
     await user.save();
 
     res
@@ -226,12 +238,6 @@ export const updateProfile = async (req, res) => {
   try {
     const { name, password, profilePic, id } = req.body;
 
-    if (name || password || profilePic) {
-      res
-        .status(400)
-        .json({ success: false, message: "All fields are required" });
-    }
-
     const user = await User.findById(id);
 
     if (!user) {
@@ -244,9 +250,35 @@ export const updateProfile = async (req, res) => {
     user.profilePicture = profilePic;
     await user.save();
 
+    generateTokenAndSetCookie(res, res._id);
+
     res
       .status(200)
       .json({ success: true, message: "Profile updated successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
+export const isValidUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.userId).select("-password");
+
+    if (!user) {
+      res.status(400).json({
+        success: false,
+        messsage: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      user,
+    });
   } catch (err) {
     console.error(err);
     res.status(400).json({

@@ -4,6 +4,7 @@ import { conectDB } from "./DB/ConectDB.js"
 import userRouter from "./ROUTES/Auth.Routes.js";
 import productRouter from "./ROUTES/Product.Routes.js"
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser"
 
 dotenv.config();
 
@@ -21,6 +22,9 @@ app.use(cors(corsOptions));
 
 // ACCESS THE DATA IN JSON FORMAT
 app.use(express.json());
+
+// ENABLE COOKIE PARSING
+app.use(cookieParser());
 
 // USER ROUTES
 app.use("/api/users", userRouter);

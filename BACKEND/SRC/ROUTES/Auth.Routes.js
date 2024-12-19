@@ -8,12 +8,12 @@ import {
   resetPassword,
   updateProfile,
   verifyEmail,
+  isValidUser,
 } from "../CONTROLLERS/User.Controller.js";
+import { verifyToken } from "../MIDDLEWARE/validUser.js";
 
 // CHECK IS VALID USER OR NOT
-router.get("/isvaliduser", (req, res) => {
-  res.status(200).json({ message: "yes" });
-});
+router.get("/isvaliduser", verifyToken, isValidUser);
 
 // USER RIGISTER
 router.post("/signup", signUp);
@@ -31,7 +31,7 @@ router.post("/logout", logout);
 router.put("/updateprofile", updateProfile);
 
 // USER PASSWORD UPDATE
-router.put("/resetpassword", resetPassword);
+router.put("/resetpassword/:token", resetPassword);
 
 // USER FORGOT PASSWORD
 router.post("/forgotpassword", forgotPassword);

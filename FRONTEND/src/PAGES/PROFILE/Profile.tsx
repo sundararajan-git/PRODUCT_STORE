@@ -1,5 +1,6 @@
 import { useState } from "react";
 import BtnLoader from "../../COMPONENTS/BtnLoader";
+import userSvg from "../../ASSETES/user.svg"
 
 const Profile = (props: any) => {
   // PROPS
@@ -56,11 +57,11 @@ const Profile = (props: any) => {
         <div className="w-full  mx-auto p-2 flex flex-col justify-center items-center gap-4 text-sm">
           <div className="flex flex-col items-center gap-2 mt-2">
             <img
-              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D"
+              src={userSvg}
               className="w-20 h-20 object-cover rounded-full cursor-pointer"
             />
-            <p className="text-red-600 font-bold">Shankari G</p>
-            <p className="text-gray-700 dark:text-gray-300">shankari@gmail.com</p>
+            <p className="text-red-600 font-bold">Arun K</p>
+            <p className="text-gray-700 dark:text-gray-300">Arun@gmail.com</p>
           </div>
 
           <div></div>
