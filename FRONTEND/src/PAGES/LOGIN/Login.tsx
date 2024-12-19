@@ -47,7 +47,7 @@ const Login = () => {
       if (response?.data?.success) {
         const { data } = response?.data;
         toast.success("Sign In Successfully");
-        dispatch(updateUser({...data}));
+        dispatch(updateUser(data));
       }
     } catch (err) {
       console.error(err);

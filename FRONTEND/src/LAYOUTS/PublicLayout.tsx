@@ -7,7 +7,7 @@ const PublicLayout = () => {
   // GET USER DATA FROM THE GLOBAL STATE MANAGEMENT
   const user = useSelector((state: RootState) => state.user);
 
-  if (!user?.email) {
+  if (user?.email) {
     return <Navigate to="/" replace />;
   }
   return (

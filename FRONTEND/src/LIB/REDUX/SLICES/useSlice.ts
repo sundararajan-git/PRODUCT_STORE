@@ -5,7 +5,7 @@ const state = {
     email: null,
     name: null,
     profilePicture: null,
-    isVerfied: null,
+    isVerified: null,
     createdAt: null,
     updatedAt: null,
     lastLogin: null
@@ -16,7 +16,9 @@ export const userSlice = createSlice({
     initialState: state,
     reducers: {
         updateUser: (state, action) => {
+            console.log(action)
             state = { ...state, ...action.payload };
+            console.log(state)
         },
     }
 })

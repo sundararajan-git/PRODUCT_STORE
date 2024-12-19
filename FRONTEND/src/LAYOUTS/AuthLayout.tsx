@@ -8,7 +8,7 @@ const AuthLayout = () => {
   const user = useSelector((state: RootState) => state.user);
 
   if (!user?.email) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/login" />;
   }
 
   return (
