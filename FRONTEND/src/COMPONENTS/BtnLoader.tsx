@@ -1,5 +1,5 @@
 const BtnLoader = () => {
-  return <div className="loader"></div>;
+  return <div className="loader me-2"></div>;
 };
 
 export default BtnLoader;

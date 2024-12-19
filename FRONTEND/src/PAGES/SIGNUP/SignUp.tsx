@@ -4,6 +4,10 @@ import { FaCircleInfo } from "react-icons/fa6";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { validateForm } from "../../COMMON/Helper";
+import BtnLoader from "../../COMPONENTS/BtnLoader";
+import axiosInstance from "../../LIB/axios";
+import { useDispatch } from "react-redux";
+import { updateUser } from "../../LIB/REDUX/SLICES/useSlice";
 
 const SignUp = () => {
   // CONTROL THE COMPONENT
@@ -11,8 +15,11 @@ const SignUp = () => {
     btnloader: false,
   });
 
+  //  DISPATCH FROM THE  REDUX
+  const dispatch = useDispatch();
+
   // SIGN UP BTN HANDLER
-  const signUpBtnHanlder = () => {
+  const signUpBtnHanlder = async () => {
     try {
       // GET FORM ELEMENT
       const signUpForm = document.getElementById("signup") as HTMLFormElement;
@@ -21,26 +28,35 @@ const SignUp = () => {
       const isValid = validateForm(signUpForm);
 
       console.log(isValid);
-      
+
       if (!isValid) {
         toast.error("Invalid inputs");
         return null;
       }
 
-      const  data = new FormData(signUpForm)
+      const data = new FormData(signUpForm);
 
-      const json = Object.fromEntries(data)
+      const json = Object.fromEntries(data);
 
-
-      console.log(json)
+      console.log(json);
 
       //  TRIGGER THE BTN LOADER
 
       setControl((prev: any) => {
         const clone = { ...prev };
         clone.btnloader = true;
-        return prev;
+        return clone;
       });
+
+      const response = await axiosInstance.post("/users/signup", json);
+
+      console.log(response);
+
+      if (response?.data?.success) {
+        const { data } = response?.data;
+        toast.success("Sign Up Successfully");
+        dispatch(updateUser({ ...data }));
+      }
     } catch (err) {
       console.error(err);
     }
@@ -114,7 +130,8 @@ const SignUp = () => {
             className="w-full h-full p-2 bg-blue-1100 rounded-lg text-white font-semibold"
             onClick={signUpBtnHanlder}
           >
-            Sign Up
+            {control.btnloader && <BtnLoader />}
+            {control.btnloader ? "Loading..." : "Sign Up"}
           </button>
         </div>
       </form>

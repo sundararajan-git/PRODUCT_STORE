@@ -8,9 +8,15 @@ import Verification from "./PAGES/VERIFICATION/Verification";
 import ResetPassword from "./PAGES/RESETPASSWORD/ResetPassword";
 import PageNotFound from "./PAGES/404/PageNotFound";
 import "./App.css";
+import { RootState } from "./LIB/REDUX/store";
+import { useSelector } from "react-redux";
 
 
 const App = () => {
+  const user = useSelector((state: RootState) => state.user);
+
+  console.log(user)
+  
   return (
     <Routes>
       <Route element={<AuthLayout />}>

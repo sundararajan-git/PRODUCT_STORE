@@ -1,10 +1,17 @@
 import { useState } from "react";
 import BtnLoader from "../../COMPONENTS/BtnLoader";
-import userSvg from "../../ASSETES/user.svg"
+import userSvg from "../../ASSETES/user.svg";
+import axiosInstance from "../../LIB/axios";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { updateUser } from "../../LIB/REDUX/SLICES/useSlice";
 
 const Profile = (props: any) => {
   // PROPS
   const { close } = props;
+
+  // DISPATH FROM REDUX
+  const dispatch = useDispatch();
 
   // CONTROL THE COMPONENT
   const [control, setControl] = useState({
@@ -20,13 +27,20 @@ const Profile = (props: any) => {
   };
 
   // LOGOUT HANDLER
-  const logoutHandler = () => {
+  const logoutHandler = async () => {
     try {
       setControl((prev: any) => {
         const clone = { ...prev };
         clone.btnloader = true;
         return clone;
       });
+
+      const response = await axiosInstance.post("/users/logout");
+
+      if (response?.data?.success) {
+        toast.success("Logout Sucessfully");
+        dispatch(updateUser({}));
+      }
     } catch (err) {
       console.error(err);
     }
@@ -67,7 +81,10 @@ const Profile = (props: any) => {
           <div></div>
 
           <div className="w-full flex items-center justify-between">
-            <p className="text-start cursor-pointer hover:text-red-600 dark:text-gray-300" onClick={forgotPasswordHandler}>
+            <p
+              className="text-start cursor-pointer hover:text-red-600 dark:text-gray-300"
+              onClick={forgotPasswordHandler}
+            >
               Forgot Password
             </p>
 

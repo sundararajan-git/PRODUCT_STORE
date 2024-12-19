@@ -5,6 +5,9 @@ import { useState } from "react";
 import BtnLoader from "../../COMPONENTS/BtnLoader";
 import { validateForm } from "../../COMMON/Helper";
 import toast from "react-hot-toast";
+import axiosInstance from "../../LIB/axios";
+import { useDispatch } from "react-redux";
+import { updateUser } from "../../LIB/REDUX/SLICES/useSlice";
 
 const Login = () => {
   // CONTROL THE COMPONENT
@@ -12,8 +15,11 @@ const Login = () => {
     btnloader: false,
   });
 
+  //  DISPATCH FROM THE  REDUX
+  const dispatch = useDispatch();
+
   // LOGIN BTN HANDLER
-  const loginBtnHandler = () => {
+  const loginBtnHandler = async () => {
     try {
       const loginForm = document.getElementById("login") as HTMLFormElement;
 
@@ -35,6 +41,14 @@ const Login = () => {
         clone.btnloader = true;
         return clone;
       });
+
+      const response = await axiosInstance.post("/users/login", json);
+
+      if (response?.data?.success) {
+        const { data } = response?.data;
+        toast.success("Sign In Successfully");
+        dispatch(updateUser({...data}));
+      }
     } catch (err) {
       console.error(err);
     }

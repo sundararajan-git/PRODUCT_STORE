@@ -1,10 +1,10 @@
 import express from "express";
 import cors from "cors";
-import { conectDB } from "./DB/ConectDB.js"
+import { conectDB } from "./DB/ConectDB.js";
 import userRouter from "./ROUTES/Auth.Routes.js";
-import productRouter from "./ROUTES/Product.Routes.js"
+import productRouter from "./ROUTES/Product.Routes.js";
 import dotenv from "dotenv";
-import cookieParser from "cookie-parser"
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -14,6 +14,7 @@ const port = process.env.PORT || 8080;
 //MIDDELWARES
 const corsOptions = {
   origin: "http://localhost:5173",
+  credentials: true,
   optionsSuccessStatus: 200,
 };
 
@@ -30,9 +31,9 @@ app.use(cookieParser());
 app.use("/api/users", userRouter);
 
 // PRODUCTS ROUTES
-app.use("/api/products", productRouter)
+app.use("/api/products", productRouter);
 
 app.listen(port, () => {
-  conectDB()
+  conectDB();
   console.log(`Server is running on port ${port}`);
 });
