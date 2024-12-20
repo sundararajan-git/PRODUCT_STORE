@@ -48,6 +48,9 @@ const Login = () => {
         const { data } = response?.data;
         toast.success("Sign In Successfully");
         dispatch(updateUser(data));
+      } else {
+        const { data } = response?.data;
+        toast.error(data?.message);
       }
     } catch (err) {
       console.error(err);
