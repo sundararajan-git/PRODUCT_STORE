@@ -3,12 +3,20 @@ import BtnLoader from "../../COMPONENTS/BtnLoader";
 import userSvg from "../../ASSETES/user.svg";
 import axiosInstance from "../../LIB/axios";
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../LIB/REDUX/SLICES/useSlice";
+import { useNavigate } from "react-router-dom";
+import { RootState } from "../../LIB/REDUX/store";
 
 const Profile = (props: any) => {
   // PROPS
   const { close } = props;
+
+  // GET USER FROM GLOBAL STATE
+  const user = useSelector((state: RootState) => state.user);
+
+  // NAVIAGTE HOOK
+  const navigate = useNavigate();
 
   // DISPATH FROM REDUX
   const dispatch = useDispatch();
@@ -21,7 +29,7 @@ const Profile = (props: any) => {
   // FORGOT PASSWORD HANDLER
   const forgotPasswordHandler = async () => {
     try {
-      const json = { email: "12" };
+      const json = { email: user?.email };
 
       const response = await toast.promise(
         axiosInstance.post("/users/forgotpassword", json),
@@ -55,6 +63,9 @@ const Profile = (props: any) => {
       if (response?.data?.success) {
         toast.success("Logout Sucessfully");
         dispatch(updateUser({}));
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
       }
     } catch (err) {
       console.error(err);
@@ -89,8 +100,8 @@ const Profile = (props: any) => {
               src={userSvg}
               className="w-20 h-20 object-cover rounded-full cursor-pointer"
             />
-            <p className="text-red-600 font-bold">Arun K</p>
-            <p className="text-gray-700 dark:text-gray-300">Arun@gmail.com</p>
+            <p className="text-red-600 font-bold">{user?.name}</p>
+            <p className="text-gray-700 dark:text-gray-300">{user?.email}</p>
           </div>
 
           <div></div>

@@ -3,6 +3,9 @@ import toast from "react-hot-toast";
 import BtnLoader from "../../COMPONENTS/BtnLoader";
 import ModelCloseBtn from "../../COMPONENTS/ModelCloseBtn";
 import { validateForm } from "../../COMMON/Helper";
+import axiosInstance from "../../LIB/axios";
+import { useDispatch } from "react-redux";
+import { addProduct } from "../../LIB/REDUX/SLICES/productSlice";
 
 const Create = (props: any) => {
   // PROPS
@@ -10,6 +13,9 @@ const Create = (props: any) => {
 
   // SUBMIT BTN LAODER
   const [btnLoader, setBtnLoader] = useState(false);
+
+  // DISPATH FOR CREATE PRODUCT
+  const dispatch = useDispatch();
 
   //  SUBMIT BUTTON HANDLER
   const submitHandler = async () => {
@@ -25,6 +31,7 @@ const Create = (props: any) => {
         toast.error("Invalid inputs !");
         return null;
       }
+
       setBtnLoader(true);
 
       const createData = new FormData(createForm);
@@ -32,6 +39,19 @@ const Create = (props: any) => {
       const createJson = Object.fromEntries(createData);
 
       console.log(createJson);
+
+      const creatrProductresponse = await axiosInstance.post(
+        "/products/createproduct",
+        createJson
+      );
+
+      console.log(creatrProductresponse);
+
+      if (creatrProductresponse?.data?.success) {
+        toast.success("Created !");
+        dispatch(addProduct(creatrProductresponse?.data?.data));
+        modelCloseHandler();
+      }
     } catch (err) {
       const error = err as Error;
       console.error(error);
@@ -68,11 +88,13 @@ const Create = (props: any) => {
           id="createProduct"
         >
           <div className="flex flex-col gap-2 w-full">
-            <label htmlFor="productName" className="dark:text-white">Product Name</label>
+            <label htmlFor="productName" className="dark:text-white">
+              Product Name
+            </label>
             <input
               type="text"
               id="productName"
-              name="productName"
+              name="name"
               className="border border-gray-300 outline-none rounded-lg p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-300"
               placeholder="product name"
               required
@@ -80,7 +102,9 @@ const Create = (props: any) => {
           </div>
 
           <div className="flex flex-col gap-2 w-full">
-            <label htmlFor="description"className="dark:text-white">Description</label>
+            <label htmlFor="description" className="dark:text-white">
+              Description
+            </label>
             <input
               type="text"
               id="description"
@@ -92,7 +116,9 @@ const Create = (props: any) => {
           </div>
 
           <div className="flex flex-col gap-2 w-full">
-            <label htmlFor="Price" className="dark:text-white">Price</label>
+            <label htmlFor="Price" className="dark:text-white">
+              Price
+            </label>
             <input
               type="number"
               id="Price"
@@ -104,11 +130,13 @@ const Create = (props: any) => {
           </div>
 
           <div className="flex flex-col gap-2 w-full">
-            <label htmlFor="imageurl" className="dark:text-white">Image URL</label>
+            <label htmlFor="imageurl" className="dark:text-white">
+              Image URL
+            </label>
             <input
               type="text"
               id="imageurl"
-              name="imgurl"
+              name="image"
               className="border border-gray-300 outline-none rounded-lg p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-300"
               placeholder="url"
               required

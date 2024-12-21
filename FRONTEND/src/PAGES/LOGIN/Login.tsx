@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../ASSETES/logo.svg";
 import { FaCircleInfo } from "react-icons/fa6";
 import { useState } from "react";
@@ -17,6 +17,9 @@ const Login = () => {
 
   //  DISPATCH FROM THE  REDUX
   const dispatch = useDispatch();
+
+  // NAVIGATE HOOK
+  const navigate = useNavigate();
 
   // LOGIN BTN HANDLER
   const loginBtnHandler = async () => {
@@ -46,14 +49,15 @@ const Login = () => {
 
       if (response?.data?.success) {
         const { data } = response?.data;
-        toast.success("Sign In Successfully");
         dispatch(updateUser(data));
-      } else {
-        const { data } = response?.data;
-        toast.error(data?.message);
+        setTimeout(() => {
+          toast.success("Sign In Successfully");
+          navigate("/");
+        }, 1000);
       }
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      const err = error as Error;
+      toast.error(err?.message);
     }
   };
 

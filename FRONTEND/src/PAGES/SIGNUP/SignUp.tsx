@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../ASSETES/logo.svg";
 import { FaCircleInfo } from "react-icons/fa6";
 import { useState } from "react";
@@ -14,6 +14,9 @@ const SignUp = () => {
   const [control, setControl] = useState({
     btnloader: false,
   });
+
+  // NAVIAGTE HOOK
+  const navigate = useNavigate();
 
   //  DISPATCH FROM THE  REDUX
   const dispatch = useDispatch();
@@ -56,6 +59,7 @@ const SignUp = () => {
         const { data } = response?.data;
         toast.success("Sign Up Successfully");
         dispatch(updateUser({ ...data }));
+        navigate("/");
       }
     } catch (err) {
       console.error(err);

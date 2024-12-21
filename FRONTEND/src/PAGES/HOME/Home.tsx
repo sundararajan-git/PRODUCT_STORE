@@ -1,25 +1,30 @@
 import { useEffect, useState } from "react";
 import Loader from "../../COMPONENTS/Loader";
 import { LuPackagePlus } from "react-icons/lu";
-import { homeArr } from "../../TEST/Data";
 import Create from "../CREATE/Create";
 import Update from "../UPDATE/Update";
 import Header from "../../COMPONENTS/Header";
 import Profile from "../PROFILE/Profile";
+import toast from "react-hot-toast";
+import axiosInstance from "../../LIB/axios";
+import { useDispatch, useSelector } from "react-redux";
+import { setProducts } from "../../LIB/REDUX/SLICES/productSlice";
+import { RootState } from "../../LIB/REDUX/store";
 
 const Home = () => {
-  // PAGE LOADER STATE
-  const [pageLaoder, setPageLaoder] = useState(true);
-
   // CONTROL THE COMPONENTS
   const [control, setControl] = useState({
     addproduct: false,
     updateproduct: false,
     profileupdate: false,
+    pageloading: true,
   });
 
-  // AVILABLE PRODUCTS
-  const [prod, setProd] = useState([]);
+  // GET PRODUCTS FROM THE GLOBALS STATE
+  const products = useSelector((state: RootState) => state.products);
+
+  // DISPATH FOR PROFDUCTS
+  const dispatch = useDispatch();
 
   // GET ININITAL PRODUCTS
   useEffect(() => {
@@ -29,28 +34,23 @@ const Home = () => {
   // GET THE AVAILBLE PRODUCTS
   const getAvilableProducts = async () => {
     try {
-      const productRes = await fetch(`${import.meta.env.VITE_EXPRESS_API}`);
+      const getProductResponse = await axiosInstance.get("/products");
 
-      if (!productRes.ok) {
-        throw new Error(`HTTP error! status: ${productRes.status}`);
-      }
-      const productJson = await productRes.json();
+      console.log(getProductResponse);
 
-      if (productJson.success) {
-        setProd(productJson.data);
-        // setTimeout(() => {
-        //   setPageLaoder(false);
-        // }, 1000);
-      } else {
-        throw new Error(productJson.error);
+      if (getProductResponse?.data?.success) {
+        const { data } = getProductResponse?.data;
+        dispatch(setProducts(data));
       }
     } catch (err) {
-      setProd(homeArr);
-      setTimeout(() => {
-        setPageLaoder(false);
-      }, 1000);
       const error = err as Error;
-      console.error(error?.message);
+      toast.error(error?.message);
+    } finally {
+      setControl((prev: any) => {
+        const clone = { ...prev };
+        clone.pageloading = false;
+        return clone;
+      });
     }
   };
 
@@ -68,11 +68,11 @@ const Home = () => {
   };
 
   // UPDATE PRODUCT HANDLER
-  const updateProductHandler = () => {
+  const updateProductHandler = (item: any) => {
     try {
       setControl((prev: any) => {
         const clone = { ...prev };
-        clone.updateproduct = true;
+        clone.updateproduct = item;
         return clone;
       });
     } catch (err) {
@@ -94,7 +94,7 @@ const Home = () => {
   };
   return (
     <>
-      {pageLaoder ? (
+      {control?.pageloading ? (
         <div className="flex items-center justify-center w-full h-screen">
           <Loader />
         </div>
@@ -103,37 +103,29 @@ const Home = () => {
           <Header updateProfileHandler={updateProfileHandler} />
           <section className="w-5/6 mx-auto h-full p-2 mt-16 sm:p-0">
             <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 gap-8 h-full">
-              {prod.map((i: any, index: number) => {
+              {products.map((i: any, index: number) => {
                 return (
                   <div
                     key={index}
                     className="flex flex-col rounded-lg bg-gray-50 dark:bg-gray-950 shadow-lg cursor-pointer overflow-hidden h-[300px] fade-up"
-                    onClick={updateProductHandler}
+                    onClick={() => updateProductHandler(i)}
                   >
                     <img
-                      src={`${i?.imgurl}`}
+                      src={`${i?.image}`}
                       className="hover:scale-105 ease-out z-30 object-cover h-[200px] w-full"
                     />
                     <div className="flex flex-col items-center justify-between px-4 py-4 text-xs sm:text-sm gap-2">
                       <div className="flex justify-between items-center w-full gap-4">
                         <span className="font-medium dark:text-sky-500 truncate">
-                          {i.name}
+                          {i?.name}
                         </span>
                         <span className="font-medium text-red-600">
-                          ${i.price}
+                          ${i?.price}
                         </span>
                       </div>
 
                       <p className="line-clamp-2 text-gray-600">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit. Corporis laudantium eaque placeat adipisci natus
-                        provident quidem, eveniet vero quas unde recusandae, id
-                        dolore quam nesciunt, voluptatibus doloribus aut dolorem
-                        sequi! Lorem ipsum dolor sit amet, consectetur
-                        adipisicing elit. Corporis laudantium eaque placeat
-                        adipisci natus provident quidem, eveniet vero quas unde
-                        recusandae, id dolore quam nesciunt, voluptatibus
-                        doloribus aut dolorem sequi!
+                        {i?.description}
                       </p>
                     </div>
                   </div>
@@ -155,7 +147,9 @@ const Home = () => {
       )}
 
       {control?.addproduct ? <Create close={setControl} /> : null}
-      {control?.updateproduct ? <Update close={setControl} /> : null}
+      {control?.updateproduct ? (
+        <Update close={setControl} data={control?.updateproduct} />
+      ) : null}
       {control?.profileupdate ? <Profile close={setControl} /> : null}
     </>
   );

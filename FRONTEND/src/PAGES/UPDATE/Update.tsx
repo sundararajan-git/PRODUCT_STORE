@@ -1,26 +1,25 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import BtnLoader from "../../COMPONENTS/BtnLoader";
 import ModelCloseBtn from "../../COMPONENTS/ModelCloseBtn";
 import { validateForm } from "../../COMMON/Helper";
+import axiosInstance from "../../LIB/axios";
+import { useDispatch } from "react-redux";
+import { updateProduct } from "../../LIB/REDUX/SLICES/productSlice";
 
 const Update = (props: any) => {
   // PROPS
-  const { close } = props;
-
-  // NAVIGATION HOOK
-  const navigation = useNavigate();
+  const { close, data } = props;
 
   //   SUBMIT BTN LOADER
   const [btnLoader, setBtnLaoder] = useState(false);
 
-  //   UPDATE BUTTON HANDLER
-  const updateHandler = async (e: any) => {
-    try {
-      // PREVENT THE DEFAULT LAODING
-      e.preventDefault();
+  // DISPATCH
+  const dispatch = useDispatch();
 
+  //   UPDATE BUTTON HANDLER
+  const updateHandler = async () => {
+    try {
       // GET FORM ELEMENT
       const updateForm = document.getElementById(
         "updateProduct"
@@ -44,33 +43,23 @@ const Update = (props: any) => {
 
       console.log(updateJson);
 
-      const updateRes = await fetch(
-        `${import.meta.env.VITE_EXPRESS_API}/66f8c674d5b6fec562e785a5`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updateJson),
-        }
+      updateJson.id = data._id;
+
+      const updateResponse = await axiosInstance.put(
+        "/products/updateproduct",
+        updateJson
       );
 
-      console.log(updateRes);
-
-      if (!updateRes.ok) {
-        throw new Error(`HTTP error! status: ${updateRes.status}`);
+      if (updateResponse?.data?.success) {
+        const { data } = updateResponse?.data;
+        console.log(data)
+        toast.success("Updated !");
+        dispatch(updateProduct(data));
+        modelCloseHandler()
       }
-
-      const updateJsonData = await updateRes.json();
-
-      console.log(updateJsonData);
-
-      setTimeout(() => {
-        navigation(-1);
-      }, 500);
     } catch (err) {
+      console.log(err);
       const error = err as Error;
-      console.error(error);
       toast.error(error.message);
     }
   };
@@ -104,48 +93,60 @@ const Update = (props: any) => {
           id="updateProduct"
         >
           <div className="flex flex-col gap-2 w-full">
-            <label htmlFor="productName" className="dark:text-white">Product Name</label>
+            <label htmlFor="productName" className="dark:text-white">
+              Product Name
+            </label>
             <input
               type="text"
               id="productName"
-              name="productName"
+              name="name"
               className="border border-gray-300 outline-none rounded-lg p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-300"
+              defaultValue={data?.name}
               placeholder="productName"
               required
             />
           </div>
 
           <div className="flex flex-col gap-2 w-full">
-            <label htmlFor="description" className="dark:text-white">Description</label>
+            <label htmlFor="description" className="dark:text-white">
+              Description
+            </label>
             <input
               type="text"
               id="description"
               name="description"
               className="border border-gray-300 outline-none rounded-lg p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-300"
+              defaultValue={data?.description}
               placeholder="description"
               required
             />
           </div>
 
           <div className="flex flex-col gap-2 w-full">
-            <label htmlFor="Price" className="dark:text-white">Price</label>
+            <label htmlFor="Price" className="dark:text-white">
+              Price
+            </label>
             <input
               type="number"
               id="Price"
               name="price"
               className="border border-gray-300 outline-none rounded-lg p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-300"
+              defaultValue={data?.price}
               placeholder="price"
               required
             />
           </div>
 
           <div className="flex flex-col gap-2 w-full">
-            <label htmlFor="imageurl" className="dark:text-white">Image URL</label>
+            <label htmlFor="imageurl" className="dark:text-white">
+              Image URL
+            </label>
             <input
               type="text"
               id="imageurl"
-              name="imgurl"
+              name="image"
               className="border border-gray-300 outline-none rounded-lg p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-300"
+              defaultValue={data?.image}
               placeholder="url"
               required
             />

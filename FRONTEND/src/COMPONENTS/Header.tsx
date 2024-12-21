@@ -2,6 +2,7 @@ import { useState } from "react";
 import { BiMoon } from "react-icons/bi";
 import { LuSunMoon } from "react-icons/lu";
 import logo from "../ASSETES/logo.svg";
+import userSvg from "../ASSETES/user.svg";
 
 const Header = (props: any) => {
   // PROPS
@@ -59,7 +60,7 @@ const Header = (props: any) => {
           )}
 
           <img
-            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D"
+            src={userSvg}
             className="w-7 h-7 object-cover rounded-full cursor-pointer"
             onClick={updateProfileHandler}
           />

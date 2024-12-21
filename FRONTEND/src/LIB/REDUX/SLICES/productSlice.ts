@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 interface product {
-    id: number;
+    _id: string;
     name: string;
     price: number;
 }
@@ -17,18 +17,18 @@ const productSlice = createSlice({
             return action.payload;
         },
         addProduct: (state, action: PayloadAction<product>) => {
-            state.push(action.payload); // Add a single product
+            state.push(action.payload);
         },
         updateProduct: (state, action: PayloadAction<product>) => {
-            const index = state.findIndex(p => p.id === action.payload.id);
+            const index = state.findIndex((p) => p._id === action.payload._id);
             if (index !== -1) {
-                state[index] = { ...state[index], ...action.payload }; // Update the product
+                state[index] = { ...state[index], ...action.payload };
             }
         },
     }
 })
 
 
-export const { updateProduct } = productSlice.actions
+export const { updateProduct, addProduct, setProducts } = productSlice.actions
 
 export default productSlice.reducer
