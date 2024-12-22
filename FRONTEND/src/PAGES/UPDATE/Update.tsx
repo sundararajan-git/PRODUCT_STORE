@@ -2,7 +2,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import BtnLoader from "../../COMPONENTS/BtnLoader";
 import ModelCloseBtn from "../../COMPONENTS/ModelCloseBtn";
-import { validateForm } from "../../COMMON/Helper";
+import { validateForm } from "../../COMMON/helper";
 import axiosInstance from "../../LIB/axios";
 import { useDispatch } from "react-redux";
 import { updateProduct } from "../../LIB/REDUX/SLICES/productSlice";

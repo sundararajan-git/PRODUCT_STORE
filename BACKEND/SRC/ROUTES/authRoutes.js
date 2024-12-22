@@ -9,7 +9,7 @@ import {
   updateProfile,
   verifyEmail,
   isValidUser,
-} from "../CONTROLLERS/User.Controller.js";
+} from "../CONTROLLERS/userController.js";
 import { verifyToken } from "../MIDDLEWARE/validUser.js";
 
 // CHECK IS VALID USER OR NOT

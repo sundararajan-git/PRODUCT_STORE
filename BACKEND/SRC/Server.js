@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
-import { conectDB } from "./DB/ConectDB.js";
-import userRouter from "./ROUTES/Auth.Routes.js";
-import productRouter from "./ROUTES/Product.Routes.js";
+import { conectDB } from "./DB/conectDB.js";
+import userRouter from "./ROUTES/authRoutes.js";
+import productRouter from "./ROUTES/productRoutes.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 

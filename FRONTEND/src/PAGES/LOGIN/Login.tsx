@@ -3,7 +3,7 @@ import logo from "../../ASSETES/logo.svg";
 import { FaCircleInfo } from "react-icons/fa6";
 import { useState } from "react";
 import BtnLoader from "../../COMPONENTS/BtnLoader";
-import { validateForm } from "../../COMMON/Helper";
+import { validateForm } from "../../COMMON/helper";
 import toast from "react-hot-toast";
 import axiosInstance from "../../LIB/axios";
 import { useDispatch } from "react-redux";

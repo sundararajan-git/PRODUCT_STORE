@@ -1,7 +1,7 @@
 import { useState } from "react";
 import logo from "../../ASSETES/logo.svg";
 import BtnLoader from "../../COMPONENTS/BtnLoader";
-import { validateForm } from "../../COMMON/Helper";
+import { validateForm } from "../../COMMON/helper";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import axiosInstance from "../../LIB/axios";
