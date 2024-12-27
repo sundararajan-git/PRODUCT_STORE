@@ -10,6 +10,7 @@ import axiosInstance from "../../LIB/axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setProducts } from "../../LIB/REDUX/SLICES/productSlice";
 import { RootState } from "../../LIB/REDUX/store";
+import ProductPage from "../PRODUCTPAGE/ProductPage";
 
 const Home = () => {
   // CONTROL THE COMPONENTS
@@ -17,6 +18,7 @@ const Home = () => {
     addproduct: false,
     updateproduct: false,
     profileupdate: false,
+    productPage: false,
     pageloading: true,
   });
 
@@ -72,7 +74,7 @@ const Home = () => {
     try {
       setControl((prev: any) => {
         const clone = { ...prev };
-        clone.updateproduct = item;
+        clone.productPage = item;
         return clone;
       });
     } catch (err) {
@@ -99,39 +101,44 @@ const Home = () => {
           <Loader />
         </div>
       ) : (
-        <div>
+        <div className="">
           <Header updateProfileHandler={updateProfileHandler} />
-          <section className="w-5/6 mx-auto h-full p-2 mt-16 sm:p-0">
-            <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 gap-8 h-full">
-              {products.map((i: any, index: number) => {
-                return (
-                  <div
-                    key={index}
-                    className="flex flex-col rounded-lg bg-gray-50 dark:bg-gray-950 shadow-lg cursor-pointer overflow-hidden h-[300px] fade-up"
-                    onClick={() => updateProductHandler(i)}
-                  >
-                    <img
-                      src={`${i?.image}`}
-                      className="hover:scale-105 ease-out z-30 object-cover h-[200px] w-full"
-                    />
-                    <div className="flex flex-col items-center justify-between px-4 py-4 text-xs sm:text-sm gap-2">
-                      <div className="flex justify-between items-center w-full gap-4">
-                        <span className="font-medium dark:text-sky-500 truncate">
-                          {i?.name}
-                        </span>
-                        <span className="font-medium text-red-600">
-                          ${i?.price}
-                        </span>
-                      </div>
 
-                      <p className="line-clamp-2 text-gray-600">
-                        {i?.description}
-                      </p>
+          <section className="w-5/6 mx-auto h-full p-2 mt-16 sm:p-0">
+            {control?.productPage ? (
+              <ProductPage close={setControl} product={control?.productPage} />
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 gap-8 h-full">
+                {products.map((i: any, index: number) => {
+                  return (
+                    <div
+                      key={index}
+                      className="flex flex-col rounded-lg bg-gray-50 dark:bg-gray-950 shadow-lg cursor-pointer overflow-hidden h-[300px] fade-up"
+                      onClick={() => updateProductHandler(i)}
+                    >
+                      <img
+                        src={`${i?.image}`}
+                        className="hover:scale-105 ease-out z-30 object-cover h-[200px] w-full"
+                      />
+                      <div className="flex flex-col items-center justify-between px-4 py-4 text-xs sm:text-sm gap-2">
+                        <div className="flex justify-between items-center w-full gap-4">
+                          <span className="font-medium dark:text-sky-500 truncate">
+                            {i?.name}
+                          </span>
+                          <span className="font-medium text-red-600">
+                            ${i?.price}
+                          </span>
+                        </div>
+
+                        <p className="line-clamp-2 text-gray-600">
+                          {i?.description}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            )}
           </section>
 
           <div className="fixed h-fit  bottom-4 flex justify-end pe-2 sm:pe-8 z-40 w-full">

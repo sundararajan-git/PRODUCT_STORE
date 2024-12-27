@@ -33,7 +33,7 @@ const Header = (props: any) => {
       <div className="fade-up w-full sm:w-5/6  mx-auto flex justify-between p-3">
         <div>
           <h2 className="cursor-pointer flex text-sky-500 items-center gap-2">
-            <img src={logo} alt="logo" />
+            <img src={logo} alt="logo" className="size-6" />
             <span className="logo text-xl ">PRODUCT STORE</span>
           </h2>
         </div>

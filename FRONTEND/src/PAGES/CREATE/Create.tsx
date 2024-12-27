@@ -74,7 +74,7 @@ const Create = (props: any) => {
 
   return (
     <div className="fixed top-0 left-0 right-0 w-full h-full bg-gray-400/70  flex items-center justify-center p-6 z-50">
-      <section className="w-full sm:w-5/6  md:w-2/3 lg:w-1/3 mx-auto h-fit flex flex-col p-4 bg-white dark:bg-dark rounded-lg shadow fade-up">
+      <section className="w-full sm:w-5/6  md:w-2/3 lg:w-1/2 mx-auto h-fit flex flex-col p-4 bg-white dark:bg-dark rounded-lg shadow fade-up">
         <div className="flex items-center justify-between">
           <h2 className="text-xs sm:text-sm font-bold text-center text-blue-1100">
             CREATE PRODUCT

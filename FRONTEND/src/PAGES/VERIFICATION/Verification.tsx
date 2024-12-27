@@ -57,7 +57,7 @@ const Verification = () => {
     <section className="flex items-center justify-center w-full h-screen">
       <div className="w-full sm:w-1/2 lg:w-1/3 h-fit p-4 sm:p-2  flex flex-col gap-4 font-sm">
         <div className="flex items-center pb-2 gap-2">
-          <img src={logo} />
+          <img src={logo} alt="logo" className="size-6" />
           <h2 className="font-bold uppercase text-blue-1100 text-lg">Verify</h2>
         </div>
 

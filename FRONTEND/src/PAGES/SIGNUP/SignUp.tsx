@@ -73,7 +73,7 @@ const SignUp = () => {
         id="signup"
       >
         <div className="flex items-center pb-2 gap-2">
-          <img src={logo} />
+          <img src={logo} alt="logo" className="size-6" />
           <h2 className="font-bold uppercase text-blue-1100 text-lg">
             Sign Up
           </h2>
