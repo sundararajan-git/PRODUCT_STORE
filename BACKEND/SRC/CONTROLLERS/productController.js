@@ -77,6 +77,7 @@ export const updateProduct = async (req, res) => {
 // DELETE PRODUCT
 export const deleteProduct = async (req, res) => {
   try {
+    
     const { id } = req.body;
 
     if (!id) {

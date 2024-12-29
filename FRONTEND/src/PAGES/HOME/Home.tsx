@@ -144,7 +144,7 @@ const Home = () => {
           <div className="fixed h-fit  bottom-4 flex justify-end pe-2 sm:pe-8 z-40 w-full">
             <button
               type="button"
-              className="bg-sky-500 dark:bg-white dark:text-sky-500 text-white p-3 rounded-lg"
+              className="bg-sky-500 dark:bg-white dark:text-sky-500 text-white p-3 rounded-xl"
               onClick={addproductHandler}
             >
               <LuPackagePlus size={20} />

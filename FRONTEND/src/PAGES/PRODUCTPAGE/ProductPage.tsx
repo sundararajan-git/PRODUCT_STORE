@@ -2,6 +2,9 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import axiosInstance from "../../LIB/axios";
 import { useDispatch } from "react-redux";
+import { deleteProduct } from "../../LIB/REDUX/SLICES/productSlice";
+import BtnLoader from "../../COMPONENTS/BtnLoader";
+import { IoMdArrowBack } from "react-icons/io";
 
 const ProductPage = (props: any) => {
   // PROPS
@@ -50,8 +53,10 @@ const ProductPage = (props: any) => {
         return clone;
       });
 
-      const reqObj: any = {
-        id: product._id,
+      const reqObj = {
+        data: {
+          id: product._id,
+        },
       };
 
       const deleteResponse = await axiosInstance.delete(
@@ -63,7 +68,7 @@ const ProductPage = (props: any) => {
         const { data } = deleteResponse?.data;
         console.log(data);
         toast.success("Deleted !");
-        dispatch(updateProduct(data));
+        dispatch(deleteProduct(data));
         backHandler();
       }
     } catch (err) {
@@ -74,9 +79,10 @@ const ProductPage = (props: any) => {
   return (
     <div className="w-full h-screen p-12  dark:bg-dark">
       <a
-        className="dark:text-red-600 hover:underline hover:text-red-600 cursor-pointer"
+        className="dark:text-red-600 hover:underline hover:text-red-600 cursor-pointer flex items-center gap-2"
         onClick={backHandler}
       >
+        <IoMdArrowBack />
         Back
       </a>
       <div className="flex flex-col rounded-lg cursor-pointer overflow-hidden h-fit fade-up dark:bg-gray-950 mt-4">
@@ -96,14 +102,15 @@ const ProductPage = (props: any) => {
           <div className="flex items-center justify-end gap-2 pt-6">
             <button
               type="button"
-              className="p-2 bg-red-600 rounded-md outline-none text-white"
+              className="p-2 bg-red-600 rounded-md outline-none text-white cursor-pointer"
               onClick={deleteBtnHandler}
             >
-              Delete
+              {control?.btnLoading ? <BtnLoader /> : null}
+              {control?.btnLoading ? "loading.." : "Delete"}
             </button>
             <button
               type="button"
-              className="p-2 bg-blue-1100 rounded-md outline-none"
+              className="p-2 bg-blue-1100 rounded-md outline-none cursor-pointer"
               onClick={updateBtnHandler}
             >
               Update
