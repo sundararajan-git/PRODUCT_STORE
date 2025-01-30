@@ -1,28 +1,20 @@
-import { useState } from "react";
+import { useContext } from "react";
 import { BiMoon } from "react-icons/bi";
 import { LuSunMoon } from "react-icons/lu";
 import logo from "../assetes/logo.svg";
 import userSvg from "../assetes/user.svg";
+import { ThemeContext } from "../hook/ThemeProvider";
 
 const Header = (props: any) => {
   // props
   const { updateProfileHandler } = props;
 
-  const [theme, setTheme] = useState("");
-
+  // get the global context
+  const { isDarkMode, setThemeHandler } = useContext(ThemeContext);
   const themeHandler = (e: any) => {
     try {
       const { id } = e.target;
-
-      if (id === "night") {
-        const ele: any = document.getElementById("root");
-        ele.classList.add("dark");
-        setTheme("night");
-      } else {
-        const ele: any = document.getElementById("root");
-        ele.classList.remove("dark");
-        setTheme("day");
-      }
+      setThemeHandler(id);
     } catch (err) {
       console.error(err);
     }
@@ -39,23 +31,23 @@ const Header = (props: any) => {
         </div>
 
         <div className="flex items-center gap-4">
-          {theme === "night" ? (
+          {isDarkMode === "dark" ? (
             <button
               type="button"
-              id="day"
+              id="light"
               className="p-2 rounded-lg text-yellow-500 hover:bg-white"
               onClick={themeHandler}
             >
-              <LuSunMoon id="day" size={20} />
+              <LuSunMoon id="light" size={20} />
             </button>
           ) : (
             <button
               type="button"
-              id="night"
+              id="dark"
               className="p-2 rounded-lg text-sky-500 hover:bg-blue-100"
               onClick={themeHandler}
             >
-              <BiMoon id="night" size={18} />
+              <BiMoon id="dark" size={18} />
             </button>
           )}
 
