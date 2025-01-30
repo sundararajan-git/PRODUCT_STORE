@@ -12,10 +12,15 @@ import "./App.css";
 import Loader from "./components/Loader";
 import useValidUser from "./hook/useValidUser";
 import { Toaster } from "react-hot-toast";
+import { useContext } from "react";
+import { ThemeContext } from "./hook/ThemeProvider";
 
 const App = () => {
   // validate from the custom hook
   const { pageloading, isValidUser } = useValidUser();
+
+  // get states from the theme provider
+  const { isDarkMode } = useContext(ThemeContext);
 
   if (pageloading) {
     return (
@@ -39,7 +44,19 @@ const App = () => {
         </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>
-      <Toaster position="top-right" reverseOrder={false} />
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+        toastOptions={{
+          style: {
+            background: isDarkMode === "dark" ? "#030712" : "#fff",
+            color: isDarkMode === "dark" ? "#fff" : "#000",
+            padding: "10px 20px 10px 20px",
+            borderRadius: "8px",
+            boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+          },
+        }}
+      />
     </>
   );
 };
