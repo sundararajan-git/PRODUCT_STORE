@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setProducts } from "../../lib/redux/slices/productSlice";
 import { RootState } from "../../lib/redux/store";
 import ProductPage from "../productPage/ProductPage";
+import { Navigate } from "react-router-dom";
 
 const Home = () => {
   // control the components
@@ -22,8 +23,13 @@ const Home = () => {
     pageloading: true,
   });
 
-  // get products from the globals state
+  // get products & user from the globals state
   const products = useSelector((state: RootState) => state.products);
+  const user = useSelector((state: RootState) => state.user);
+
+  if (!user.isVerfied) {
+    return <Navigate to="/verification" />;
+  }
 
   // dispath for profducts
   const dispatch = useDispatch();

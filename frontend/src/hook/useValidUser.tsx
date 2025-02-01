@@ -34,7 +34,7 @@ const useValidUser = () => {
       if (validUserResponse?.data?.success) {
         const { user } = validUserResponse?.data;
         dispatch(updateUser(user));
-        setIsValidUser(true);
+        setIsValidUser(user);
       }
     } catch (err) {
       setIsValidUser(false);

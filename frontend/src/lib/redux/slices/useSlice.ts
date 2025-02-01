@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-const state = {
+const state: any = {
     _id: null,
     email: null,
     name: null,

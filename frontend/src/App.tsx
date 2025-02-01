@@ -35,11 +35,11 @@ const App = () => {
       <Routes>
         <Route element={<AuthLayout isValidUser={isValidUser} />}>
           <Route path="/" element={<Home />} />
+          <Route path="/verification" element={<Verification />} />
         </Route>
         <Route element={<PublicLayout isValidUser={isValidUser} />}>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/verification" element={<Verification />} />
           <Route path="/resetpassword/:id" element={<ResetPassword />} />
         </Route>
         <Route path="*" element={<PageNotFound />} />

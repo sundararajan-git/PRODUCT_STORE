@@ -3,15 +3,24 @@ import logo from "../../assetes/logo.svg";
 import BtnLoader from "../../components/BtnLoader";
 import { validateForm } from "../../common/helper";
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axiosInstance from "../../lib/axios";
 import { updateUser } from "../../lib/redux/slices/useSlice";
+import { RootState } from "@reduxjs/toolkit/query";
+import { Navigate } from "react-router-dom";
 
 const Verification = () => {
   // control the component
   const [contol, setControl] = useState({
     btnloader: false,
   });
+
+  // get products & user from the globals state
+  const user = useSelector((state: RootState) => state.user);
+
+  if (user.isVerfied) {
+    return <Navigate to="/" />;
+  }
 
   //  dispatch from the  redux
   const dispatch = useDispatch();
