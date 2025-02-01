@@ -108,7 +108,7 @@ const Profile = (props: any) => {
 
           <div className="w-full flex items-center justify-between">
             <p
-              className="text-start cursor-pointer hover:text-red-600 dark:text-gray-300 dark:hover:text-red-600 hover:underline"
+              className="text-start cursor-pointer hover:text-red-600 dark:text-gray-500 dark:hover:text-red-600 hover:underline"
               onClick={forgotPasswordHandler}
             >
               Forgot Password
@@ -124,7 +124,7 @@ const Profile = (props: any) => {
               </button>
               <button
                 type="button"
-                className="bg-blue-1100 text-white px-2.5 py-2 rounded-lg text-sm  float-end flex items-center justify-between gap-2 font-semibold dark:text-dark"
+                className="bg-blue-1100 text-white px-2.5 py-2 rounded-lg text-sm  float-end flex items-center justify-between gap-2 font-medium dark:text-dark"
                 onClick={logoutHandler}
               >
                 {control?.btnloader ? <BtnLoader /> : null}

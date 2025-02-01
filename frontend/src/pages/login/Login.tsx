@@ -68,15 +68,17 @@ const Login = () => {
         id="login"
       >
         <div className="flex items-center pb-2 gap-2">
-          <img src={logo} alt="logo" className="size-6" />
+          {/* <img src={logo} alt="logo" className="size-6" /> */}
           <h2 className="font-bold uppercase text-blue-1100 text-lg">Log In</h2>
         </div>
 
         <div className="flex flex-col gap-2 w-full">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email" className="dark:text-gray-300">
+            Email
+          </label>
           <input
             type="email"
-            className="border border-gray-300 outline-none rounded-lg p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100"
+            className="border border-gray-300 outline-none rounded-lg p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-400 dark:border-gray-600"
             name="email"
             id="email"
             placeholder="email"
@@ -85,10 +87,12 @@ const Login = () => {
         </div>
 
         <div className="flex flex-col gap-2 w-full">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password" className="dark:text-gray-300">
+            Password
+          </label>
           <input
             type="password"
-            className="border border-gray-300 outline-none rounded-lg p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100"
+            className="border border-gray-300 outline-none rounded-lg p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-400 dark:border-gray-600"
             name="password"
             id="password"
             placeholder="password"
@@ -97,12 +101,12 @@ const Login = () => {
         </div>
 
         <div className="text-sm">
-          <p className="text-gray-500 flex items-center gap-2">
+          <p className="text-gray-500 flex items-center gap-2 py-3">
             <FaCircleInfo />
             You don't have account{" "}
             <NavLink
               to={"/signup"}
-              className="font-medium text-black hover:underline cursor-pointer hover:text-blue-1100"
+              className="font-medium text-black hover:underline cursor-pointer hover:text-blue-1100 dark:hover:text-blue-1100 dark:text-gray-300"
             >
               Sign Up
             </NavLink>
@@ -112,7 +116,7 @@ const Login = () => {
         <div className="flex flex-col gap-2 w-full">
           <button
             type="button"
-            className="w-full h-full p-2 bg-blue-1100 rounded-lg text-white font-semibold flex items-center justify-center gap-2"
+            className="w-full h-full p-2 bg-blue-1100 rounded-lg text-white font-medium flex items-center justify-center gap-2"
             onClick={loginBtnHandler}
           >
             {control.btnloader ? <BtnLoader /> : null}

@@ -57,15 +57,17 @@ const Verification = () => {
     <section className="flex items-center justify-center w-full h-screen">
       <div className="w-full sm:w-1/2 lg:w-1/3 h-fit p-4 sm:p-2  flex flex-col gap-4 font-sm">
         <div className="flex items-center pb-2 gap-2">
-          <img src={logo} alt="logo" className="size-6" />
+          {/* <img src={logo} alt="logo" className="size-6" /> */}
           <h2 className="font-bold uppercase text-blue-1100 text-lg">Verify</h2>
         </div>
 
         <form id="verificationForm" className="flex flex-col gap-2 w-full">
-          <label htmlFor="Code">Code</label>
+          <label htmlFor="Code" className="dark:text-gray-300">
+            Code
+          </label>
           <input
             type="text"
-            className="border border-gray-300 outline-none rounded-lg p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100"
+            className="border border-gray-300 outline-none rounded-lg p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-300 dark:border-gray-400"
             name="code"
             id="Code"
             placeholder="Code"
@@ -73,10 +75,10 @@ const Verification = () => {
           />
         </form>
 
-        <div className="flex flex-col gap-2 w-full">
+        <div className="flex flex-col gap-2 w-full pt-4">
           <button
             type="button"
-            className="w-full h-full p-2 bg-blue-1100 rounded-lg text-white font-semibold flex items-center gap-2 justify-center"
+            className="w-full h-full p-2 bg-blue-1100 rounded-lg text-white font-medium flex items-center gap-2 justify-center"
             onClick={vertificationHandler}
           >
             {contol?.btnloader ? <BtnLoader /> : null}

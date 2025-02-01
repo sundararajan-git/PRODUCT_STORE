@@ -6,15 +6,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        // FOR LIGHT THEME
+        // for light theme
         blue: {
-          // 1100: "#0284c7",
           1100: "#38bdf8",
         },
         white: "#ffffff",
 
-        // FOR DARK THEMEN
-        // dark: "#0f172a",
+        // for dark theme
         dark: "#030712",
       },
     },

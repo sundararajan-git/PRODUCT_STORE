@@ -5,13 +5,11 @@ import productRouter from "./routes/productRoutes.js";
 import userRouter from "./routes/authRoutes.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import path from "path"
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 8080;
-const __dirname = path.resolve()
 
 //middelwares
 const corsOptions = {
@@ -35,14 +33,6 @@ app.use("/api/users", userRouter);
 // products routes
 app.use("/api/products", productRouter);
 
-
-// production to serve the static files
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../FRONTEND/dist")))
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../FRONTEND", "dist", "index.html"))
-  })
-}
 
 app.listen(port, () => {
   conectDB();

@@ -102,8 +102,10 @@ const Home = () => {
         </div>
       ) : (
         <div className="min-h-screen">
-          <Header updateProfileHandler={updateProfileHandler} />
-
+          <Header
+            updateProfileHandler={updateProfileHandler}
+            isValidUser={true}
+          />
           <section className="w-5/6 mx-auto h-full p-2 mt-16 sm:p-0">
             {control?.productPage ? (
               <ProductPage close={setControl} product={control?.productPage} />

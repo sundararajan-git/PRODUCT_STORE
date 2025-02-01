@@ -93,7 +93,7 @@ const Update = (props: any) => {
           id="updateProduct"
         >
           <div className="flex flex-col gap-2 w-full">
-            <label htmlFor="productName" className="dark:text-white">
+            <label htmlFor="productName" className="dark:text-gray-200">
               Product Name
             </label>
             <input
@@ -108,7 +108,7 @@ const Update = (props: any) => {
           </div>
 
           <div className="flex flex-col gap-2 w-full">
-            <label htmlFor="description" className="dark:text-white">
+            <label htmlFor="description" className="dark:text-gray-200">
               Description
             </label>
             <input
@@ -123,7 +123,7 @@ const Update = (props: any) => {
           </div>
 
           <div className="flex flex-col gap-2 w-full">
-            <label htmlFor="Price" className="dark:text-white">
+            <label htmlFor="Price" className="dark:text-gray-200">
               Price
             </label>
             <input
@@ -138,7 +138,7 @@ const Update = (props: any) => {
           </div>
 
           <div className="flex flex-col gap-2 w-full">
-            <label htmlFor="imageurl" className="dark:text-white">
+            <label htmlFor="imageurl" className="dark:text-gray-200">
               Image URL
             </label>
             <input

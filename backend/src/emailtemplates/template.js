@@ -1,3 +1,6 @@
+import { logoBaseURI } from "../images/logo.js";
+
+
 // verification template
 export const verificationTemplate = (token) => `<!DOCTYPE html>
 <html lang="en">
@@ -8,7 +11,7 @@ export const verificationTemplate = (token) => `<!DOCTYPE html>
   </head>
 
   <body
-    style="
+    style=" 
       font-family: Verdana, Geneva, Tahoma, sans-serif, sans-serif;
       line-height: 1.6;
       max-width: 600px;
@@ -32,7 +35,7 @@ export const verificationTemplate = (token) => `<!DOCTYPE html>
             letter-spacing: 5px;
             color: #38bdf8;
           "
-          >876542</span
+          >${token}</span
         >
       </div>
       <p>
@@ -50,7 +53,7 @@ export const verificationTemplate = (token) => `<!DOCTYPE html>
             gap: 0.5em;
           "
         >
-          <img src="./logo.svg" width="20px" height="20px" />
+          <img src="${logoBaseURI}" width="20px" height="20px" />
 
           <p style="color: #38bdf8; font-weight: 600">Product Store</p>
         </div>
@@ -91,7 +94,7 @@ export const sendWelcomeTemplate = (name) => `<!DOCTYPE html>
       <h2 style="color: #38bdf8; margin: 0">Welcome</h2>
     </div>
     <div style="padding: 20px">
-      <p>Hi , Max</p>
+      <p>Hi , ${name}</p>
       <p style="font-weight: 600">Welcome on</p>
       <div style="text-align: center; margin: 20px 0">
         <span style="font-size: 32px; font-weight: bold; color: #38bdf8"
@@ -116,8 +119,6 @@ export const sendWelcomeTemplate = (name) => `<!DOCTYPE html>
           <p style="color: #38bdf8; font-weight: 600">Product Store</p>
         </div>
       </div>
-
-
     </div>
     <div
       style="
@@ -133,7 +134,7 @@ export const sendWelcomeTemplate = (name) => `<!DOCTYPE html>
 </html>
 `;
 
-export const resetPasswordTemplate = (link) => `<!DOCTYPE html>
+export const forgotPasswordTemplate = (link) => `<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
