@@ -3,8 +3,8 @@ import toast from "react-hot-toast";
 import axiosInstance from "../../lib/axios";
 import { useDispatch } from "react-redux";
 import { deleteProduct } from "../../lib/redux/slices/productSlice";
-import BtnLoader from "../../components/BtnLoader";
 import { IoMdArrowBack } from "react-icons/io";
+import DeleteConfirm from "../../components/DeleteConfirm";
 
 const ProductPage = (props: any) => {
   // props
@@ -13,6 +13,7 @@ const ProductPage = (props: any) => {
   //   constrol the componet
   const [control, setControl] = useState({
     btnLoading: false,
+    deletePopModel: false,
   });
 
   // dispatch
@@ -76,6 +77,26 @@ const ProductPage = (props: any) => {
     }
   };
 
+  // delete pop confirm model on
+  const deleteConfrimModel = () => {
+    // triger the delete pop model
+    setControl((prev) => {
+      const clone = { ...prev };
+      clone.deletePopModel = true;
+      return clone;
+    });
+  };
+
+  // delete pop confirm model off
+  const closeDeleteConfirmModel = () => {
+    // triger the delete pop model
+    setControl((prev) => {
+      const clone = { ...prev };
+      clone.deletePopModel = false;
+      return clone;
+    });
+  };
+
   return (
     <div className="w-full h-full p-12  dark:bg-dark">
       <a
@@ -103,11 +124,11 @@ const ProductPage = (props: any) => {
             <button
               type="button"
               className="p-2 bg-red-600 rounded-md outline-none text-white cursor-pointer"
-              onClick={deleteBtnHandler}
+              onClick={deleteConfrimModel}
             >
-              {control?.btnLoading ? <BtnLoader /> : null}
-              {control?.btnLoading ? "loading.." : "Delete"}
+              Delete
             </button>
+
             <button
               type="button"
               className="p-2 bg-blue-1100 rounded-md outline-none cursor-pointer"
@@ -118,6 +139,13 @@ const ProductPage = (props: any) => {
           </div>
         </div>
       </div>
+      {control?.deletePopModel ? (
+        <DeleteConfirm
+          deleteBtnHandler={deleteBtnHandler}
+          loading={control?.btnLoading}
+          closeDeleteConfirmModel={closeDeleteConfirmModel}
+        />
+      ) : null}
     </div>
   );
 };

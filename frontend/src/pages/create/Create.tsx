@@ -7,8 +7,6 @@ import { addProduct } from "../../lib/redux/slices/productSlice";
 import { validateForm } from "../../common/helper";
 import { useDispatch } from "react-redux";
 
-validateForm;
-
 const Create = (props: any) => {
   // props
   const { close } = props;
