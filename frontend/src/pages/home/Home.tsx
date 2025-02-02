@@ -27,6 +27,7 @@ const Home = () => {
   const products = useSelector((state: RootState) => state.products);
   const user = useSelector((state: RootState) => state.user);
 
+  // validate the user is verfied or not
   if (!user.isVerfied) {
     return <Navigate to="/verification" />;
   }
@@ -42,7 +43,10 @@ const Home = () => {
   // get the availble products
   const getAvilableProducts = async () => {
     try {
-      const getProductResponse = await axiosInstance.get("/products");
+      // endpoint
+      const endpoint = `/products`;
+
+      const getProductResponse = await axiosInstance.get(endpoint);
 
       console.log(getProductResponse);
 
@@ -54,6 +58,7 @@ const Home = () => {
       const error = err as Error;
       toast.error(error?.message);
     } finally {
+      // triger off the pagelaoding
       setControl((prev: any) => {
         const clone = { ...prev };
         clone.pageloading = false;
@@ -65,6 +70,7 @@ const Home = () => {
   // add product handler
   const addproductHandler = () => {
     try {
+      // triger the create product model
       setControl((prev: any) => {
         const clone = { ...prev };
         clone.addproduct = true;
@@ -78,6 +84,7 @@ const Home = () => {
   // update product handler
   const updateProductHandler = (item: any) => {
     try {
+      // triger the update model
       setControl((prev: any) => {
         const clone = { ...prev };
         clone.productPage = item;
@@ -91,6 +98,7 @@ const Home = () => {
   // update profile handler
   const updateProfileHandler = () => {
     try {
+      // triger the profile model
       setControl((prev: any) => {
         const clone = { ...prev };
         clone.profileupdate = true;
@@ -161,11 +169,11 @@ const Home = () => {
         </div>
       )}
 
-      {control?.addproduct && <Create close={setControl} />}
-      {control?.updateproduct && (
+      {control?.addproduct ? <Create close={setControl} /> : null}
+      {control?.updateproduct ? (
         <Update close={setControl} data={control?.updateproduct} />
-      )}
-      {control?.profileupdate && <Profile close={setControl} />}
+      ) : null}
+      {control?.profileupdate ? <Profile close={setControl} /> : null}
     </>
   );
 };

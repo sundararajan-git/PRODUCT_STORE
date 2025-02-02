@@ -28,33 +28,42 @@ const Verification = () => {
   // verification btn handler
   const vertificationHandler = async () => {
     try {
+      // get from element
       const verificationForm = document.getElementById(
         "verificationForm"
       ) as HTMLFormElement;
 
+      // get value from all elements are valid
       const isValidForm = validateForm(verificationForm);
 
+      // validate the form
       if (!isValidForm) {
         toast.error("Invalid Inputs");
         return;
       }
 
+      // triger the btn loader
       setControl((prev: any) => {
         const clone = { ...prev };
         clone.btnloader = true;
         return clone;
       });
 
+      // construct the form data
       const data = new FormData(verificationForm);
+
+      // convert form data to json
       const json = Object.fromEntries(data);
 
-      console.log(json);
+      // endpoint
+      const endpoint = `/users/verify`;
 
-      const response = await axiosInstance.post("/users/verify", json);
+      const response = await axiosInstance.post(endpoint, json);
 
       if (response?.data?.success) {
         toast.success("Verification Successfull");
         const { data } = response?.data;
+        // update the user
         dispatch(updateUser({ ...data }));
       }
     } catch (err) {
@@ -89,6 +98,7 @@ const Verification = () => {
             type="button"
             className="w-full h-full p-2 bg-blue-1100 rounded-lg text-white font-medium flex items-center gap-2 justify-center"
             onClick={vertificationHandler}
+            disabled={contol?.btnloader}
           >
             {contol?.btnloader ? <BtnLoader /> : null}
             {contol?.btnloader ? "Loading..." : "Submit"}

@@ -29,16 +29,17 @@ const Profile = (props: any) => {
   // forgot password handler
   const forgotPasswordHandler = async () => {
     try {
+      // req data
       const json = { email: user?.email };
 
-      const response = await toast.promise(
-        axiosInstance.post("/users/forgotpassword", json),
-        {
-          loading: "Sending email...",
-          success: <span>Email sent successfully!</span>,
-          error: <span>Failed to send email.</span>,
-        }
-      );
+      // endpoint
+      const endpoint = `/users/forgotpassword`;
+
+      const response = await toast.promise(axiosInstance.post(endpoint, json), {
+        loading: "Sending email...",
+        success: <span>Email sent successfully!</span>,
+        error: <span>Failed to send email.</span>,
+      });
 
       if (response?.data?.success) {
         const { data } = response?.data;
@@ -52,20 +53,22 @@ const Profile = (props: any) => {
   // logout handler
   const logoutHandler = async () => {
     try {
+      // triger the btn loader
       setControl((prev: any) => {
         const clone = { ...prev };
         clone.btnloader = true;
         return clone;
       });
 
-      const response = await axiosInstance.post("/users/logout");
+      // endpoint
+      const endpoint = `/users/logout`;
+
+      const response = await axiosInstance.post(endpoint);
 
       if (response?.data?.success) {
         toast.success("Logout Sucessfully");
         dispatch(updateUser({}));
-        setTimeout(() => {
-          navigate("/login");
-        }, 1000);
+        navigate("/login");
       }
     } catch (err) {
       console.error(err);
@@ -119,6 +122,7 @@ const Profile = (props: any) => {
                 type="button"
                 className="border text-gray-700  hover:text-blue-1100  px-2.5 py-2 rounded-lg text-sm  float-end flex items-center justify-between gap-2 dark:text-gray-300"
                 onClick={modelCloseHandler}
+                disabled={control?.btnloader}
               >
                 Close
               </button>
@@ -126,6 +130,7 @@ const Profile = (props: any) => {
                 type="button"
                 className="bg-blue-1100 text-white px-2.5 py-2 rounded-lg text-sm  float-end flex items-center justify-between gap-2 font-medium dark:text-dark"
                 onClick={logoutHandler}
+                disabled={control?.btnloader}
               >
                 {control?.btnloader ? <BtnLoader /> : null}
                 {control?.btnloader ? "Loading..." : "Logout"}

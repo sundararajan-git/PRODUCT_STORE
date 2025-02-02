@@ -24,36 +24,40 @@ const Login = () => {
   // login btn handler
   const loginBtnHandler = async () => {
     try {
+      // get the login form element
       const loginForm = document.getElementById("login") as HTMLFormElement;
 
+      // call the vlaidate form
       const isValid = validateForm(loginForm);
 
+      //  validate the form
       if (!isValid) {
         toast.error("Invalid Inputs !");
         return;
       }
 
-      const data = new FormData(loginForm);
-
-      const json = Object.fromEntries(data);
-
-      console.log(json);
-
+      // triger the btn loader
       setControl((prev: any) => {
         const clone = { ...prev };
         clone.btnloader = true;
         return clone;
       });
 
-      const response = await axiosInstance.post("/users/login", json);
+      // construct the form data
+      const data = new FormData(loginForm);
+      //  construct the json data
+      const json = Object.fromEntries(data);
+
+      // endpoint
+      const endpoint = `/users/login`;
+
+      const response = await axiosInstance.post(endpoint, json);
 
       if (response?.data?.success) {
+        toast.success("Sign In Successfully");
         const { data } = response?.data;
         dispatch(updateUser(data));
-        setTimeout(() => {
-          toast.success("Sign In Successfully");
-          navigate("/");
-        }, 1000);
+        navigate("/");
       }
     } catch (error) {
       const err = error as Error;

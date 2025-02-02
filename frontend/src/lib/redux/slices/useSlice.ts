@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 
+// initila state 
 const state: any = {
     _id: null,
     email: null,
@@ -15,6 +16,7 @@ const userSlice = createSlice({
     name: "user",
     initialState: state,
     reducers: {
+        // update the user
         updateUser: (state, action) => {
             Object.assign(state, action.payload);
         },

@@ -23,6 +23,7 @@ const DeleteConfirm = (props: any) => {
               type="button"
               className="bg-red-600 text-white px-2.5 py-2 rounded-lg text-sm  float-end flex items-center justify-between gap-2 font-semibold dark:font-medium"
               onClick={deleteBtnHandler}
+              disabled={loading}
             >
               {loading && <BtnLoader />}
               {loading ? "Loading..." : "Confirm"}

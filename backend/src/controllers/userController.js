@@ -8,7 +8,7 @@ import MailService from "../utils/sendMailHandler.js"
 export const signUp = async (req, res) => {
   try {
 
-    // descruture the payload
+    // destructure the payload
     const { name, email, password } = req.body;
 
     // validate the values
@@ -128,7 +128,7 @@ export const login = async (req, res) => {
 export const verifyEmail = async (req, res) => {
   try {
 
-    //  destructure the payload
+    // destructure the payload
     const { code } = req.body;
 
     //  validate the code 
@@ -250,9 +250,9 @@ export const forgotPassword = async (req, res) => {
 export const resetPassword = async (req, res) => {
   try {
 
-    // desturtue the paylaod
+    // destructure the paylaod
     const { password } = req.body;
-    // desture the params
+    // destructure the params
     const { token } = req.params;
 
     //  validate the token and password
@@ -306,7 +306,7 @@ export const resetPassword = async (req, res) => {
 export const updateProfile = async (req, res) => {
   try {
 
-    // desture the body
+    // destructure the body
     const { name, password, profilePic, id } = req.body;
 
     // find the user

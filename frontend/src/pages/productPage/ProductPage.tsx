@@ -48,28 +48,31 @@ const ProductPage = (props: any) => {
   //   delete handler
   const deleteBtnHandler = async () => {
     try {
+      // triger the btn loader
       setControl((prev: any) => {
         const clone = { ...prev };
         clone.btnLoading = true;
         return clone;
       });
 
+      // construct the req object
       const reqObj = {
         data: {
           id: product._id,
         },
       };
 
-      const deleteResponse = await axiosInstance.delete(
-        "/products/deleteproduct",
-        reqObj
-      );
+      // endpoint
+      const endpoint = `/products/deleteproduct`;
+
+      const deleteResponse = await axiosInstance.delete(endpoint, reqObj);
 
       if (deleteResponse?.data?.success) {
-        const { data } = deleteResponse?.data;
-        console.log(data);
         toast.success("Deleted !");
+        const { data } = deleteResponse?.data;
+        // update the product
         dispatch(deleteProduct(data));
+        // back to the home page
         backHandler();
       }
     } catch (err) {

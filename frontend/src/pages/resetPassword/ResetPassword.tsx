@@ -23,37 +23,44 @@ const ResetPassword = () => {
   // reset btn handler
   const resetBtnHandler = async () => {
     try {
+      // get the form
       const resetPasswordForm = document.getElementById(
         "resetpassword"
       ) as HTMLFormElement;
 
+      // get form is valid or not
       const isvalid = validateForm(resetPasswordForm);
 
+      //  validate the form
       if (!isvalid) {
         toast.error("Invalid Inputs");
         return;
       }
 
+      // triger the btn loader
       setControl((prev: any) => {
         const clone = { ...prev };
         clone.btnloader = true;
         return clone;
       });
+
+      // construct the form data
       const data = new FormData(resetPasswordForm);
+      // construct the json data
       const json = Object.fromEntries(data);
-      console.log(json);
 
+      // get token from url
       const token = location.pathname.split("/")[2];
-      const response = await axiosInstance.put(
-        `/users/resetpassword/${token}`,
-        json
-      );
 
-      console.log(response);
+      // endpoint
+      const endpoint = `/users/resetpassword/${token}`;
+
+      const response = await axiosInstance.put(endpoint, json);
 
       if (response?.data?.success) {
         toast.success("Password updated");
         const { data } = response?.data;
+        // upaate the user
         dispatch(updateUser({ ...data }));
       }
     } catch (err) {
@@ -90,6 +97,7 @@ const ResetPassword = () => {
             type="button"
             className="w-full h-full p-2 bg-blue-1100 rounded-lg text-white font-medium flex gap-2 justify-center"
             onClick={resetBtnHandler}
+            disabled={control?.btnloader}
           >
             {control?.btnloader ? <BtnLoader /> : null}
             {control?.btnloader ? "Loading.." : "Update"}

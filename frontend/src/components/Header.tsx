@@ -3,7 +3,7 @@ import { BiMoon } from "react-icons/bi";
 import { LuSunMoon } from "react-icons/lu";
 import logo from "../assetes/logo.svg";
 import userSvg from "../assetes/user.svg";
-import { ThemeContext } from "../hook/ThemeProvider";
+import { ThemeContext } from "../layouts/ThemeProvider";
 import { useNavigate } from "react-router-dom";
 
 const Header = (props: any) => {

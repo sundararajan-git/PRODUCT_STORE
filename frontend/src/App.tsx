@@ -13,7 +13,7 @@ import Loader from "./components/Loader";
 import useValidUser from "./hook/useValidUser";
 import { Toaster } from "react-hot-toast";
 import { useContext } from "react";
-import { ThemeContext } from "./hook/ThemeProvider";
+import { ThemeContext } from "./layouts/ThemeProvider";
 
 const App = () => {
   // validate from the custom hook
@@ -22,6 +22,7 @@ const App = () => {
   // get states from the theme provider
   const { isDarkMode } = useContext(ThemeContext);
 
+  // page loader
   if (pageloading) {
     return (
       <div className="flex items-center justify-center w-full h-screen">

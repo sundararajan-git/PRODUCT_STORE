@@ -3,16 +3,18 @@ import jwt from "jsonwebtoken";
 export const verifyToken = (req, res, next) => {
   try {
 
-    console.log(req)
-
+    // get token in cookies
     const token = req.cookies.token;
 
+    // validate the token
     if (!token) {
       res.status(400).json({ success: false, message: "No token provied" });
     }
 
+    // verifiy the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
+    // vlaidate the decoded
     if (!decoded) {
       res
         .status(400)
@@ -20,10 +22,10 @@ export const verifyToken = (req, res, next) => {
     }
 
     req.userId = decoded.userId;
-
+    // call the next call back func for res the user data
     next();
+
   } catch (err) {
-    console.error(err);
     res.status(400).json({ success: false, message: err.message });
   }
 };

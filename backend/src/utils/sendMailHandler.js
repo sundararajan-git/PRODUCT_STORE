@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
+
 // import the all tempaltes
 import { forgotPasswordTemplate, resetSuccessTemplate, sendWelcomeTemplate, verificationTemplate } from "../emailtemplates/template.js";
 

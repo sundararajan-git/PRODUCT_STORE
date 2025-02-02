@@ -4,7 +4,7 @@ const AuthLayout = (props: any) => {
   // props
   const { isValidUser } = props;
 
-  // product the homepage
+  // navigate the login page
   if (!isValidUser) {
     return <Navigate to="/login" />;
   }

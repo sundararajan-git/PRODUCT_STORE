@@ -24,24 +24,28 @@ const Create = (props: any) => {
         "createProduct"
       ) as HTMLFormElement;
 
+      // validate the form
       const isValid = validateForm(createForm);
 
-      console.log(isValid);
       if (!isValid) {
         toast.error("Invalid inputs !");
         return null;
       }
 
+      // triger the btn loader
       setBtnLoader(true);
 
+      // construct the form data
       const createData = new FormData(createForm);
 
+      // construct the json data
       const createJson = Object.fromEntries(createData);
 
-      console.log(createJson);
+      // endpoint
+      const endpoint = `/products/createproduct`;
 
       const creatrProductresponse = await axiosInstance.post(
-        "/products/createproduct",
+        endpoint,
         createJson
       );
 
@@ -49,7 +53,9 @@ const Create = (props: any) => {
 
       if (creatrProductresponse?.data?.success) {
         toast.success("Created !");
+        // update the product
         dispatch(addProduct(creatrProductresponse?.data?.data));
+        // close the model
         modelCloseHandler();
       }
     } catch (err) {
@@ -62,6 +68,7 @@ const Create = (props: any) => {
   // model close handler
   const modelCloseHandler = () => {
     try {
+      // update the state
       close((prev: any) => {
         const clone = { ...prev };
         clone.addproduct = false;
@@ -80,7 +87,7 @@ const Create = (props: any) => {
             CREATE PRODUCT
           </h2>
 
-          <ModelCloseBtn onClick={modelCloseHandler} />
+          <ModelCloseBtn onClick={modelCloseHandler} disabled={btnLoader} />
         </div>
 
         <form
@@ -148,6 +155,7 @@ const Create = (props: any) => {
               type="button"
               className="bg-blue-1100 text-white px-2.5 py-2 rounded-lg text-sm  float-end flex items-center justify-between gap-2 font-semibold dark:font-medium  dark:text-dark"
               onClick={submitHandler}
+              disabled={btnLoader}
             >
               {btnLoader && <BtnLoader />}
               {btnLoader ? "Loading..." : "Create"}

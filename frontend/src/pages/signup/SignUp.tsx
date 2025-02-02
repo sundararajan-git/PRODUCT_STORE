@@ -30,34 +30,32 @@ const SignUp = () => {
       // check is valid or not
       const isValid = validateForm(signUpForm);
 
-      console.log(isValid);
-
+      // validate the form
       if (!isValid) {
         toast.error("Invalid inputs");
         return null;
       }
 
+      // construct the form
       const data = new FormData(signUpForm);
-
+      // construct the json data
       const json = Object.fromEntries(data);
 
-      console.log(json);
-
       //  trigger the btn loader
-
       setControl((prev: any) => {
         const clone = { ...prev };
         clone.btnloader = true;
         return clone;
       });
 
-      const response = await axiosInstance.post("/users/signup", json);
+      // endpoint
+      const endpoint = `/users/signup`;
 
-      console.log(response);
+      const response = await axiosInstance.post(endpoint, json);
 
       if (response?.data?.success) {
-        const { data } = response?.data;
         toast.success("Sign Up Successfully");
+        const { data } = response?.data;
         dispatch(updateUser({ ...data }));
         navigate("/");
       }
@@ -139,6 +137,7 @@ const SignUp = () => {
             type="button"
             className="w-full h-full p-2 bg-blue-1100 rounded-lg text-white font-medium"
             onClick={signUpBtnHanlder}
+            disabled={control.btnloader}
           >
             {control.btnloader && <BtnLoader />}
             {control.btnloader ? "Loading..." : "Sign Up"}

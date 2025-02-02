@@ -28,8 +28,7 @@ const Update = (props: any) => {
       // check is valid or not
       const isValid = validateForm(updateForm);
 
-      console.log(isValid);
-
+      // validate the form
       if (!isValid) {
         toast.error("Please check input");
         return null;
@@ -38,23 +37,25 @@ const Update = (props: any) => {
       //  trigger the btn loader
       setBtnLaoder(true);
 
+      // construct the form data
       const updateData = new FormData(updateForm);
-      const updateJson = Object.fromEntries(updateData);
 
-      console.log(updateJson);
+      // construct the form data to json
+      const updateJson = Object.fromEntries(updateData);
 
       updateJson.id = data._id;
 
-      const updateResponse = await axiosInstance.put(
-        "/products/updateproduct",
-        updateJson
-      );
+      // endpoint
+      const endpoint = `/products/updateproduct`;
+
+      const updateResponse = await axiosInstance.put(endpoint, updateJson);
 
       if (updateResponse?.data?.success) {
-        const { data } = updateResponse?.data;
-        console.log(data);
         toast.success("Updated !");
+        const { data } = updateResponse?.data;
+        // update the product
         dispatch(updateProduct(data));
+        // close the model
         modelCloseHandler();
       }
     } catch (err) {
@@ -84,8 +85,7 @@ const Update = (props: any) => {
           <h2 className="text-xs sm:text-sm font-bold text-center text-blue-1100">
             UPDATE PRODUCT
           </h2>
-
-          <ModelCloseBtn onClick={modelCloseHandler} />
+          <ModelCloseBtn onClick={modelCloseHandler} disabled={btnLoader} />
         </div>
 
         <form
@@ -158,6 +158,7 @@ const Update = (props: any) => {
               className="bg-blue-1100 text-white px-2.5 py-2 rounded-lg text-sm  float-end flex items-center justify-between gap-2 font-semibold dark:font-medium
               dark:text-dark"
               onClick={updateHandler}
+              disabled={btnLoader}
             >
               {btnLoader && <BtnLoader />}
               {btnLoader ? "Loading..." : "Update"}

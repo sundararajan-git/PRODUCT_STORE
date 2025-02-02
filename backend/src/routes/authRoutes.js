@@ -1,5 +1,4 @@
 import express from "express";
-const router = express.Router();
 import {
   signUp,
   login,
@@ -11,6 +10,9 @@ import {
   isValidUser,
 } from "../controllers/userController.js";
 import { verifyToken } from "../middlewares/validUser.js";
+
+// get router
+const router = express.Router();
 
 // check is valid user or not
 router.get("/isvaliduser", verifyToken, isValidUser);

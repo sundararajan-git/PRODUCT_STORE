@@ -1,3 +1,4 @@
+import { Navigate } from "react-router-dom";
 import pageNotFound from "../../assetes/pageNotFound.svg";
 
 const PageNotFound = () => {
@@ -9,6 +10,7 @@ const PageNotFound = () => {
         <button
           type="button"
           className="w-fit px-2 py-1.5 bg-red-1100 text-white rounded-lg font-medium text-sm flex items-center justify-center gap-2"
+          onClick={() => <Navigate to={"/"} replace />}
         >
           <span>Go Home</span>
         </button>

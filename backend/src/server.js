@@ -6,17 +6,31 @@ import userRouter from "./routes/authRoutes.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 
+// env file config
 dotenv.config();
 
+// create the app
 const app = express();
+
 const port = process.env.PORT || 8080;
 
-//middelwares
+
+// allowed origins
+const whiteList = ['http://localhost:5173']
+
+// condition apply
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: (origin, callback) => {
+    if (whiteList.indexOf(origin) !== -1 || !origin) {
+      callback(null, true)
+    } else {
+      callback(new Error("Not allowed by CORS"))
+    }
+  },
+  optionSuccessStatus: 200,
   credentials: true,
-  optionsSuccessStatus: 200,
-};
+}
+
 
 // allowd origins
 app.use(cors(corsOptions));
