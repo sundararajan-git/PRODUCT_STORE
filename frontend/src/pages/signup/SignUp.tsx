@@ -1,5 +1,4 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import logo from "../../ASSETES/logo.svg";
 import { FaCircleInfo } from "react-icons/fa6";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -10,49 +9,27 @@ import { useDispatch } from "react-redux";
 import { updateUser } from "../../lib/redux/slices/useSlice";
 
 const SignUp = () => {
-  // control the component
   const [control, setControl] = useState({
     btnloader: false,
   });
-
-  // naviagte hook
   const navigate = useNavigate();
-
-  //  dispatch from the  redux
   const dispatch = useDispatch();
 
-  // sign up btn handler
   const signUpBtnHanlder = async () => {
     try {
-      // get form element
       const signUpForm = document.getElementById("signup") as HTMLFormElement;
-
-      // check is valid or not
       const isValid = validateForm(signUpForm);
-
-      // validate the form
       if (!isValid) {
         toast.error("Invalid inputs");
         return null;
       }
-
-      // construct the form
       const data = new FormData(signUpForm);
-      // construct the json data
       const json = Object.fromEntries(data);
-
-      //  trigger the btn loader
       setControl((prev: any) => {
-        const clone = { ...prev };
-        clone.btnloader = true;
-        return clone;
+        return { ...prev, btnloader: true };
       });
-
-      // endpoint
       const endpoint = `/users/signup`;
-
       const response = await axiosInstance.post(endpoint, json);
-
       if (response?.data?.success) {
         toast.success("Sign Up Successfully");
         const { data } = response?.data;
@@ -71,7 +48,6 @@ const SignUp = () => {
         id="signup"
       >
         <div className="flex items-center pb-2 gap-2">
-          {/* <img src={logo} alt="logo" className="size-6" /> */}
           <h2 className="font-bold uppercase text-blue-1100 text-lg">
             Sign Up
           </h2>

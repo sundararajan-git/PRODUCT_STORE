@@ -58,25 +58,17 @@ const Create = (props: any) => {
         // close the model
         modelCloseHandler();
       }
-    } catch (err) {
-      const error = err as Error;
-      console.error(error);
-      toast.error(error?.message);
+    } catch (err: any) {
+      toast.error(err);
     }
   };
 
   // model close handler
   const modelCloseHandler = () => {
-    try {
-      // update the state
-      close((prev: any) => {
-        const clone = { ...prev };
-        clone.addproduct = false;
-        return clone;
-      });
-    } catch (err) {
-      console.error(err);
-    }
+    // update the state
+    close((prev: any) => {
+      return { ...prev, addproduct: false };
+    });
   };
 
   return (

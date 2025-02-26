@@ -5,6 +5,7 @@ import productRouter from "./routes/productRoutes.js";
 import userRouter from "./routes/authRoutes.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import { errorHandler } from "./middlewares/errorHandler.js";
 
 // env file config
 dotenv.config();
@@ -46,6 +47,10 @@ app.use("/api/users", userRouter);
 
 // products routes
 app.use("/api/products", productRouter);
+
+
+// error handler
+app.use(errorHandler)
 
 
 app.listen(port, () => {

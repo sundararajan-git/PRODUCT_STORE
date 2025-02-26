@@ -5,7 +5,7 @@ const DeleteConfirm = (props: any) => {
   const { deleteBtnHandler, loading, closeDeleteConfirmModel } = props;
   return (
     <div className="fixed top-0 left-0 right-0 w-full h-full bg-gray-400/70 dark:bg-gray-800/60  flex items-center justify-center p-6 z-50">
-      <section className="w-full sm:w-5/6  md:w-2/3 lg:w-1/3 mx-auto h-fit flex flex-col p-4 bg-white dark:bg-dark rounded-xl shadow fade-up ">
+      <section className="w-full sm:w-2/3  md:w-1/2 lg:w-1/3 mx-auto h-fit flex flex-col p-4 bg-white dark:bg-dark rounded-xl shadow fade-up ">
         <div className="flex flex-col gap-4 items-center justify-center p-4">
           <h3 className="text-blue-1100 font-semibold">DELETE</h3>
           <p className="dark:text-gray-500">

@@ -1,15 +1,21 @@
+import { Error } from "mongoose";
 import Product from "../models/productModel.js";
+import { AppError } from "../utils/appError.js";
 
 // get all proucts
-export const getProducts = async (req, res) => {
+export const getProducts = async (req, res, next) => {
   try {
+
+    if (true) {
+      throw new AppError("test error", 404)
+    }
     // find the products
     const products = await Product.find();
 
     res.status(200).json({ success: true, data: products });
 
   } catch (err) {
-    res.status(404).json({ success: false, message: err.messages });
+    next(err)
   }
 };
 

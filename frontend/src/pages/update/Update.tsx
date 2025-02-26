@@ -8,74 +8,43 @@ import { useDispatch } from "react-redux";
 import { updateProduct } from "../../lib/redux/slices/productSlice";
 
 const Update = (props: any) => {
-  // props
   const { close, data } = props;
-
-  //   submit btn loader
   const [btnLoader, setBtnLaoder] = useState(false);
-
-  // dispatch
   const dispatch = useDispatch();
 
-  //   update button handler
   const updateHandler = async () => {
     try {
-      // get form element
       const updateForm = document.getElementById(
         "updateProduct"
       ) as HTMLFormElement;
-
-      // check is valid or not
       const isValid = validateForm(updateForm);
-
-      // validate the form
       if (!isValid) {
         toast.error("Please check input");
         return null;
       }
-
-      //  trigger the btn loader
       setBtnLaoder(true);
 
-      // construct the form data
       const updateData = new FormData(updateForm);
-
-      // construct the form data to json
       const updateJson = Object.fromEntries(updateData);
-
       updateJson.id = data._id;
-
-      // endpoint
       const endpoint = `/products/updateproduct`;
-
       const updateResponse = await axiosInstance.put(endpoint, updateJson);
 
       if (updateResponse?.data?.success) {
         toast.success("Updated !");
         const { data } = updateResponse?.data;
-        // update the product
         dispatch(updateProduct(data));
-        // close the model
         modelCloseHandler();
       }
-    } catch (err) {
-      console.log(err);
-      const error = err as Error;
-      toast.error(error.message);
+    } catch (err: any) {
+      toast.error(err);
     }
   };
 
-  // model close handler
   const modelCloseHandler = () => {
-    try {
-      close((prev: any) => {
-        const clone = { ...prev };
-        clone.updateproduct = false;
-        return clone;
-      });
-    } catch (err) {
-      console.error(err);
-    }
+    close((prev: any) => {
+      return { ...prev, modelCloseHandler };
+    });
   };
 
   return (

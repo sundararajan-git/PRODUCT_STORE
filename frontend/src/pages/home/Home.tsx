@@ -54,59 +54,38 @@ const Home = () => {
         const { data } = getProductResponse?.data;
         dispatch(setProducts(data));
       }
-    } catch (err) {
-      const error = err as Error;
-      toast.error(error?.message);
+    } catch (err: any) {
+      toast.error(err);
     } finally {
       // triger off the pagelaoding
       setControl((prev: any) => {
-        const clone = { ...prev };
-        clone.pageloading = false;
-        return clone;
+        return { ...prev, pageloading: false };
       });
     }
   };
 
   // add product handler
   const addproductHandler = () => {
-    try {
-      // triger the create product model
-      setControl((prev: any) => {
-        const clone = { ...prev };
-        clone.addproduct = true;
-        return clone;
-      });
-    } catch (err) {
-      console.error(err);
-    }
+    // triger the create product model
+    setControl((prev: any) => {
+      return { ...prev, addproduct: true };
+    });
   };
 
   // update product handler
   const updateProductHandler = (item: any) => {
-    try {
-      // triger the update model
-      setControl((prev: any) => {
-        const clone = { ...prev };
-        clone.productPage = item;
-        return clone;
-      });
-    } catch (err) {
-      console.error(err);
-    }
+    // triger the update model
+    setControl((prev: any) => {
+      return { ...prev, productPage: item };
+    });
   };
 
   // update profile handler
   const updateProfileHandler = () => {
-    try {
-      // triger the profile model
-      setControl((prev: any) => {
-        const clone = { ...prev };
-        clone.profileupdate = true;
-        return clone;
-      });
-    } catch (err) {
-      console.error(err);
-    }
+    // triger the profile model
+    setControl((prev: any) => {
+      return { ...prev, profileupdate: true };
+    });
   };
   return (
     <>
@@ -120,7 +99,7 @@ const Home = () => {
             updateProfileHandler={updateProfileHandler}
             isValidUser={true}
           />
-          <section className="w-5/6 mx-auto h-full p-2 mt-16 sm:p-0">
+          <section className="w-11/12 sm:w-5/6 mx-auto h-full p-2 mt-16 sm:p-0">
             {control?.productPage ? (
               <ProductPage close={setControl} product={control?.productPage} />
             ) : (
@@ -157,7 +136,7 @@ const Home = () => {
             )}
           </section>
 
-          <div className="fixed h-fit  bottom-4 flex justify-end pe-2 sm:pe-8 z-40 w-full">
+          <div className="fixed h-fit right-0 bottom-4 flex justify-end pe-2 sm:pe-8 z-40 w-fit">
             <button
               type="button"
               className="bg-sky-500 dark:bg-white dark:text-sky-500 text-white p-3 rounded-xl"

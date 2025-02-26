@@ -2,14 +2,10 @@ import { Navigate, Outlet } from "react-router-dom";
 import Header from "../components/Header";
 
 const PublicLayout = (props: any) => {
-  // props
   const { isValidUser } = props;
-
-  // redirect the the home page
   if (isValidUser) {
     return <Navigate to="/" replace />;
   }
-
   return (
     <div className="flex flex-col h-full dark:bg-dark">
       <Header isValidUser={isValidUser} />

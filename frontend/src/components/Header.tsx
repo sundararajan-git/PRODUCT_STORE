@@ -7,30 +7,17 @@ import { ThemeContext } from "../layouts/ThemeProvider";
 import { useNavigate } from "react-router-dom";
 
 const Header = (props: any) => {
-  // props
   const { updateProfileHandler, isValidUser } = props;
-
-  // navigate hook
   const navigate = useNavigate();
-
-  // get the global context
   const { isDarkMode, setThemeHandler } = useContext(ThemeContext);
+
   const themeHandler = (e: any) => {
-    try {
-      const { id } = e.target;
-      setThemeHandler(id);
-    } catch (err) {
-      console.error(err);
-    }
+    const { id } = e.target;
+    setThemeHandler(id);
   };
 
-  // redirect the home page
   const logoClickHandler = () => {
-    try {
-      navigate("/");
-    } catch (err) {
-      console.error(err);
-    }
+    navigate("/");
   };
 
   return (
@@ -41,12 +28,12 @@ const Header = (props: any) => {
             className="cursor-pointer flex text-sky-500 items-center gap-2"
             onClick={logoClickHandler}
           >
-            <img src={logo} alt="logo" className="size-6" />
-            <span className="logo text-xl ">PRODUCT STORE</span>
+            <img src={logo} alt="logo" className="size-4 sm:size-6" />
+            <span className="logo text-sm sm:text-xl ">PRODUCT STORE</span>
           </h2>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex flex-row-reverse items-center gap-4">
           {isValidUser && (
             <img
               src={userSvg}

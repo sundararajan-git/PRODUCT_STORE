@@ -9,32 +9,18 @@ import { useNavigate } from "react-router-dom";
 import { RootState } from "../../lib/redux/store";
 
 const Profile = (props: any) => {
-  // props
   const { close } = props;
-
-  // get user from global state
   const user = useSelector((state: RootState) => state.user);
-
-  // naviagte hook
   const navigate = useNavigate();
-
-  // dispath from redux
   const dispatch = useDispatch();
-
-  // control the component
   const [control, setControl] = useState({
     btnloader: false,
   });
 
-  // forgot password handler
   const forgotPasswordHandler = async () => {
     try {
-      // req data
       const json = { email: user?.email };
-
-      // endpoint
       const endpoint = `/users/forgotpassword`;
-
       const response = await toast.promise(axiosInstance.post(endpoint, json), {
         loading: "Sending email...",
         success: <span>Email sent successfully!</span>,
@@ -50,21 +36,13 @@ const Profile = (props: any) => {
     }
   };
 
-  // logout handler
   const logoutHandler = async () => {
     try {
-      // triger the btn loader
       setControl((prev: any) => {
-        const clone = { ...prev };
-        clone.btnloader = true;
-        return clone;
+        return { ...prev, btnloader: true };
       });
-
-      // endpoint
       const endpoint = `/users/logout`;
-
       const response = await axiosInstance.post(endpoint);
-
       if (response?.data?.success) {
         toast.success("Logout Sucessfully");
         dispatch(updateUser({}));
@@ -75,22 +53,15 @@ const Profile = (props: any) => {
     }
   };
 
-  // model close handler
   const modelCloseHandler = () => {
-    try {
-      close((prev: any) => {
-        const clone = { ...prev };
-        clone.profileupdate = false;
-        return clone;
-      });
-    } catch (err) {
-      console.error(err);
-    }
+    close((prev: any) => {
+      return { ...prev, profileupdate: false };
+    });
   };
 
   return (
     <div className="fixed top-0 left-0 right-0 w-full h-full bg-gray-400/70 dark:bg-gray-800/60 flex items-center justify-center p-6 z-50">
-      <section className="w-full sm:w-5/6  md:w-2/3 lg:w-1/3 mx-auto h-fit flex flex-col p-4 bg-white dark:bg-dark rounded-lg shadow fade-up">
+      <section className="w-full sm:w-2/3  md:w-1/2 lg:w-1/3 mx-auto h-fit flex flex-col p-4 bg-white dark:bg-dark rounded-xl shadow fade-up">
         <div className="flex items-center justify-center pt-2">
           <h2 className="text-xs sm:text-sm font-bold text-center text-blue-1100">
             PROFILE

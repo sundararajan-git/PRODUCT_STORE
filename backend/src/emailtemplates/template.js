@@ -1,5 +1,3 @@
-import { logoBaseURI } from "../images/logo.js";
-
 
 // verification template
 export const verificationTemplate = (token) => `<!DOCTYPE html>
@@ -53,8 +51,6 @@ export const verificationTemplate = (token) => `<!DOCTYPE html>
             gap: 0.5em;
           "
         >
-          <img src="${logoBaseURI}" width="20px" height="20px" />
-
           <p style="color: #38bdf8; font-weight: 600">Product Store</p>
         </div>
       </div>
@@ -114,8 +110,6 @@ export const sendWelcomeTemplate = (name) => `<!DOCTYPE html>
             gap: 0.5em;
           "
         >
-          <img src="./logo.svg" width="20px" height="20px" />
-
           <p style="color: #38bdf8; font-weight: 600">Product Store</p>
         </div>
       </div>
@@ -187,8 +181,6 @@ export const forgotPasswordTemplate = (link) => `<!DOCTYPE html>
             gap: 0.5em;
           "
         >
-          <img src="./logo.svg" width="20px" height="20px" />
-
           <p style="color: #38bdf8; font-weight: 600">Product Store</p>
         </div>
       </div>
@@ -272,8 +264,6 @@ export const resetSuccessTemplate = () => `<!DOCTYPE html>
             gap: 0.5em;
           "
         >
-          <img src="./logo.svg" width="20px" height="20px" />
-
           <p style="color: #38bdf8; font-weight: 600">Product Store</p>
         </div>
       </div>
@@ -289,6 +279,4 @@ export const resetSuccessTemplate = () => `<!DOCTYPE html>
       <p>This is an automated message, please do not reply to this email.</p>
     </div>
   </body>
-</html>
-
-`;
+</html>`;

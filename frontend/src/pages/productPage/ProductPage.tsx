@@ -7,72 +7,42 @@ import { IoMdArrowBack } from "react-icons/io";
 import DeleteConfirm from "../../components/DeleteConfirm";
 
 const ProductPage = (props: any) => {
-  // props
   const { close, product } = props;
-
-  //   constrol the componet
   const [control, setControl] = useState({
     btnLoading: false,
     deletePopModel: false,
   });
-
-  // dispatch
   const dispatch = useDispatch();
 
-  //   back handler
   const backHandler = () => {
-    try {
-      close((prev: any) => {
-        const clone = { ...prev };
-        clone.productPage = false;
-        return clone;
-      });
-    } catch (err) {
-      console.error(err);
-    }
+    close((prev: any) => {
+      return { ...prev, productPage: false };
+    });
   };
 
-  //  update handler
   const updateBtnHandler = () => {
-    try {
-      close((prev: any) => {
-        const clone = { ...prev };
-        clone.updateproduct = product;
-        return clone;
-      });
-    } catch (err) {
-      console.error(err);
-    }
+    close((prev: any) => {
+      return { ...prev, updateproduct: product };
+    });
   };
 
-  //   delete handler
   const deleteBtnHandler = async () => {
     try {
-      // triger the btn loader
       setControl((prev: any) => {
-        const clone = { ...prev };
-        clone.btnLoading = true;
-        return clone;
+        return { ...prev, btnLoading: true };
       });
 
-      // construct the req object
       const reqObj = {
         data: {
           id: product._id,
         },
       };
-
-      // endpoint
       const endpoint = `/products/deleteproduct`;
-
       const deleteResponse = await axiosInstance.delete(endpoint, reqObj);
-
       if (deleteResponse?.data?.success) {
         toast.success("Deleted !");
         const { data } = deleteResponse?.data;
-        // update the product
         dispatch(deleteProduct(data));
-        // back to the home page
         backHandler();
       }
     } catch (err) {
@@ -80,30 +50,22 @@ const ProductPage = (props: any) => {
     }
   };
 
-  // delete pop confirm model on
   const deleteConfrimModel = () => {
-    // triger the delete pop model
-    setControl((prev) => {
-      const clone = { ...prev };
-      clone.deletePopModel = true;
-      return clone;
+    setControl((prev: any) => {
+      return { ...prev, deletePopModel: true };
     });
   };
 
-  // delete pop confirm model off
   const closeDeleteConfirmModel = () => {
-    // triger the delete pop model
     setControl((prev) => {
-      const clone = { ...prev };
-      clone.deletePopModel = false;
-      return clone;
+      return { ...prev, deletePopModel: false };
     });
   };
 
   return (
-    <div className="w-full h-full p-12  dark:bg-dark">
+    <div className="w-full h-full sm:p-12  dark:bg-dark">
       <a
-        className="dark:text-red-600 hover:underline hover:text-red-600 cursor-pointer flex items-center gap-2"
+        className="dark:text-red-600 hover:underline text-sm sm:text-base hover:text-red-600 cursor-pointer flex items-center gap-2"
         onClick={backHandler}
       >
         <IoMdArrowBack />

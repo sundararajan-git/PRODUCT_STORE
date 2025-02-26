@@ -6,64 +6,39 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import axiosInstance from "../../lib/axios";
 import { updateUser } from "../../lib/redux/slices/useSlice";
-import { RootState } from "@reduxjs/toolkit/query";
 import { Navigate } from "react-router-dom";
 
 const Verification = () => {
-  // control the component
   const [contol, setControl] = useState({
     btnloader: false,
   });
-
-  // get products & user from the globals state
-  const user = useSelector((state: RootState) => state.user);
-
+  const user = useSelector((state: any) => state.user);
   if (user.isVerfied) {
     return <Navigate to="/" />;
   }
 
-  //  dispatch from the  redux
   const dispatch = useDispatch();
 
-  // verification btn handler
   const vertificationHandler = async () => {
     try {
-      // get from element
       const verificationForm = document.getElementById(
         "verificationForm"
       ) as HTMLFormElement;
-
-      // get value from all elements are valid
       const isValidForm = validateForm(verificationForm);
-
-      // validate the form
       if (!isValidForm) {
         toast.error("Invalid Inputs");
         return;
       }
-
-      // triger the btn loader
       setControl((prev: any) => {
-        const clone = { ...prev };
-        clone.btnloader = true;
-        return clone;
+        return { ...prev, btnloader: true };
       });
-
-      // construct the form data
       const data = new FormData(verificationForm);
-
-      // convert form data to json
       const json = Object.fromEntries(data);
-
-      // endpoint
       const endpoint = `/users/verify`;
-
       const response = await axiosInstance.post(endpoint, json);
-
       if (response?.data?.success) {
         toast.success("Verification Successfull");
         const { data } = response?.data;
-        // update the user
         dispatch(updateUser({ ...data }));
       }
     } catch (err) {

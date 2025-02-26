@@ -38,9 +38,7 @@ const Login = () => {
 
       // triger the btn loader
       setControl((prev: any) => {
-        const clone = { ...prev };
-        clone.btnloader = true;
-        return clone;
+        return { ...prev, btnloader: true };
       });
 
       // construct the form data
@@ -59,9 +57,8 @@ const Login = () => {
         dispatch(updateUser(data));
         navigate("/");
       }
-    } catch (error) {
-      const err = error as Error;
-      toast.error(err?.message);
+    } catch (err: any) {
+      toast.error(err);
     }
   };
 

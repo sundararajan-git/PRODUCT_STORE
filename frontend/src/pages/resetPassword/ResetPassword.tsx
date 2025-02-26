@@ -1,5 +1,4 @@
 import toast from "react-hot-toast";
-import logo from "../../ASSETES/logo.svg";
 import { validateForm } from "../../common/helper";
 import { useState } from "react";
 import BtnLoader from "../../components/BtnLoader";
@@ -9,62 +8,39 @@ import { useDispatch } from "react-redux";
 import { updateUser } from "../../lib/redux/slices/useSlice";
 
 const ResetPassword = () => {
-  // control the component
   const [control, setControl] = useState({
     btnloader: false,
   });
-
-  //  use dispatch
   const dispatch = useDispatch();
-
-  // use location
   const location = useLocation();
 
-  // reset btn handler
   const resetBtnHandler = async () => {
     try {
-      // get the form
       const resetPasswordForm = document.getElementById(
         "resetpassword"
       ) as HTMLFormElement;
-
-      // get form is valid or not
       const isvalid = validateForm(resetPasswordForm);
-
-      //  validate the form
       if (!isvalid) {
         toast.error("Invalid Inputs");
         return;
       }
-
-      // triger the btn loader
       setControl((prev: any) => {
-        const clone = { ...prev };
-        clone.btnloader = true;
-        return clone;
+        return { ...prev, btnloader: true };
       });
 
-      // construct the form data
       const data = new FormData(resetPasswordForm);
-      // construct the json data
       const json = Object.fromEntries(data);
-
-      // get token from url
       const token = location.pathname.split("/")[2];
-
-      // endpoint
       const endpoint = `/users/resetpassword/${token}`;
-
       const response = await axiosInstance.put(endpoint, json);
 
       if (response?.data?.success) {
         toast.success("Password updated");
         const { data } = response?.data;
-        // upaate the user
         dispatch(updateUser({ ...data }));
       }
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      toast.error(err);
     }
   };
 
@@ -72,7 +48,6 @@ const ResetPassword = () => {
     <section className="flex items-center justify-center w-full h-screen">
       <div className="w-full sm:w-1/2 lg:w-1/3 h-fit p-4 sm:p-2  flex flex-col gap-4 font-sm">
         <div className="flex items-center pb-2 gap-2">
-          {/* <img src={logo} alt="logo" className="size-6" /> */}
           <h2 className="font-bold uppercase text-blue-1100 text-lg">
             Reset Password
           </h2>
