@@ -28,16 +28,15 @@ const ResetPassword = () => {
         return { ...prev, btnloader: true };
       });
 
-      const data = new FormData(resetPasswordForm);
-      const json = Object.fromEntries(data);
+      const formData = new FormData(resetPasswordForm);
+      const json = Object.fromEntries(formData);
       const token = location.pathname.split("/")[2];
       const endpoint = `/users/resetpassword/${token}`;
-      const response = await axiosInstance.put(endpoint, json);
-
-      if (response?.data?.success) {
+      const { data } = await axiosInstance.put(endpoint, json);
+      if (data?.success) {
         toast.success("Password updated");
-        const { data } = response?.data;
-        dispatch(updateUser({ ...data }));
+        const { data: user } = data;
+        dispatch(updateUser({ ...user }));
       }
     } catch (err: any) {
       toast.error(err);

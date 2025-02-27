@@ -23,21 +23,21 @@ const SignUp = () => {
         toast.error("Invalid inputs");
         return null;
       }
-      const data = new FormData(signUpForm);
-      const json = Object.fromEntries(data);
+      const formData = new FormData(signUpForm);
+      const json = Object.fromEntries(formData);
       setControl((prev: any) => {
         return { ...prev, btnloader: true };
       });
       const endpoint = `/users/signup`;
-      const response = await axiosInstance.post(endpoint, json);
-      if (response?.data?.success) {
+      const { data } = await axiosInstance.post(endpoint, json);
+      if (data?.success) {
         toast.success("Sign Up Successfully");
-        const { data } = response?.data;
-        dispatch(updateUser({ ...data }));
+        const { data: user } = data;
+        dispatch(updateUser({ ...user }));
         navigate("/");
       }
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      toast.error(err);
     }
   };
 

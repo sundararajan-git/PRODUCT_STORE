@@ -38,15 +38,15 @@ const ProductPage = (props: any) => {
         },
       };
       const endpoint = `/products/deleteproduct`;
-      const deleteResponse = await axiosInstance.delete(endpoint, reqObj);
-      if (deleteResponse?.data?.success) {
+      const { data } = await axiosInstance.delete(endpoint, reqObj);
+      if (data?.success) {
         toast.success("Deleted !");
-        const { data } = deleteResponse?.data;
-        dispatch(deleteProduct(data));
+        const { data: product } = data;
+        dispatch(deleteProduct(product));
         backHandler();
       }
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      toast.error(err);
     }
   };
 

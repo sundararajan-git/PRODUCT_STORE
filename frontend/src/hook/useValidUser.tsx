@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axiosInstance from "../lib/axios";
 import { updateUser } from "../lib/redux/slices/useSlice";
+import toast from "react-hot-toast/headless";
 
 const useValidUser = () => {
   const [isValidUser, setIsValidUser] = useState(false);
@@ -18,14 +19,15 @@ const useValidUser = () => {
 
   const checkIsValidUser = async () => {
     try {
-      const validUserResponse = await axiosInstance.get("/users/isvaliduser");
-      if (validUserResponse?.data?.success) {
-        const { user } = validUserResponse?.data;
+      const { data } = await axiosInstance.get("/users/isvaliduser");
+      if (data?.success) {
+        const { user } = data;
         dispatch(updateUser(user));
         setIsValidUser(user);
       }
-    } catch (err) {
+    } catch (err: any) {
       setIsValidUser(false);
+      toast.error(err);
     } finally {
       setControl((prev: any) => {
         return { ...prev, pageloading: false };

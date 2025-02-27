@@ -32,17 +32,17 @@ const Verification = () => {
       setControl((prev: any) => {
         return { ...prev, btnloader: true };
       });
-      const data = new FormData(verificationForm);
-      const json = Object.fromEntries(data);
+      const formData = new FormData(verificationForm);
+      const json = Object.fromEntries(formData);
       const endpoint = `/users/verify`;
-      const response = await axiosInstance.post(endpoint, json);
-      if (response?.data?.success) {
+      const { data } = await axiosInstance.post(endpoint, json);
+      if (data?.success) {
         toast.success("Verification Successfull");
-        const { data } = response?.data;
-        dispatch(updateUser({ ...data }));
+        const { data: user } = data;
+        dispatch(updateUser({ ...user }));
       }
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      toast.error(err);
     }
   };
 
@@ -50,10 +50,8 @@ const Verification = () => {
     <section className="flex items-center justify-center w-full h-screen">
       <div className="w-full sm:w-1/2 lg:w-1/3 h-fit p-4 sm:p-2  flex flex-col gap-4 font-sm">
         <div className="flex items-center pb-2 gap-2">
-          {/* <img src={logo} alt="logo" className="size-6" /> */}
           <h2 className="font-bold uppercase text-blue-1100 text-lg">Verify</h2>
         </div>
-
         <form id="verificationForm" className="flex flex-col gap-2 w-full">
           <label htmlFor="Code" className="dark:text-gray-300">
             Code

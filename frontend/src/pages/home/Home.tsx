@@ -14,7 +14,6 @@ import ProductPage from "../productPage/ProductPage";
 import { Navigate } from "react-router-dom";
 
 const Home = () => {
-  // control the components
   const [control, setControl] = useState({
     addproduct: false,
     updateproduct: false,
@@ -22,71 +21,53 @@ const Home = () => {
     productPage: false,
     pageloading: true,
   });
-
-  // get products & user from the globals state
   const products = useSelector((state: RootState) => state.products);
   const user = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
 
-  // validate the user is verfied or not
   if (!user.isVerfied) {
     return <Navigate to="/verification" />;
   }
 
-  // dispath for profducts
-  const dispatch = useDispatch();
-
-  // get ininital products
   useEffect(() => {
     getAvilableProducts();
   }, []);
 
-  // get the availble products
   const getAvilableProducts = async () => {
     try {
-      // endpoint
       const endpoint = `/products`;
-
-      const getProductResponse = await axiosInstance.get(endpoint);
-
-      console.log(getProductResponse);
-
-      if (getProductResponse?.data?.success) {
-        const { data } = getProductResponse?.data;
-        dispatch(setProducts(data));
+      const { data } = await axiosInstance.get(endpoint);
+      if (data?.success) {
+        const { data: products } = data;
+        dispatch(setProducts(products));
       }
     } catch (err: any) {
       toast.error(err);
     } finally {
-      // triger off the pagelaoding
       setControl((prev: any) => {
         return { ...prev, pageloading: false };
       });
     }
   };
 
-  // add product handler
   const addproductHandler = () => {
-    // triger the create product model
     setControl((prev: any) => {
       return { ...prev, addproduct: true };
     });
   };
 
-  // update product handler
   const updateProductHandler = (item: any) => {
-    // triger the update model
     setControl((prev: any) => {
       return { ...prev, productPage: item };
     });
   };
 
-  // update profile handler
   const updateProfileHandler = () => {
-    // triger the profile model
     setControl((prev: any) => {
       return { ...prev, profileupdate: true };
     });
   };
+
   return (
     <>
       {control?.pageloading ? (

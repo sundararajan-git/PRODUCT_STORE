@@ -1,5 +1,4 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import logo from "../../ASSETES/logo.svg";
 import { FaCircleInfo } from "react-icons/fa6";
 import { useState } from "react";
 import BtnLoader from "../../components/BtnLoader";
@@ -10,51 +9,33 @@ import { useDispatch } from "react-redux";
 import { updateUser } from "../../lib/redux/slices/useSlice";
 
 const Login = () => {
-  // control the component
   const [control, setControl] = useState({
     btnloader: false,
   });
-
-  //  dispatch from the  redux
   const dispatch = useDispatch();
-
-  // navigate hook
   const navigate = useNavigate();
 
-  // login btn handler
   const loginBtnHandler = async () => {
     try {
-      // get the login form element
       const loginForm = document.getElementById("login") as HTMLFormElement;
-
-      // call the vlaidate form
       const isValid = validateForm(loginForm);
-
-      //  validate the form
       if (!isValid) {
         toast.error("Invalid Inputs !");
         return;
       }
 
-      // triger the btn loader
       setControl((prev: any) => {
         return { ...prev, btnloader: true };
       });
 
-      // construct the form data
-      const data = new FormData(loginForm);
-      //  construct the json data
-      const json = Object.fromEntries(data);
-
-      // endpoint
+      const formData = new FormData(loginForm);
+      const json = Object.fromEntries(formData);
       const endpoint = `/users/login`;
-
-      const response = await axiosInstance.post(endpoint, json);
-
-      if (response?.data?.success) {
+      const { data } = await axiosInstance.post(endpoint, json);
+      if (data?.success) {
         toast.success("Sign In Successfully");
-        const { data } = response?.data;
-        dispatch(updateUser(data));
+        const { data: user } = data;
+        dispatch(updateUser(user));
         navigate("/");
       }
     } catch (err: any) {

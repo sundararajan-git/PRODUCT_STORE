@@ -21,18 +21,18 @@ const Profile = (props: any) => {
     try {
       const json = { email: user?.email };
       const endpoint = `/users/forgotpassword`;
-      const response = await toast.promise(axiosInstance.post(endpoint, json), {
+      const { data } = await toast.promise(axiosInstance.post(endpoint, json), {
         loading: "Sending email...",
         success: <span>Email sent successfully!</span>,
         error: <span>Failed to send email.</span>,
       });
 
-      if (response?.data?.success) {
-        const { data } = response?.data;
-        dispatch(updateUser({ ...data }));
+      if (data?.success) {
+        const { data: user } = data;
+        dispatch(updateUser({ ...user }));
       }
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      toast.error(err);
     }
   };
 
@@ -42,14 +42,14 @@ const Profile = (props: any) => {
         return { ...prev, btnloader: true };
       });
       const endpoint = `/users/logout`;
-      const response = await axiosInstance.post(endpoint);
-      if (response?.data?.success) {
+      const { data } = await axiosInstance.post(endpoint);
+      if (data?.success) {
         toast.success("Logout Sucessfully");
         dispatch(updateUser({}));
         navigate("/login");
       }
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      toast.error(err);
     }
   };
 

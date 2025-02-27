@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { updateProduct } from "../../lib/redux/slices/productSlice";
 
 const Update = (props: any) => {
-  const { close, data } = props;
+  const { close, data: proudct } = props;
   const [btnLoader, setBtnLaoder] = useState(false);
   const dispatch = useDispatch();
 
@@ -26,14 +26,14 @@ const Update = (props: any) => {
 
       const updateData = new FormData(updateForm);
       const updateJson = Object.fromEntries(updateData);
-      updateJson.id = data._id;
+      updateJson.id = proudct._id;
       const endpoint = `/products/updateproduct`;
-      const updateResponse = await axiosInstance.put(endpoint, updateJson);
+      const { data } = await axiosInstance.put(endpoint, updateJson);
 
-      if (updateResponse?.data?.success) {
+      if (data?.success) {
         toast.success("Updated !");
-        const { data } = updateResponse?.data;
-        dispatch(updateProduct(data));
+        const { data: updatedProduct } = data;
+        dispatch(updateProduct(updatedProduct));
         modelCloseHandler();
       }
     } catch (err: any) {
@@ -70,7 +70,7 @@ const Update = (props: any) => {
               id="productName"
               name="name"
               className="border border-gray-300 outline-none rounded-lg p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-300"
-              defaultValue={data?.name}
+              defaultValue={proudct?.name}
               placeholder="productName"
               required
             />
@@ -85,7 +85,7 @@ const Update = (props: any) => {
               id="description"
               name="description"
               className="border border-gray-300 outline-none rounded-lg p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-300"
-              defaultValue={data?.description}
+              defaultValue={proudct?.description}
               placeholder="description"
               required
             />
@@ -100,7 +100,7 @@ const Update = (props: any) => {
               id="Price"
               name="price"
               className="border border-gray-300 outline-none rounded-lg p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-300"
-              defaultValue={data?.price}
+              defaultValue={proudct?.price}
               placeholder="price"
               required
             />
@@ -115,7 +115,7 @@ const Update = (props: any) => {
               id="imageurl"
               name="image"
               className="border border-gray-300 outline-none rounded-lg p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-300"
-              defaultValue={data?.image}
+              defaultValue={proudct?.image}
               placeholder="url"
               required
             />

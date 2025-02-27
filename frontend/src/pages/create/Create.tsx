@@ -8,54 +8,28 @@ import { validateForm } from "../../common/helper";
 import { useDispatch } from "react-redux";
 
 const Create = (props: any) => {
-  // props
   const { close } = props;
-
-  // submit btn laoder
   const [btnLoader, setBtnLoader] = useState(false);
-
-  // dispath for create product
   const dispatch = useDispatch();
 
-  //  submit button handler
   const submitHandler = async () => {
     try {
       const createForm = document.getElementById(
         "createProduct"
       ) as HTMLFormElement;
-
-      // validate the form
       const isValid = validateForm(createForm);
-
       if (!isValid) {
         toast.error("Invalid inputs !");
         return null;
       }
-
-      // triger the btn loader
       setBtnLoader(true);
-
-      // construct the form data
       const createData = new FormData(createForm);
-
-      // construct the json data
       const createJson = Object.fromEntries(createData);
-
-      // endpoint
       const endpoint = `/products/createproduct`;
-
-      const creatrProductresponse = await axiosInstance.post(
-        endpoint,
-        createJson
-      );
-
-      console.log(creatrProductresponse);
-
-      if (creatrProductresponse?.data?.success) {
+      const { data } = await axiosInstance.post(endpoint, createJson);
+      if (data?.success) {
         toast.success("Created !");
-        // update the product
-        dispatch(addProduct(creatrProductresponse?.data?.data));
-        // close the model
+        dispatch(addProduct(data?.data));
         modelCloseHandler();
       }
     } catch (err: any) {
@@ -63,9 +37,7 @@ const Create = (props: any) => {
     }
   };
 
-  // model close handler
   const modelCloseHandler = () => {
-    // update the state
     close((prev: any) => {
       return { ...prev, addproduct: false };
     });
