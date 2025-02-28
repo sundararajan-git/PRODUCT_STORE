@@ -1,10 +1,9 @@
-
-// customise the error
 export class AppError extends Error {
     constructor(message, statusCode) {
         super(message);
         this.statusCode = statusCode;
-        this.isOperational = true; // Important: Indicate that this is a known, expected error.
+        this.name = "appError";
+        this.isOperational = true;
         Error.captureStackTrace(this, this.constructor);
     }
 }

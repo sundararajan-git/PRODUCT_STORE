@@ -1,5 +1,4 @@
 
-// verification template
 export const verificationTemplate = (token) => `<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -68,7 +67,6 @@ export const verificationTemplate = (token) => `<!DOCTYPE html>
   </body>
 </html>`;
 
-// send welcome template
 export const sendWelcomeTemplate = (name) => `<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -199,7 +197,6 @@ export const forgotPasswordTemplate = (link) => `<!DOCTYPE html>
 </html>
 `;
 
-// reset password succesfully
 export const resetSuccessTemplate = () => `<!DOCTYPE html>
 <html lang="en">
   <head>

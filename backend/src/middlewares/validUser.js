@@ -1,31 +1,26 @@
 import jwt from "jsonwebtoken";
+import { AppError } from "../utils/appError.js"
 
 export const verifyToken = (req, res, next) => {
   try {
 
-    // get token in cookies
     const token = req.cookies.token;
 
-    // validate the token
     if (!token) {
-      res.status(400).json({ success: false, message: "No token provied" });
+      throw new AppError("No token provied", 400)
     }
 
-    // verifiy the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // vlaidate the decoded
     if (!decoded) {
-      res
-        .status(400)
-        .json({ success: false, message: "Invalid token provied" });
+      throw new AppError("Invalid token provied", 400)
     }
 
     req.userId = decoded.userId;
-    // call the next call back func for res the user data
+
     next();
 
   } catch (err) {
-    res.status(400).json({ success: false, message: err.message });
+    next(err)
   }
 };

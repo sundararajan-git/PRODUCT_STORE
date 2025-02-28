@@ -7,19 +7,15 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import { errorHandler } from "./middlewares/errorHandler.js";
 
-// env file config
 dotenv.config();
 
-// create the app
 const app = express();
 
 const port = process.env.PORT || 8080;
 
 
-// allowed origins
 const whiteList = ['http://localhost:5173']
 
-// condition apply
 const corsOptions = {
   origin: (origin, callback) => {
     if (whiteList.indexOf(origin) !== -1 || !origin) {
@@ -32,26 +28,17 @@ const corsOptions = {
   credentials: true,
 }
 
-
-// allowd origins
 app.use(cors(corsOptions));
 
-// access the data in json format
 app.use(express.json());
 
-// enable cookie parsing
 app.use(cookieParser());
 
-// user routes
 app.use("/api/users", userRouter);
 
-// products routes
 app.use("/api/products", productRouter);
 
-
-// error handler
 app.use(errorHandler)
-
 
 app.listen(port, () => {
   conectDB();
