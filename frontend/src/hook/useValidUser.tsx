@@ -19,8 +19,8 @@ const useValidUser = () => {
 
   const checkIsValidUser = async () => {
     try {
-      const { data } = await axiosInstance.get("/users/isvaliduser");
-      if (data?.success) {
+      const { data, status } = await axiosInstance.get("/users/isvaliduser");
+      if (status === 200) {
         const { user } = data;
         dispatch(updateUser(user));
         setIsValidUser(user);

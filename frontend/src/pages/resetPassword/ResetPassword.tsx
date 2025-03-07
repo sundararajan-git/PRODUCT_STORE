@@ -32,8 +32,8 @@ const ResetPassword = () => {
       const json = Object.fromEntries(formData);
       const token = location.pathname.split("/")[2];
       const endpoint = `/users/resetpassword/${token}`;
-      const { data } = await axiosInstance.put(endpoint, json);
-      if (data?.success) {
+      const { data, status } = await axiosInstance.put(endpoint, json);
+      if (status === 200) {
         toast.success("Password updated");
         const { data: user } = data;
         dispatch(updateUser({ ...user }));

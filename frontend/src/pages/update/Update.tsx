@@ -28,9 +28,9 @@ const Update = (props: any) => {
       const updateJson = Object.fromEntries(updateData);
       updateJson.id = proudct._id;
       const endpoint = `/products/updateproduct`;
-      const { data } = await axiosInstance.put(endpoint, updateJson);
+      const { data, status } = await axiosInstance.put(endpoint, updateJson);
 
-      if (data?.success) {
+      if (status === 200) {
         toast.success("Updated !");
         const { data: updatedProduct } = data;
         dispatch(updateProduct(updatedProduct));

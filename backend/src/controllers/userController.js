@@ -42,7 +42,6 @@ export const signUp = async (req, res) => {
     await MailService.sendVerificationMail(email, subject, verificationToken)
 
     res.status(200).json({
-      success: true,
       message: "User created successfully",
       data: {
         ...user._doc,
@@ -82,7 +81,6 @@ export const login = async (req, res) => {
     generateTokenAndSetCookie(res, user._id);
 
     res.status(200).json({
-      success: true,
       message: "User logged in successfully",
       data: {
         ...user._doc,
@@ -123,7 +121,6 @@ export const verifyEmail = async (req, res) => {
     await MailService.sendWelcomeCall(user.email, subject, user.name)
 
     res.status(200).json({
-      success: true,
       message: "Email verified successfully",
       data: {
         ...user._doc,
@@ -138,7 +135,7 @@ export const verifyEmail = async (req, res) => {
 export const logout = async (req, res) => {
   try {
     res.clearCookie("token");
-    res.status(200).json({ success: true, message: "Logout successfully !" });
+    res.status(200).json({ message: "Logout successfully !" });
   } catch (err) {
     next(err)
   }
@@ -171,7 +168,6 @@ export const forgotPassword = async (req, res) => {
     await MailService.forgotPassword(user.email, subject, link)
 
     res.status(200).json({
-      success: true,
       message: "Email send successfully",
       data: {
         ...user._doc,
@@ -218,7 +214,7 @@ export const resetPassword = async (req, res) => {
 
     res
       .status(200)
-      .json({ success: true, message: "Password reset successfully" });
+      .json({ message: "Password reset successfully" });
 
   } catch (err) {
     next(err)
@@ -248,7 +244,7 @@ export const updateProfile = async (req, res) => {
 
     res
       .status(200)
-      .json({ success: true, message: "Profile updated successfully" });
+      .json({ message: "Profile updated successfully" });
 
   } catch (err) {
     next(err)
@@ -265,7 +261,6 @@ export const isValidUser = async (req, res) => {
     }
 
     res.status(200).json({
-      success: true,
       user,
     });
 

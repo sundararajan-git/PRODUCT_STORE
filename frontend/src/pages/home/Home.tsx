@@ -36,8 +36,8 @@ const Home = () => {
   const getAvilableProducts = async () => {
     try {
       const endpoint = `/products`;
-      const { data } = await axiosInstance.get(endpoint);
-      if (data?.success) {
+      const { data, status } = await axiosInstance.get(endpoint);
+      if (status === 200) {
         const { data: products } = data;
         dispatch(setProducts(products));
       }

@@ -26,8 +26,8 @@ const Create = (props: any) => {
       const createData = new FormData(createForm);
       const createJson = Object.fromEntries(createData);
       const endpoint = `/products/createproduct`;
-      const { data } = await axiosInstance.post(endpoint, createJson);
-      if (data?.success) {
+      const { data, status } = await axiosInstance.post(endpoint, createJson);
+      if (status === 200) {
         toast.success("Created !");
         dispatch(addProduct(data?.data));
         modelCloseHandler();

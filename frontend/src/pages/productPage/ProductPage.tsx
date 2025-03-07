@@ -38,8 +38,8 @@ const ProductPage = (props: any) => {
         },
       };
       const endpoint = `/products/deleteproduct`;
-      const { data } = await axiosInstance.delete(endpoint, reqObj);
-      if (data?.success) {
+      const { data, status } = await axiosInstance.delete(endpoint, reqObj);
+      if (status === 200) {
         toast.success("Deleted !");
         const { data: product } = data;
         dispatch(deleteProduct(product));
