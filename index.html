@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/product_store/assets/logo-Cds8Y5Px.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Store</title>
+    <script>
+      // Normalize URL by removing duplicate slashes
+      window.onload = function () {
+        let url = window.location.href;
+        let cleanUrl = url.replace(/([^:]\/)\/+/g, "$1"); // Remove duplicate slashes
+        if (url !== cleanUrl) {
+          window.history.replaceState(null, "", cleanUrl); // Update URL without reload
+        }
+      };
+    </script>
+    <script type="module" crossorigin src="/product_store/assets/index-C6Zo2nRT.js"></script>
+    <link rel="stylesheet" crossorigin href="/product_store/assets/index-C3S3n9zx.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
