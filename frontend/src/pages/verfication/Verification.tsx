@@ -1,5 +1,4 @@
 import { useState } from "react";
-import logo from "../../assetes/logo.svg";
 import BtnLoader from "../../components/BtnLoader";
 import { validateForm } from "../../common/helper";
 import toast from "react-hot-toast";
