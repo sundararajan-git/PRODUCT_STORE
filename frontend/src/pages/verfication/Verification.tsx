@@ -34,7 +34,7 @@ const Verification = () => {
       });
       const formData = new FormData(verificationForm);
       const json = Object.fromEntries(formData);
-      const endpoint = `/users/verify`;
+      const endpoint = `/user/verify`;
       const { data, status } = await axiosInstance.post(endpoint, json);
       if (status === 200) {
         toast.success("Verification Successfull");

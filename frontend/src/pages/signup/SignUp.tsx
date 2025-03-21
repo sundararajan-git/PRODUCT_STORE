@@ -28,7 +28,7 @@ const SignUp = () => {
       setControl((prev: any) => {
         return { ...prev, btnloader: true };
       });
-      const endpoint = `/users/signup`;
+      const endpoint = `/user/signup`;
       const { data, status } = await axiosInstance.post(endpoint, json);
       if (status === 200) {
         toast.success("Sign Up Successfully");

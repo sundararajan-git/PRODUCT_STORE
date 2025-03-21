@@ -20,7 +20,7 @@ const Profile = (props: any) => {
   const forgotPasswordHandler = async () => {
     try {
       const json = { email: user?.email };
-      const endpoint = `/users/forgotpassword`;
+      const endpoint = `/user/forgotpassword`;
       const { data, status } = await toast.promise(
         axiosInstance.post(endpoint, json),
         {
@@ -44,7 +44,7 @@ const Profile = (props: any) => {
       setControl((prev: any) => {
         return { ...prev, btnloader: true };
       });
-      const endpoint = `/users/logout`;
+      const endpoint = `/user/logout`;
       const { status } = await axiosInstance.post(endpoint);
       if (status === 200) {
         toast.success("Logout Sucessfully");
