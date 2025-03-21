@@ -1,0 +1,60 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build frontend
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout repository
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      # Step 2: Setup Node.js
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18 # Specify your Node.js version
+
+      # Step 3: Navigate to frontend folder and install dependencies
+      - name: Install frontend dependencies
+        working-directory: ./frontend
+        run: npm install
+
+      # Step 4: Build the frontend project
+      - name: Build frontend project
+        working-directory: ./frontend
+        run: npm run build
+
+      # Step 5: Upload production-ready build files from frontend
+      - name: Upload frontend build files
+        uses: actions/upload-artifact@v3
+        with:
+          name: production-files
+          path: ./frontend/dist
+
+  deploy:
+    name: Deploy frontend
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      # Step 1: Download build artifact
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: production-files
+          path: ./dist
+
+      # Step 2: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist

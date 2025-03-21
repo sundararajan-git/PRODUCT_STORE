@@ -5,7 +5,7 @@ import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookies.j
 import MailService from "../utils/sendMailHandler.js"
 import { AppError } from "../utils/appError.js";
 
-export const signUp = async (req, res) => {
+export const signUp = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
 
@@ -35,7 +35,7 @@ export const signUp = async (req, res) => {
 
     await user.save();
 
-    generateTokenAndSetCookie(res, user._id);
+    generateTokenAndSetCookie(res, user._id, next);
 
     const subject = "Verify Your Email"
 
@@ -53,7 +53,7 @@ export const signUp = async (req, res) => {
   }
 };
 
-export const login = async (req, res) => {
+export const login = async (req, res, next) => {
   try {
 
     const { email, password } = req.body;
@@ -78,7 +78,7 @@ export const login = async (req, res) => {
 
     await user.save();
 
-    generateTokenAndSetCookie(res, user._id);
+    generateTokenAndSetCookie(res, user._id, next);
 
     res.status(200).json({
       message: "User logged in successfully",
@@ -92,7 +92,7 @@ export const login = async (req, res) => {
   }
 };
 
-export const verifyEmail = async (req, res) => {
+export const verifyEmail = async (req, res, next) => {
   try {
 
     const { code } = req.body;
@@ -132,7 +132,7 @@ export const verifyEmail = async (req, res) => {
   }
 };
 
-export const logout = async (req, res) => {
+export const logout = async (req, res, next) => {
   try {
     res.clearCookie("token");
     res.status(200).json({ message: "Logout successfully !" });
@@ -141,7 +141,7 @@ export const logout = async (req, res) => {
   }
 };
 
-export const forgotPassword = async (req, res) => {
+export const forgotPassword = async (req, res, next) => {
   try {
 
     const { email } = req.body;
@@ -180,7 +180,7 @@ export const forgotPassword = async (req, res) => {
   }
 };
 
-export const resetPassword = async (req, res) => {
+export const resetPassword = async (req, res, next) => {
   try {
 
     const { password } = req.body;
@@ -221,7 +221,7 @@ export const resetPassword = async (req, res) => {
   }
 };
 
-export const updateProfile = async (req, res) => {
+export const updateProfile = async (req, res, next) => {
   try {
 
     const { name, password, profilePic, id } = req.body;
@@ -240,7 +240,7 @@ export const updateProfile = async (req, res) => {
 
     await user.save();
 
-    generateTokenAndSetCookie(res, res._id);
+    generateTokenAndSetCookie(res, res._id, next);
 
     res
       .status(200)
@@ -251,7 +251,7 @@ export const updateProfile = async (req, res) => {
   }
 };
 
-export const isValidUser = async (req, res) => {
+export const isValidUser = async (req, res, next) => {
   try {
 
     const user = await User.findById(req.userId).select("-password");

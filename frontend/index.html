@@ -5,6 +5,16 @@
     <link rel="icon" type="image/svg+xml" href="./src/assetes/logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Product Store</title>
+    <script>
+      // Normalize URL by removing duplicate slashes
+      window.onload = function () {
+        let url = window.location.href;
+        let cleanUrl = url.replace(/([^:]\/)\/+/g, "$1"); // Remove duplicate slashes
+        if (url !== cleanUrl) {
+          window.history.replaceState(null, "", cleanUrl); // Update URL without reload
+        }
+      };
+    </script>
   </head>
   <body>
     <div id="root"></div>
