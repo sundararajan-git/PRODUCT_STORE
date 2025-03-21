@@ -19,6 +19,9 @@ jobs:
         with:
           node-version: 18 # Specify your required Node.js version
 
+      - name: Set up environment variables
+        run: echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" >> $GITHUB_ENV
+
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
         with:
