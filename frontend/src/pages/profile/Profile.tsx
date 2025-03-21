@@ -1,6 +1,6 @@
 import { useState } from "react";
 import BtnLoader from "../../components/BtnLoader";
-import userSvg from "../../ASSETES/user.svg";
+import userSvg from "../../assetes/user.svg";
 import axiosInstance from "../../lib/axios";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
