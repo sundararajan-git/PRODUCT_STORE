@@ -14,6 +14,8 @@ jobs:
       # Step 1: Checkout repository
       - name: Checkout repo
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Required for gh-pages deployment
 
       # Step 2: Setup Node.js
       - name: Setup Node
@@ -21,7 +23,7 @@ jobs:
         with:
           node-version: 18 # Specify your Node.js version
 
-      # Step 3: Navigate to frontend folder and install dependencies
+      # Step 3: Install frontend dependencies
       - name: Install frontend dependencies
         working-directory: ./frontend
         run: npm install
@@ -31,7 +33,7 @@ jobs:
         working-directory: ./frontend
         run: npm run build
 
-      # Step 5: Upload production-ready build files from frontend
+      # Step 5: Upload production-ready build files
       - name: Upload frontend build files
         uses: actions/upload-artifact@v3
         with:
@@ -45,14 +47,18 @@ jobs:
     if: github.ref == 'refs/heads/main'
 
     steps:
-      # Step 1: Download build artifact
+      # Step 1: Checkout repository (Required for gh-pages)
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      # Step 2: Download build artifact
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
           name: production-files
           path: ./dist
 
-      # Step 2: Deploy to GitHub Pages
+      # Step 3: Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
