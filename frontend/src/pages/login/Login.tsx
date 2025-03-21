@@ -30,7 +30,7 @@ const Login = () => {
 
       const formData = new FormData(loginForm);
       const json = Object.fromEntries(formData);
-      const endpoint = `/users/login`;
+      const endpoint = `/user/login`;
       const { data, status } = await axiosInstance.post(endpoint, json);
       if (status === 200) {
         toast.success("Sign In Successfully");
