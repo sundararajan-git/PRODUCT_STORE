@@ -12,6 +12,7 @@ const Verification = () => {
     btnloader: false,
   });
   const user = useSelector((state: any) => state.user);
+
   if (user.isVerfied) {
     return <Navigate to="/" />;
   }
