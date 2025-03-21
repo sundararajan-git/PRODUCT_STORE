@@ -7,60 +7,48 @@ on:
 
 jobs:
   build:
-    name: Build frontend
+    name: Build
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout repository
       - name: Checkout repo
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0 # Required for gh-pages deployment
 
-      # Step 2: Setup Node.js
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 18 # Specify your Node.js version
+          node-version: 18 # Specify your required Node.js version
 
-      # Step 3: Install frontend dependencies
-      - name: Install frontend dependencies
-        working-directory: ./frontend
-        run: npm install
+      - name: Install dependencies
+        uses: bahmutov/npm-install@v1
+        with:
+          working-directory: frontend # Specify the frontend directory
 
-      # Step 4: Build the frontend project
-      - name: Build frontend project
-        working-directory: ./frontend
+      - name: Build project
         run: npm run build
+        working-directory: frontend # Specify the working directory
 
-      # Step 5: Upload production-ready build files
-      - name: Upload frontend build files
-        uses: actions/upload-artifact@v3
+      - name: Upload production-ready build files
+        uses: actions/upload-artifact@v4
         with:
           name: production-files
-          path: ./frontend/dist
+          path: frontend/dist # Specify correct build output path
 
   deploy:
-    name: Deploy frontend
+    name: Deploy
     needs: build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
 
     steps:
-      # Step 1: Checkout repository (Required for gh-pages)
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      # Step 2: Download build artifact
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: production-files
-          path: ./dist
+          path: ./dist # Destination directory for downloaded artifact
 
-      # Step 3: Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: ./dist # Ensure this path matches the downloaded artifact
