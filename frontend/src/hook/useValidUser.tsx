@@ -4,8 +4,10 @@ import { useDispatch } from "react-redux";
 import axiosInstance from "../lib/axios";
 import { updateUser } from "../lib/redux/slices/useSlice";
 import toast from "react-hot-toast/headless";
+import useJwtToken from "./useJwtToken";
 
 const useValidUser = () => {
+  const { getJwtToken } = useJwtToken();
   const [isValidUser, setIsValidUser] = useState(false);
   const dispatch = useDispatch();
   const [control, setControl] = useState({
@@ -19,7 +21,9 @@ const useValidUser = () => {
 
   const checkIsValidUser = async () => {
     try {
-      const { data, status } = await axiosInstance.get("/user/isvaliduser");
+      const { data, status } = await axiosInstance.get("/user/isvaliduser", {
+        headers: { Authorization: "Bearer " + getJwtToken() },
+      });
       if (status === 200) {
         const { user } = data;
         dispatch(updateUser(user));

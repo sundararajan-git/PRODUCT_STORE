@@ -7,8 +7,10 @@ import BtnLoader from "../../components/BtnLoader";
 import axiosInstance from "../../lib/axios";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../../lib/redux/slices/useSlice";
+import useJwtToken from "../../hook/useJwtToken";
 
 const SignUp = () => {
+  const { setJwtToken } = useJwtToken();
   const [control, setControl] = useState({
     btnloader: false,
   });
@@ -32,7 +34,8 @@ const SignUp = () => {
       const { data, status } = await axiosInstance.post(endpoint, json);
       if (status === 200) {
         toast.success("Sign Up Successfully");
-        const { data: user } = data;
+        const { data: user, token } = data;
+        setJwtToken(token);
         dispatch(updateUser({ ...user }));
         navigate("/");
       }

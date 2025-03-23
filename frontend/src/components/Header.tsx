@@ -29,7 +29,7 @@ const Header = (props: any) => {
             onClick={logoClickHandler}
           >
             <img src={logo} alt="logo" className="size-4 sm:size-6" />
-            <span className="logo text-sm sm:text-xl ">PRODUCT STORE</span>
+            <span className="logo text-md sm:text-xl ">PRODUCT STORE</span>
           </h2>
         </div>
 

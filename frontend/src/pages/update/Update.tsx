@@ -43,7 +43,7 @@ const Update = (props: any) => {
 
   const modelCloseHandler = () => {
     close((prev: any) => {
-      return { ...prev, modelCloseHandler };
+      return { ...prev, updateproduct: null };
     });
   };
 

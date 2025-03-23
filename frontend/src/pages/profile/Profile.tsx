@@ -7,9 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../lib/redux/slices/useSlice";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../lib/redux/store";
+import useJwtToken from "../../hook/useJwtToken";
 
 const Profile = (props: any) => {
   const { close } = props;
+  const { setJwtToken, removeJwtToken } = useJwtToken();
   const user = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -31,7 +33,8 @@ const Profile = (props: any) => {
       );
 
       if (status === 200) {
-        const { data: user } = data;
+        const { data: user, token } = data;
+        setJwtToken(token);
         dispatch(updateUser({ ...user }));
       }
     } catch (err: any) {
@@ -48,6 +51,7 @@ const Profile = (props: any) => {
       const { status } = await axiosInstance.post(endpoint);
       if (status === 200) {
         toast.success("Logout Sucessfully");
+        removeJwtToken();
         dispatch(updateUser({}));
         navigate("/login");
       }
