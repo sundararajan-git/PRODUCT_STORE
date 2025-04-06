@@ -8,38 +8,42 @@ import useJwtToken from "./useJwtToken";
 
 const useValidUser = () => {
   const { getJwtToken } = useJwtToken();
-  const [isValidUser, setIsValidUser] = useState(false);
+  const [isValidUser, setIsValidUser] = useState<boolean | null>(null);
+  const [pageloading, setPageloading] = useState(true);
   const dispatch = useDispatch();
-  const [control, setControl] = useState({
-    pageloading: true,
-  });
   const location = useLocation();
 
   useEffect(() => {
+    console.log("useValidUser is running", location.pathname);
+    setPageloading(true);
     checkIsValidUser();
-  }, [location]);
+    return () => {
+      setPageloading(true);
+    };
+  }, [location.pathname]);
 
   const checkIsValidUser = async () => {
     try {
+      console.log("it's running time", getJwtToken());
       const { data, status } = await axiosInstance.get("/user/isvaliduser", {
         headers: { Authorization: "Bearer " + getJwtToken() },
       });
+      // console.log("data", data);
       if (status === 200) {
+        console.log("status", status);
         const { user } = data;
         dispatch(updateUser(user));
-        setIsValidUser(user);
+        setIsValidUser(true);
+        setPageloading(false);
       }
     } catch (err: any) {
       setIsValidUser(false);
       toast.error(err);
-    } finally {
-      setControl((prev: any) => {
-        return { ...prev, pageloading: false };
-      });
+      setPageloading(false);
     }
   };
 
-  return { isValidUser, pageloading: control?.pageloading };
+  return { isValidUser, pageloading };
 };
 
 export default useValidUser;

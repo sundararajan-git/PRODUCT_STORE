@@ -19,13 +19,16 @@ const App = () => {
   const { pageloading, isValidUser } = useValidUser();
   const { isDarkMode } = useContext(ThemeContext);
 
-  if (pageloading) {
+  if (pageloading && !isValidUser) {
+    console.log("loading");
     return (
-      <div className="flex items-center justify-center w-full h-screen">
+      <div className="flex items-center justify-center w-full h-screen dark:bg-dark ">
         <Loader />
       </div>
     );
   }
+
+  console.log(isValidUser, pageloading);
 
   return (
     <>

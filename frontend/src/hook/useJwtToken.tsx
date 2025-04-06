@@ -4,7 +4,7 @@ const useJwtToken = () => {
   };
 
   const getJwtToken = () => {
-    return localStorage.getItem("token");
+    return localStorage.getItem("token") ?? "";
   };
 
   const removeJwtToken = () => {
