@@ -4,7 +4,7 @@ import BtnLoader from "../../components/BtnLoader";
 import ModelCloseBtn from "../../components/ModelCloseBtn";
 import axiosInstance from "../../lib/axios";
 import { addProduct } from "../../lib/redux/slices/productSlice";
-import { validateForm } from "../../common/helper";
+import { validateForm } from "../../utils/helper";
 import { useDispatch } from "react-redux";
 
 const Create = (props: any) => {

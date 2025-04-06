@@ -1,8 +1,6 @@
 import { Routes } from "react-router-dom";
 import { Route } from "react-router-dom";
 import Home from "./pages/home/Home";
-import AuthLayout from "./layouts/AuthLayout";
-import PublicLayout from "./layouts/PublicLayout";
 import SignUp from "./pages/signup/SignUp";
 import Login from "./pages/login/Login";
 import Verification from "./pages/verfication/Verification";
@@ -10,40 +8,50 @@ import ResetPassword from "./pages/resetPassword/ResetPassword";
 import PageNotFound from "./pages/404/PageNotFound";
 import "./App.css";
 import Loader from "./components/Loader";
-import useValidUser from "./hook/useValidUser";
 import { Toaster } from "react-hot-toast";
 import { useContext } from "react";
-import { ThemeContext } from "./layouts/ThemeProvider";
+import { ThemeContext } from "./context/ThemeProvider";
+import RoleBasedRoute from "./routes/RoleBasedRoute";
+import PrivateRoute from "./routes/PrivateRoute";
+import PublicRoute from "./routes/PublicRoute";
+import { AuthContext } from "./context/AuthProvider";
 
 const App = () => {
-  const { pageloading, isValidUser } = useValidUser();
   const { isDarkMode } = useContext(ThemeContext);
+  const { pageLoading, isValidUser, userRole } = useContext(AuthContext);
 
-  if (pageloading && !isValidUser) {
-    console.log("loading");
+  if (pageLoading) {
     return (
       <div className="flex items-center justify-center w-full h-screen dark:bg-dark ">
         <Loader />
       </div>
     );
   }
-
-  console.log(isValidUser, pageloading);
-
+  console.log(isValidUser, pageLoading);
   return (
     <>
       <Routes>
-        <Route element={<AuthLayout isValidUser={isValidUser} />}>
+        <Route element={<PrivateRoute isValidUser={isValidUser} />}>
           <Route path="/" element={<Home />} />
-          <Route path="/verification" element={<Verification />} />
         </Route>
-        <Route element={<PublicLayout isValidUser={isValidUser} />}>
+        <Route element={<PublicRoute isValidUser={isValidUser} />}>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/verification" element={<Verification />} />
           <Route path="/resetpassword/:id" element={<ResetPassword />} />
         </Route>
+
+        <Route
+          element={
+            <RoleBasedRoute allowedRoles={["admin"]} userRole={userRole} />
+          }
+        >
+          <Route path="/admin" element={<p>Hi , Admin</p>} />
+        </Route>
+
         <Route path="*" element={<PageNotFound />} />
       </Routes>
+
       <Toaster
         position="top-right"
         reverseOrder={false}

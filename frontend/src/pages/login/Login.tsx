@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { FaCircleInfo } from "react-icons/fa6";
 import { useState } from "react";
 import BtnLoader from "../../components/BtnLoader";
-import { validateForm } from "../../common/helper";
+import { validateForm } from "../../utils/helper";
 import toast from "react-hot-toast";
 import axiosInstance from "../../lib/axios";
 import { useDispatch } from "react-redux";
@@ -10,6 +10,7 @@ import { updateUser } from "../../lib/redux/slices/useSlice";
 import useJwtToken from "../../hook/useJwtToken";
 
 const Login = () => {
+  console.log("Login Page Rendered 🖐️🖐️");
   const { setJwtToken } = useJwtToken();
   const [control, setControl] = useState({
     btnloader: false,

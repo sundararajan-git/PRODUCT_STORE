@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import pageNotFound from "../../assetes/pageNotFound.svg";
+import pageNotFound from "../../assets/pageNotFound.svg";
 
 const PageNotFound = () => {
   const naviagte = useNavigate();

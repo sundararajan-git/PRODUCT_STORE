@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { FaCircleInfo } from "react-icons/fa6";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { validateForm } from "../../common/helper";
+import { validateForm } from "../../utils/helper";
 import BtnLoader from "../../components/BtnLoader";
 import axiosInstance from "../../lib/axios";
 import { useDispatch } from "react-redux";

@@ -5,9 +5,10 @@ import App from "./App.tsx";
 import "./index.css";
 import { Provider } from "react-redux";
 import store from "./lib/redux/store.ts";
-import ThemeProvider from "./layouts/ThemeProvider.tsx";
+import ThemeProvider from "./context/ThemeProvider.tsx";
 import { ErrorBoundary } from "react-error-boundary";
-import ErrorFallBack from "./common/ErrorFallback.tsx";
+import ErrorFallBack from "./lib/error_boundary/ErrorFallback.tsx";
+import { AuthProvider } from "./context/AuthProvider.tsx";
 
 createRoot(document.getElementById("root")!).render(
   // <StrictMode>
@@ -15,7 +16,9 @@ createRoot(document.getElementById("root")!).render(
     <ThemeProvider>
       <Provider store={store}>
         <HashRouter>
-          <App />
+          <AuthProvider>
+            <App />
+          </AuthProvider>
         </HashRouter>
       </Provider>
     </ThemeProvider>

@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import { validateForm } from "../../common/helper";
+import { validateForm } from "../../utils/helper";
 import { useState } from "react";
 import BtnLoader from "../../components/BtnLoader";
 import axiosInstance from "../../lib/axios";
