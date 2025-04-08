@@ -13,15 +13,15 @@ import { AuthProvider } from "./context/AuthProvider.tsx";
 createRoot(document.getElementById("root")!).render(
   // <StrictMode>
   <ErrorBoundary FallbackComponent={ErrorFallBack}>
-    <ThemeProvider>
-      <Provider store={store}>
+    <Provider store={store}>
+      <ThemeProvider>
         <HashRouter>
           <AuthProvider>
             <App />
           </AuthProvider>
         </HashRouter>
-      </Provider>
-    </ThemeProvider>
+      </ThemeProvider>
+    </Provider>
   </ErrorBoundary>
   // </StrictMode>
 );

@@ -7,7 +7,7 @@ import { ThemeContext } from "../context/ThemeProvider";
 import { useNavigate } from "react-router-dom";
 
 const Header = (props: any) => {
-  const { updateProfileHandler, isValidUser } = props;
+  const { updateProfileHandler } = props;
   const navigate = useNavigate();
   const { isDarkMode, setThemeHandler } = useContext(ThemeContext);
 
@@ -34,13 +34,11 @@ const Header = (props: any) => {
         </div>
 
         <div className="flex flex-row-reverse items-center gap-4">
-          {isValidUser && (
-            <img
-              src={userSvg}
-              className="w-7 h-7 object-cover rounded-full cursor-pointer"
-              onClick={updateProfileHandler}
-            />
-          )}
+          <img
+            src={userSvg}
+            className="w-7 h-7 object-cover rounded-full cursor-pointer"
+            onClick={updateProfileHandler}
+          />
 
           {isDarkMode === "dark" ? (
             <button

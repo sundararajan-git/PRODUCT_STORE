@@ -1,10 +1,19 @@
 import { Navigate, Outlet } from "react-router-dom";
+import { AuthContext } from "../context/AuthProvider";
+import { useContext } from "react";
+import Header from "../components/Header";
 
-const PublicRoute = ({ isValidUser }: { isValidUser: boolean | null }) => {
-  // While auth status is unknown, don't render anything yet
-  if (isValidUser === null) return null;
+const PublicRoute = () => {
+  const { isValidUser } = useContext(AuthContext);
 
-  return isValidUser ? <Navigate to="/" replace /> : <Outlet />;
+  return isValidUser ? (
+    <Navigate to="/" replace />
+  ) : (
+    <div className="flex flex-col h-full dark:bg-dark">
+      <Header />
+      <Outlet />
+    </div>
+  );
 };
 
 export default PublicRoute;

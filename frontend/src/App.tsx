@@ -7,18 +7,15 @@ import Verification from "./pages/verfication/Verification";
 import ResetPassword from "./pages/resetPassword/ResetPassword";
 import PageNotFound from "./pages/404/PageNotFound";
 import "./App.css";
-import Loader from "./components/Loader";
-import { Toaster } from "react-hot-toast";
 import { useContext } from "react";
-import { ThemeContext } from "./context/ThemeProvider";
 import RoleBasedRoute from "./routes/RoleBasedRoute";
 import PrivateRoute from "./routes/PrivateRoute";
 import PublicRoute from "./routes/PublicRoute";
 import { AuthContext } from "./context/AuthProvider";
+import Loader from "./components/Loader";
 
 const App = () => {
-  const { isDarkMode } = useContext(ThemeContext);
-  const { pageLoading, isValidUser, userRole } = useContext(AuthContext);
+  const { pageLoading } = useContext(AuthContext);
 
   if (pageLoading) {
     return (
@@ -27,44 +24,26 @@ const App = () => {
       </div>
     );
   }
-  console.log(isValidUser, pageLoading);
   return (
     <>
       <Routes>
-        <Route element={<PrivateRoute isValidUser={isValidUser} />}>
+        <Route element={<PrivateRoute />}>
           <Route path="/" element={<Home />} />
         </Route>
-        <Route element={<PublicRoute isValidUser={isValidUser} />}>
+
+        <Route element={<PublicRoute />}>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/verification" element={<Verification />} />
           <Route path="/resetpassword/:id" element={<ResetPassword />} />
         </Route>
 
-        <Route
-          element={
-            <RoleBasedRoute allowedRoles={["admin"]} userRole={userRole} />
-          }
-        >
+        <Route element={<RoleBasedRoute />}>
           <Route path="/admin" element={<p>Hi , Admin</p>} />
         </Route>
 
         <Route path="*" element={<PageNotFound />} />
       </Routes>
-
-      <Toaster
-        position="top-right"
-        reverseOrder={false}
-        toastOptions={{
-          style: {
-            background: isDarkMode === "dark" ? "#030712" : "#fff",
-            color: isDarkMode === "dark" ? "#fff" : "#000",
-            padding: "10px 20px 10px 20px",
-            borderRadius: "8px",
-            boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
-          },
-        }}
-      />
     </>
   );
 };

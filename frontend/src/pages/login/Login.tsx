@@ -1,6 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { FaCircleInfo } from "react-icons/fa6";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import BtnLoader from "../../components/BtnLoader";
 import { validateForm } from "../../utils/helper";
 import toast from "react-hot-toast";
@@ -8,10 +8,12 @@ import axiosInstance from "../../lib/axios";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../../lib/redux/slices/useSlice";
 import useJwtToken from "../../hook/useJwtToken";
+import { AuthContext } from "../../context/AuthProvider";
 
 const Login = () => {
   console.log("Login Page Rendered 🖐️🖐️");
   const { setJwtToken } = useJwtToken();
+  const { setPageLoading } = useContext(AuthContext);
   const [control, setControl] = useState({
     btnloader: false,
   });
@@ -41,6 +43,7 @@ const Login = () => {
         setJwtToken(token);
         dispatch(updateUser(user));
         navigate("/");
+        setPageLoading(true);
       }
     } catch (err: any) {
       toast.error(err);

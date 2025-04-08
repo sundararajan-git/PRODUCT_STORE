@@ -37,7 +37,7 @@ const SignUp = () => {
         const { data: user, token } = data;
         setJwtToken(token);
         dispatch(updateUser({ ...user }));
-        navigate("/");
+        navigate("/verification");
       }
     } catch (err: any) {
       toast.error(err);
