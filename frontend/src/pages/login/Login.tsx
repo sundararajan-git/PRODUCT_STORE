@@ -11,7 +11,6 @@ import useJwtToken from "../../hook/useJwtToken";
 import { AuthContext } from "../../context/AuthProvider";
 
 const Login = () => {
-  console.log("Login Page Rendered 🖐️🖐️");
   const { setJwtToken } = useJwtToken();
   const { setPageLoading } = useContext(AuthContext);
   const [control, setControl] = useState({
@@ -47,6 +46,10 @@ const Login = () => {
       }
     } catch (err: any) {
       toast.error(err);
+    } finally {
+      setControl((prev: any) => {
+        return { ...prev, btnloader: false };
+      });
     }
   };
 
@@ -67,7 +70,7 @@ const Login = () => {
           </label>
           <input
             type="email"
-            className="border border-gray-300 outline-none rounded-lg p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-400 dark:border-gray-600"
+            className="border border-gray-300 outline-none rounded-[6px] p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-400 dark:border-gray-600"
             name="email"
             id="email"
             placeholder="email"
@@ -81,7 +84,7 @@ const Login = () => {
           </label>
           <input
             type="password"
-            className="border border-gray-300 outline-none rounded-lg p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-400 dark:border-gray-600"
+            className="border border-gray-300 outline-none rounded-[6px] p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-400 dark:border-gray-600"
             name="password"
             id="password"
             placeholder="password"
@@ -105,7 +108,7 @@ const Login = () => {
         <div className="flex flex-col gap-2 w-full">
           <button
             type="button"
-            className="w-full h-full p-2 bg-blue-1100 rounded-lg text-white font-medium flex items-center justify-center gap-2"
+            className="w-full h-full p-2 bg-blue-1100 rounded-[6px] text-white font-medium flex items-center justify-center gap-2"
             onClick={loginBtnHandler}
           >
             {control.btnloader ? <BtnLoader /> : null}

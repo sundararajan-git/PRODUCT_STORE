@@ -4,6 +4,9 @@ interface product {
     _id: string;
     name: string;
     price: number;
+    description: string;
+    isCurrent: boolean;
+    image: string
 }
 
 const initialState: product[] = [];

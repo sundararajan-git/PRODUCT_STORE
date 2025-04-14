@@ -4,8 +4,7 @@ import { useContext } from "react";
 
 const PrivateRoute = () => {
   const { isValidUser } = useContext(AuthContext);
-  console.log("it's calling at login");
-  return isValidUser ? (
+  return isValidUser !== null ? (
     <div className="flex flex-col h-full dark:bg-dark ">
       <Outlet />
     </div>

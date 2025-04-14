@@ -1,21 +1,15 @@
 import { createContext, useEffect, useState } from "react";
 
-// create the theme provider context
 export const ThemeContext = createContext<any>(null);
 
-const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  // store the theme value
+const ThemeProvider: React.FC<{ children: React.ReactNode }> = (props) => {
+  const { children } = props;
   const [isDarkMode, setDrkMode] = useState<any>(() =>
     localStorage.getItem("theme")
   );
 
-  // initial setup for dark apply each time it's change
   useEffect(() => {
-    //   update the local storage
-    localStorage.setItem("theme", isDarkMode);
-    //  toggle the theme
+    localStorage.setItem("theme", isDarkMode ?? "dark");
     setDrkMode(() => {
       if (isDarkMode === "dark") {
         const ele: any = document.getElementById("root");
@@ -29,11 +23,10 @@ const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
     });
   }, [isDarkMode]);
 
-  //   update the theme handler
   const setThemeHandler = (theme: string) => {
-    // update the theme state
     setDrkMode(theme);
   };
+
   return (
     <ThemeContext.Provider value={{ isDarkMode, setThemeHandler }}>
       {children}

@@ -40,3 +40,54 @@ app.listen(port, () => {
   conectDB();
   console.log(`Server is running on port ${port}`);
 });
+
+// import { google } from "googleapis";
+// import multer from "multer";
+// import fs from "fs";
+
+// // Multer config to handle file upload
+// const upload = multer({ dest: "uploads/" });
+
+// // Google Auth
+// const auth = new google.auth.GoogleAuth({
+//   keyFile: "service-account.json", // Make sure this is in .gitignore
+//   scopes: ["https://www.googleapis.com/auth/drive.file"],
+// });
+
+// app.post("/upload", upload.single("file"), async (req, res) => {
+//   try {
+//     console.log("it's loging..");
+
+//     const authClient = await auth.getClient();
+//     const drive = google.drive({ version: "v3", auth: authClient });
+
+//     console.log(req.file);
+
+//     const fileMetadata = {
+//       name: req.file.originalname,
+//       parents: ["APPS"],
+//     };
+
+//     const media = {
+//       mimeType: req.file.mimetype,
+//       body: fs.createReadStream(req.file.path),
+//     };
+
+//     const driveResponse = await drive.files.create({
+//       resource: fileMetadata,
+//       media: media,
+//       fields: "id",
+//     });
+
+//     // Delete local file after upload
+//     fs.unlinkSync(req.file.path);
+
+//     res.json({
+//       message: "File uploaded to Google Drive",
+//       fileId: driveResponse.data.id,
+//     });
+//   } catch (err) {
+//     console.error("Upload error:", err);
+//     res.status(500).json({ error: "Failed to upload file" });
+//   }
+// });

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import BtnLoader from "../../components/BtnLoader";
-import userSvg from "../../assets/user.svg";
+import userSvg from "/AvatarDP.jpg";
 import axiosInstance from "../../lib/axios";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
@@ -70,7 +70,7 @@ const Profile = (props: any) => {
     <div className="fixed top-0 left-0 right-0 w-full h-full bg-gray-400/70 dark:bg-gray-800/60 flex items-center justify-center p-6 z-50">
       <section className="w-full sm:w-2/3  md:w-1/2 lg:w-1/3 mx-auto h-fit flex flex-col p-4 bg-white dark:bg-dark rounded-xl shadow fade-up">
         <div className="flex items-center justify-center pt-2">
-          <h2 className="text-xs sm:text-sm font-bold text-center text-blue-1100">
+          <h2 className="text-sm font-bold text-center text-blue-1100">
             PROFILE
           </h2>
         </div>
@@ -98,7 +98,7 @@ const Profile = (props: any) => {
             <div className="flex justify-end gap-2">
               <button
                 type="button"
-                className="border text-gray-700  hover:text-blue-1100  px-2.5 py-2 rounded-lg text-sm  float-end flex items-center justify-between gap-2 dark:text-gray-300"
+                className="border text-gray-700  hover:text-blue-1100  px-2.5 py-2 rounded-[6px] text-sm  float-end flex items-center justify-between gap-2 dark:text-gray-300"
                 onClick={modelCloseHandler}
                 disabled={control?.btnloader}
               >
@@ -106,7 +106,7 @@ const Profile = (props: any) => {
               </button>
               <button
                 type="button"
-                className="bg-blue-1100 text-white px-2.5 py-2 rounded-lg text-sm  float-end flex items-center justify-between gap-2 font-medium dark:text-dark"
+                className="bg-blue-1100 text-white px-2.5 py-2 rounded-[6px] text-sm  float-end flex items-center justify-between gap-2 font-medium dark:text-dark"
                 onClick={logoutHandler}
                 disabled={control?.btnloader}
               >

@@ -1,16 +1,22 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import BtnLoader from "../../components/BtnLoader";
 import ModelCloseBtn from "../../components/ModelCloseBtn";
 import { validateForm } from "../../utils/helper";
 import axiosInstance from "../../lib/axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateProduct } from "../../lib/redux/slices/productSlice";
+import { RootState } from "../../lib/redux/store";
 
 const Update = (props: any) => {
-  const { close, data: proudct } = props;
-  const [btnLoader, setBtnLaoder] = useState(false);
+  const { close } = props;
+  const products = useSelector((state: RootState) => state.products);
   const dispatch = useDispatch();
+  const [btnLoader, setBtnLoader] = useState(false);
+
+  const product = useMemo(() => {
+    return products.filter((f) => f.isCurrent)[0];
+  }, [products]);
 
   const updateHandler = async () => {
     try {
@@ -22,13 +28,16 @@ const Update = (props: any) => {
         toast.error("Please check input");
         return null;
       }
-      setBtnLaoder(true);
+      setBtnLoader(true);
 
       const updateData = new FormData(updateForm);
-      const updateJson = Object.fromEntries(updateData);
-      updateJson.id = proudct._id;
+      updateData.append("id", product._id);
       const endpoint = `/products/updateproduct`;
-      const { data, status } = await axiosInstance.put(endpoint, updateJson);
+      const { data, status } = await axiosInstance.put(endpoint, updateData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       if (status === 200) {
         toast.success("Updated !");
@@ -37,6 +46,7 @@ const Update = (props: any) => {
         modelCloseHandler();
       }
     } catch (err: any) {
+      setBtnLoader(false);
       toast.error(err);
     }
   };
@@ -51,7 +61,7 @@ const Update = (props: any) => {
     <div className="fixed top-0 left-0 right-0 w-full h-full bg-gray-400/70 dark:bg-gray-800/60 flex items-center justify-center p-6 z-50">
       <section className="w-full sm:w-5/6  md:w-2/3 lg:w-1/2 mx-auto h-fit flex flex-col p-4 sm:p-8 bg-white dark:bg-dark rounded-xl shadow fade-up">
         <div className="flex items-center justify-between">
-          <h2 className="text-xs sm:text-sm font-bold text-center text-blue-1100">
+          <h2 className="text-sm font-bold text-center text-blue-1100">
             UPDATE PRODUCT
           </h2>
           <ModelCloseBtn onClick={modelCloseHandler} disabled={btnLoader} />
@@ -69,8 +79,8 @@ const Update = (props: any) => {
               type="text"
               id="productName"
               name="name"
-              className="border border-gray-300 outline-none rounded-lg p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-300"
-              defaultValue={proudct?.name}
+              className="border border-gray-300 outline-none rounded-md p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent text-gray-700 dark:text-gray-400 dark:border-gray-700"
+              defaultValue={product?.name}
               placeholder="productName"
               required
             />
@@ -84,8 +94,8 @@ const Update = (props: any) => {
               type="text"
               id="description"
               name="description"
-              className="border border-gray-300 outline-none rounded-lg p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-300"
-              defaultValue={proudct?.description}
+              className="border border-gray-300 outline-none rounded-md p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent text-gray-700 dark:text-gray-400 dark:border-gray-700"
+              defaultValue={product?.description}
               placeholder="description"
               required
             />
@@ -99,32 +109,29 @@ const Update = (props: any) => {
               type="number"
               id="Price"
               name="price"
-              className="border border-gray-300 outline-none rounded-lg p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-300"
-              defaultValue={proudct?.price}
+              className="border border-gray-300 outline-none rounded-md p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent text-gray-700 dark:text-gray-400 dark:border-gray-700"
+              defaultValue={product?.price}
               placeholder="price"
               required
             />
           </div>
 
           <div className="flex flex-col gap-2 w-full">
-            <label htmlFor="imageurl" className="dark:text-gray-200">
-              Image URL
+            <label className="block text-sm dark:text-gray-200" htmlFor="file">
+              Upload file
             </label>
             <input
-              type="text"
-              id="imageurl"
-              name="image"
-              className="border border-gray-300 outline-none rounded-lg p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-300"
-              defaultValue={proudct?.image}
-              placeholder="url"
-              required
+              className=" border border-gray-300 outline-none rounded-md p-1.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent text-gray-700 dark:text-gray-400 dark:border-gray-700 block w-full text-sm  cursor-pointer"
+              id="file"
+              name="file"
+              type="file"
             />
           </div>
 
           <div className="pt-4">
             <button
               type="button"
-              className="bg-blue-1100 text-white px-2.5 py-2 rounded-lg text-sm  float-end flex items-center justify-between gap-2 font-semibold dark:font-medium
+              className="bg-blue-1100 text-white px-2.5 py-2 rounded-[6px] text-sm  float-end flex items-center justify-between gap-2 font-semibold dark:font-medium
               dark:text-dark"
               onClick={updateHandler}
               disabled={btnLoader}

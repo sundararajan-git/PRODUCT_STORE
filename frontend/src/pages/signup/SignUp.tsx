@@ -25,11 +25,14 @@ const SignUp = () => {
         toast.error("Invalid inputs");
         return null;
       }
-      const formData = new FormData(signUpForm);
-      const json = Object.fromEntries(formData);
+
       setControl((prev: any) => {
         return { ...prev, btnloader: true };
       });
+
+      const formData = new FormData(signUpForm);
+      const json = Object.fromEntries(formData);
+
       const endpoint = `/user/signup`;
       const { data, status } = await axiosInstance.post(endpoint, json);
       if (status === 200) {
@@ -41,6 +44,9 @@ const SignUp = () => {
       }
     } catch (err: any) {
       toast.error(err);
+      setControl((prev: any) => {
+        return { ...prev, btnloader: false };
+      });
     }
   };
 
@@ -62,7 +68,7 @@ const SignUp = () => {
           </label>
           <input
             type="text"
-            className="border border-gray-300 outline-none rounded-lg p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-400 dark:border-gray-600"
+            className="border border-gray-300 outline-none rounded-[6px] p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-400 dark:border-gray-600"
             name="name"
             id="name"
             placeholder="name"
@@ -76,7 +82,7 @@ const SignUp = () => {
           </label>
           <input
             type="email"
-            className="border border-gray-300 outline-none rounded-lg p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-400 dark:border-gray-600"
+            className="border border-gray-300 outline-none rounded-[6px] p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-400 dark:border-gray-600"
             name="email"
             id="email"
             placeholder="email"
@@ -90,7 +96,7 @@ const SignUp = () => {
           </label>
           <input
             type="password"
-            className="border border-gray-300 outline-none rounded-lg p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-400 dark:border-gray-600"
+            className="border border-gray-300 outline-none rounded-[6px] p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-400 dark:border-gray-600"
             name="password"
             id="password"
             placeholder="password"
@@ -114,7 +120,7 @@ const SignUp = () => {
         <div className="flex flex-col gap-2 w-full">
           <button
             type="button"
-            className="w-full h-full p-2 bg-blue-1100 rounded-lg text-white font-medium"
+            className="w-full h-full p-2 bg-blue-1100 rounded-[6px] text-white font-medium"
             onClick={signUpBtnHanlder}
             disabled={control.btnloader}
           >

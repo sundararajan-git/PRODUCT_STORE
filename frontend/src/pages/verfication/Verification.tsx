@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import axiosInstance from "../../lib/axios";
 import { updateUser } from "../../lib/redux/slices/useSlice";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Verification = () => {
   const [contol, setControl] = useState({
@@ -17,6 +17,7 @@ const Verification = () => {
     return <Navigate to="/" />;
   }
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const vertificationHandler = async () => {
@@ -40,8 +41,12 @@ const Verification = () => {
         toast.success("Verification Successfull");
         const { data: user } = data;
         dispatch(updateUser({ ...user }));
+        navigate("/");
       }
     } catch (err: any) {
+      setControl((prev: any) => {
+        return { ...prev, btnloader: false };
+      });
       toast.error(err);
     }
   };
@@ -58,7 +63,7 @@ const Verification = () => {
           </label>
           <input
             type="text"
-            className="border border-gray-300 outline-none rounded-lg p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-300 dark:border-gray-400"
+            className="border border-gray-300 outline-none rounded-[6px] p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-300 dark:border-gray-400"
             name="code"
             id="Code"
             placeholder="Code"
@@ -69,7 +74,7 @@ const Verification = () => {
         <div className="flex flex-col gap-2 w-full pt-4">
           <button
             type="button"
-            className="w-full h-full p-2 bg-blue-1100 rounded-lg text-white font-medium flex items-center gap-2 justify-center"
+            className="w-full h-full p-2 bg-blue-1100 rounded-[6px] text-white font-medium flex items-center gap-2 justify-center"
             onClick={vertificationHandler}
             disabled={contol?.btnloader}
           >

@@ -6,13 +6,13 @@ import Login from "./pages/login/Login";
 import Verification from "./pages/verfication/Verification";
 import ResetPassword from "./pages/resetPassword/ResetPassword";
 import PageNotFound from "./pages/404/PageNotFound";
-import "./App.css";
 import { useContext } from "react";
 import RoleBasedRoute from "./routes/RoleBasedRoute";
 import PrivateRoute from "./routes/PrivateRoute";
 import PublicRoute from "./routes/PublicRoute";
 import { AuthContext } from "./context/AuthProvider";
 import Loader from "./components/Loader";
+import "./App.css";
 
 const App = () => {
   const { pageLoading } = useContext(AuthContext);

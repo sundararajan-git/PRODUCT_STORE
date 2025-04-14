@@ -144,7 +144,7 @@ export const forgotPassword = async (req, res, next) => {
     await user.save();
 
     const subject = "Forgot password";
-    const link = `http://localhost:5173/resetpassword/${user.resetPasswordToken}`;
+    const link = `${process.env.VITE_APP_URL}/product_store/#/resetpassword/${user.resetPasswordToken}`;
     await MailService.forgotPassword(user.email, subject, link);
     res.status(200).json({
       message: "Email send successfully",

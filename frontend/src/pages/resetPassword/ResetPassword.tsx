@@ -58,7 +58,7 @@ const ResetPassword = () => {
           </label>
           <input
             type="password"
-            className="border border-gray-300 outline-none rounded-lg p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-300 dark:border-gray-400"
+            className="border border-gray-300 outline-none rounded-[6px] p-2.5 focus:ring-1 focus:ring-blue-1100 focus:border-blue-1100 dark:bg-transparent dark:text-gray-300 dark:border-gray-400"
             name="password"
             id="password"
             placeholder="password"
@@ -69,7 +69,7 @@ const ResetPassword = () => {
         <div className="flex flex-col gap-2 w-full pt-4">
           <button
             type="button"
-            className="w-full h-full p-2 bg-blue-1100 rounded-lg text-white font-medium flex gap-2 justify-center"
+            className="w-full h-full p-2 bg-blue-1100 rounded-[6px] text-white font-medium flex gap-2 justify-center"
             onClick={resetBtnHandler}
             disabled={control?.btnloader}
           >

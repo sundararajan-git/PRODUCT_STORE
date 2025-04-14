@@ -9,7 +9,7 @@ const ErrorFallBack = ({ error, resetErrorBoundary }: any) => {
           <div className="flex items-center gap-4">
             <button
               type="button"
-              className="bg-red-600 text-white px-6 py-2 rounded-lg text-sm  float-end flex items-center justify-between gap-2 font-semibold dark:font-medium"
+              className="bg-red-600 text-white px-6 py-2 rounded-[6px] text-sm  float-end flex items-center justify-between gap-2 font-semibold dark:font-medium"
               onClick={resetErrorBoundary}
             >
               Ok

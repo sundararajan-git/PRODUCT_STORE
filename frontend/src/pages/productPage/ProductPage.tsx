@@ -1,18 +1,24 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import axiosInstance from "../../lib/axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteProduct } from "../../lib/redux/slices/productSlice";
 import { IoMdArrowBack } from "react-icons/io";
 import DeleteConfirm from "../../components/DeleteConfirm";
+import { RootState } from "../../lib/redux/store";
 
 const ProductPage = (props: any) => {
-  const { close, product } = props;
+  const { close } = props;
+  const dispatch = useDispatch();
+  const products = useSelector((state: RootState) => state.products);
   const [control, setControl] = useState({
     btnLoading: false,
     deletePopModel: false,
   });
-  const dispatch = useDispatch();
+
+  const product = useMemo(() => {
+    return products.filter((f) => f.isCurrent)[0];
+  }, [products]);
 
   const backHandler = () => {
     close((prev: any) => {
@@ -76,7 +82,7 @@ const ProductPage = (props: any) => {
           src={`${product?.image}`}
           className="hover:scale-105 ease-out z-30 object-cover h-[300px] w-full shadow"
         />
-        <div className="flex flex-col justify-between px-4 py-4 text-xs sm:text-sm gap-2 pt-6">
+        <div className="flex flex-col justify-between px-4 py-4 text-sm gap-2 pt-6">
           <div className="flex justify-between items-center w-full gap-4">
             <span className="font-medium dark:text-sky-500 truncate">
               {product?.name}
@@ -88,7 +94,7 @@ const ProductPage = (props: any) => {
           <div className="flex items-center justify-end gap-2 pt-6">
             <button
               type="button"
-              className="p-2 bg-red-600 rounded-md outline-none text-white cursor-pointer"
+              className="p-2 bg-red-600 rounded-[6px] outline-none text-white cursor-pointer"
               onClick={deleteConfrimModel}
             >
               Delete
@@ -96,7 +102,7 @@ const ProductPage = (props: any) => {
 
             <button
               type="button"
-              className="p-2 bg-blue-1100 rounded-md outline-none cursor-pointer"
+              className="p-2 bg-blue-1100 rounded-[6px] outline-none cursor-pointer"
               onClick={updateBtnHandler}
             >
               Update

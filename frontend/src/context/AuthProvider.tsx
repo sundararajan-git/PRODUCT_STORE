@@ -26,38 +26,34 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("AuthProvider useEffect", location.pathname);
     if (token) {
       checkIsValidUser();
     } else {
-      setIsValidUser(false);
+      setIsValidUser(null);
       setPageLoading(false);
     }
   }, [location.pathname, navigate, dispatch, token]);
 
   const checkIsValidUser = async () => {
     try {
-      console.log("checkIsValidUser");
       setPageLoading(true);
-      setIsValidUser(false);
+      setIsValidUser(null);
       const { data, status } = await axiosInstance.get("/user/isvaliduser", {
         headers: { Authorization: "Bearer " + token },
       });
-      console.log(data, status);
+
       if (status === 200) {
         const { user } = data;
         dispatch(updateUser(user));
-        setIsValidUser(true);
+        setIsValidUser(user?.isVerfied ? true : false);
       }
     } catch (err: any) {
-      setIsValidUser(false);
+      setIsValidUser(null);
       toast.error(err);
     } finally {
       setPageLoading(false);
     }
   };
-
-  console.log("ending");
 
   return (
     <AuthContext.Provider
